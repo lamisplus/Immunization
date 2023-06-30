@@ -1,0 +1,121 @@
+#across:
+#  configuration:
+#    validate: false
+#  web:
+#    resources:
+#      caching:
+#        period: 2592000
+#acrossHibernate:
+#  create-unit-of-work-factory: true
+#  hibernate-properties:
+#    hibernate.format_sql: true
+#    hibernate.use_sql_comments: false
+#    hibernate.show_sql: false
+#    hibernate.event.merge.enty_copy_observer: allow
+#applicationInfo:
+#  applicationId: covid
+#  applicationName: COVID
+#  buildDate: "2023-06-27T20:33:29Z"
+#  buildId: "2.0.0-1.0.0"
+#build:
+#  number: "1.0.0"
+#logging:
+#  request-response:
+#    enabled: true
+#
+#  file:
+#    name: application-debug.log
+#server:
+#  error:
+#    whitelabel:
+#      enabled: false
+#    include-stacktrace:
+#      facility: false
+#  datasource:
+#    hikari:
+#      auto-commit: false
+#      data-source-properties:
+#        cachePrepStmts: true
+#        prepStmtCacheSize: 250
+#        prepStmtCacheSqlLimit: 2048
+#        useServerPrepStmts: true
+#  compression:
+#    enabled: true
+#    mime-types: text/html,text/xml,text/plain,text/css,text/javascript,application/javascript,application/json
+#  http2:
+#    enabled: true
+#  port: 8088
+#
+#  tomcat:
+#    uri-encoding: UTF-8
+#    connection-timeout: 20s
+#resilience4j.circuitbreaker:
+#  instances:
+#    service1:
+#      registerHealthIndicator: true
+#      ringBufferSizeInClosedState: 5
+#      ringBufferSizeInHalfOpenState: 3
+#      waitDurationInOpenState: 10s
+#      failureRateThreshold: 50
+#      recordExceptions:
+#        - org.springframework.web.client.HttpServerErrorException
+#        - java.io.IOException
+#        - java.util.concurrent.TimeoutException
+#        - org.springframework.web.client.ResourceAccessException
+#    service2:
+#      registerHealthIndicator: true
+#      ringBufferSizeInClosedState: 6
+#      ringBufferSizeInHalfOpenState: 4
+#      waitDurationInOpenState: 20s
+#      failureRateThreshold: 60
+#
+#resilience4j.ratelimiter:
+#  instances:
+#    service1:
+#      limitForPeriod: 10
+#      limitRefreshPeriod: 100000
+#      timeoutDuration: 1000ms
+#
+#resilience4j.retry:
+#  instances:
+#    retryService1:
+#      maxRetryAttempts: 5
+#      waitDuration: 10000
+#
+#resilience4j.bulkhead:
+#  instances:
+#    bulkheadService1:
+#      maxWaitDuration: 10ms
+#      maxConcurrentCall: 30
+#
+#resilience4j.thread-pool-bulkhead:
+#  instances:
+#    bulkheadService1:
+#      maxThreadPoolSize: 1
+#      coreThreadPoolSize: 1
+#      queueCapacity: 12
+#spring:
+#  datasource:
+#    driver-class-name: org.postgresql.Driver
+#    url: jdbc:postgresql://localhost:5432/lamisplus_7
+#    password: 1
+#    username: postgres
+#
+#  jpa:
+#    database: POSTGRESQL
+#    show-sql: true
+#    open-in-view: false
+#    hibernate:
+#      ddl-auto: none
+#    properties:
+#      hibernate.enable_lazy_load_no_trans: true
+#
+#remote:
+#  lamis.url: http://localhost:8081/api/covid/
+#
+#jwt:
+#  # This token must be encoded using Base64 and be at least 256 bits long (you can type `openssl rand -base64 64` on your command line to generate a 512 bits one)
+#  base64-secret: YzMzNjBmOTcwN2Y4YmNmNWViMzhhNjk5MjhmMmY5OTZkNWUxYzIwM2Q5ZWU4OWIzNTZmZTBlOTMzZjFhN2ZmMzBlMDIzMGRkYWNkYTIwOThmY2E1ZjNhYTAxODA0NTJkY2U5NTYxZTI1YjA1NTIyN2IwMTZlMTRlMDM0OTIyNzM=
+#  # Token is valid 12 hours
+#  token-validity-in-milli-seconds: 43200000
+#  token-validity-in-milli-seconds-for-remember-me: 43200000

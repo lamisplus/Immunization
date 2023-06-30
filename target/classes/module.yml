@@ -1,0 +1,19 @@
+basePackage: org.lamisplus.modules.covid
+name: CovidModule
+store: true
+menus:
+  - icon: fa fa-virus
+    disabled: false
+    name: COVID-19
+    state: covid
+    url: /across/resources/static/covid/index.html
+umdLocation: /across/resources/static/covid/index.html
+webModules:
+  - breadcrumb: COVID-19
+    name: CovidModule
+    path: covid
+    position: 99
+permissions:
+  - name: create_covid_vaccination
+    description: create covid vaccination
+    moduleName: CovidModule
