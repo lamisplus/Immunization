@@ -5,6 +5,7 @@ import PatientVaccinatedLIst from './Patient/PatientVaccinatedLIst'
 import { Link } from 'react-router-dom'
 import Button from '@material-ui/core/Button';
 import { FaUserPlus } from "react-icons/fa";
+import ImmunizationPage from "./Patient/ImmunizationPage"
 //import PageTitle from "./../layouts/PageTitle";
 const divStyle = {
   borderRadius: "2px",
@@ -33,7 +34,33 @@ const Home = () => {
                 <span style={{ textTransform: "capitalize" }}>New Patient</span>
             </Button>
         </Link>
+{/* 
+        <Link to={"immunization-patient"}>
+            <Button
+                variant="contained"
+                color="primary"
+                className=" float-end mb-10"
+                startIcon={<FaUserPlus size="10"/>}
+                style={{backgroundColor:'#014d88'}}
+            >
+                <span style={{ textTransform: "capitalize" }}>Immunization</span>
+            </Button>
+        </Link> */}
+        {/* <Link to={"tetanus-patient"}>
+            <Button
+                variant="contained"
+                color="primary"
+                className=" float-end mb-10"
+                startIcon={<FaUserPlus size="10"/>}
+                style={{backgroundColor:'#014d88'}}
+            >
+                <span style={{ textTransform: "capitalize" }}>Tetanus</span>
+            </Button>
+        </Link> */}
+
+
         <br/><br/>
+
       <br/>
       <Row>       
         <Col xl={12}>
@@ -51,11 +78,16 @@ const Home = () => {
                   <Tab eventKey="home" title="Find Patients">                   
                     <PatientList />
                   </Tab>
-                  <Tab eventKey="vaccinated" title="Vaccinated Patients">                   
+                  <Tab eventKey="vaccinated" title="Covid-19 Vaccinated Patients">                   
                     <PatientVaccinatedLIst />
                   </Tab>
+                  <Tab eventKey="enrollImmunization" title="Routine Immunization">                   
+                    <ImmunizationPage />
+                  </Tab>
+
+                  
                   {/* <Tab eventKey="visualization" title="Data Visualisation">                   
-                    <VisualisationHome />
+                    //<VisualisationHome />
                   </Tab>                     */}
                 </Tabs>
               </div>

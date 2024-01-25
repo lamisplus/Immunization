@@ -15,6 +15,8 @@ import PatientDetail from './main/webapp/jsx/components/Patient/PatientDetail'
 import RegisterPatientPage from './main/webapp/jsx/components/Patient/RegisterPatient';
 import EnrollPatientPage from './main/webapp/jsx/components/Patient/EnrollPatient';
 import UpdatePatientEnrollment from './main/webapp/jsx/components/Patient/UpdatePatientEnrollment';
+import Immunization from './main/webapp/jsx/components/Patient/Immunization';
+import Tetanus from './main/webapp/jsx/components/Patient/Tetanus'
 
 export default function App() {
   return (
@@ -24,6 +26,13 @@ export default function App() {
         {/* A <Switch> looks through its children <Route>s and
             renders the first one that matches the current URL. */}
         <Switch>
+          <Route path ="/tetanus-patient">
+            <Tetanus />
+          </Route>
+          <Route path ="/immunization-patient">
+            <Immunization/>
+
+          </Route>
           <Route path="/patient-history">
             <PatientDetail />
           </Route> 

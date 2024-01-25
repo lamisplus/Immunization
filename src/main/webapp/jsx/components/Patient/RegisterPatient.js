@@ -99,7 +99,6 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-
 const UserRegistration = (props) => {
     const [basicInfo, setBasicInfo]= useState(
             {
@@ -486,7 +485,7 @@ const UserRegistration = (props) => {
             temp.phoneNumber = basicInfo.phoneNumber ? "" : "Phone Number  is required."
             temp.countryId = basicInfo.countryId ? "" : "Country is required."    
             temp.stateId = basicInfo.stateId ? "" : "State is required."  
-            temp.district = basicInfo.district ? "" : "Province/LGA is required." 
+            temp.district = basicInfo.district ? "" : "Province/LGA is required."         
             //VACCINATION FORM VALIDATION
             temp.vaccine = objValues.vaccine ? "" : "This field is required"
             temp.vaccineDate = objValues.vaccineDate ? "" : "This field is required"
@@ -502,7 +501,7 @@ const UserRegistration = (props) => {
         e.preventDefault(); 
          if(validate()){
             setSaving(true)
-            let newConatctsInfo=[]
+            let newConatctsInfo=[]            
             //Manipulate relatives contact  address:"",
             const actualcontacts=contacts && contacts.length>0 && contacts.map((x)=>{
                 
@@ -607,7 +606,7 @@ const UserRegistration = (props) => {
             }
         }
 
-    }
+    }  
     const alphabetOnly=(value)=>{
         const result = value.replace(/[^a-z]/gi, '');
         return result
@@ -898,7 +897,7 @@ const UserRegistration = (props) => {
                                                         style={{border: "1px solid #014D88", borderRadius:"0.2rem"}}
                                                     />
                                                 </FormGroup>
-                                                <p><b style={{color:"red"}}>{basicInfo.age!=="" && basicInfo.age< 5 ? "The minimum age is 5" : " "} </b></p>
+                                                <p><b style={{color:"red"}}>{basicInfo.age!=="" && basicInfo.age< 0 ? "The minimum age is 5" : " "} </b></p>
                                             </div>
                                         </div>
 
@@ -1669,7 +1668,7 @@ const UserRegistration = (props) => {
                               </div>
                               )}      
                             </div>
-                           
+
                             </div>
                             </div>
                             {/* END OF First DOSAGE */}

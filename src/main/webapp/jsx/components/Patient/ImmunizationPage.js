@@ -141,7 +141,7 @@ const Patients = (props) => {
             { title: "Age", field: "age", filtering: false },
             
             //{ title: "ART Number", field: "v_status", filtering: false },
-            { title: "Vaccination Status", field: "count", filtering: false },
+            //{ title: "Vaccination Status", field: "count", filtering: false },
             { title: "Actions", field: "actions", filtering: false }, 
             ]}
             //isLoading={loading}
@@ -163,7 +163,7 @@ const Patients = (props) => {
                                         <div>
                                             <Link
                                                 to={{
-                                                    pathname: "/patient-history",
+                                                    pathname: "/immunization-patient",
                                                     state: {patientObj: row}
                                                 }}
                                                 
@@ -185,7 +185,7 @@ const Patients = (props) => {
                                                 <Button 
                                                 style={{backgroundColor:'rgb(153, 46, 98)'}}
                                                 >
-                                                    <span style={{fontSize:'12px', color:'#fff', fontWeight:'bolder'}}>Patient Dashboard</span>
+                                                    <span style={{fontSize:'11px', color:'#fff', fontWeight:'bolder'}}>Enroll Immunization</span>
                                                 </Button>
                                                 
                                                 </ButtonGroup>

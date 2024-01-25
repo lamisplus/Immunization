@@ -1,0 +1,42 @@
+HELP.md
+target/
+!.mvn/wrapper/maven-wrapper.jar
+!**/src/main/**/target/
+!**/src/test/**/target/
+
+### STS ###
+.apt_generated
+.classpath
+.factorypath
+.project
+.settings
+.springBeans
+.sts4-cache
+!**/src/main/**/resources/views/
+
+### IntelliJ IDEA ###
+.idea
+*.iws
+*.iml
+*.ipr
+mmm
+### NetBeans ###
+/yarn-error.log
+application-debug.log
+/node_modules
+/target
+/node
+/sync
+/nbproject/private/
+/nbbuild/
+/dist/
+/nbdist/
+/.nb-gradle/
+build/
+src/main/resources/views/static/hiv/
+!**/src/main/**/build/
+!**/src/test/**/build/
+
+### VS Code ###
+.vscode/
+
