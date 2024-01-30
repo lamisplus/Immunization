@@ -21,7 +21,7 @@ import {FaPlus, FaAngleDown} from 'react-icons/fa'
 import {token, url as baseUrl } from "../../../api";
 import PhoneInput from 'react-phone-input-2'
 import 'react-phone-input-2/lib/style.css'
-import  './patient.css'
+//import  './patient.css'
 import {  Modal } from "react-bootstrap";
 import "react-widgets/dist/css/react-widgets.css";
 import { DateTimePicker } from "react-widgets";
@@ -112,18 +112,18 @@ const Tetanus =(props)=>{
                     clientPhoneNumber:""
                 }
             )
-            const [basicInfo, setBasicInfo]= useState(
-                {
-                    nameOfHealthFacility:"",
-                    ward:"",
-                    lga:"",
-                    state:"",
-                    date:"",
-                    facilityType:""
+            // const [basicInfo, setBasicInfo]= useState(
+            //     {
+            //         nameOfHealthFacility:"",
+            //         ward:"",
+            //         lga:"",
+            //         state:"",
+            //         date:"",
+            //         facilityType:""
 
     
-                }
-            )
+            //     }
+            // )
             const [tetanusDiphtheria, setTetanusDiphtheria]= useState(
                 {
                     basicInfo:"",
@@ -163,47 +163,47 @@ const Tetanus =(props)=>{
 
             const classes = useStyles();
             
-            const handleInputChangeBasic = e => {  
-                setErrors({...temp, [e.target.name]:""})      
-                setBasicInfo ({...basicInfo,  [e.target.name]: e.target.value}); 
-                // if(e.target.name==='firstName' && e.target.value!==''){
-                //     const name = alphabetOnly(e.target.value)
-                //     setBasicInfo ({...basicInfo,  [e.target.name]: name});
-                // }
-                // if(e.target.name==='lastName' && e.target.value!==''){
-                //     const name = alphabetOnly(e.target.value)
-                //     setBasicInfo ({...basicInfo,  [e.target.name]: name});
-                // }
-                // if(e.target.name==='middleName' && e.target.value!==''){
-                //     const name = alphabetOnly(e.target.value)
-                //     setBasicInfo ({...basicInfo,  [e.target.name]: name});
-                // }
-                // if(e.target.name==='ninNumber' && e.target.value!==''){
-                //     const ninNumberValue = checkNINLimit(e.target.value)
-                //     setBasicInfo ({...basicInfo,  [e.target.name]: ninNumberValue});
-                // }
-                // if(e.target.name==='hospitalNumber' && e.target.value!==''){
-                // async function getHosiptalNumber() {
-                //     const hosiptalNumber=e.target.value
-                //     const response = await axios.post(`${baseUrl}patient/exist/hospital-number`, hosiptalNumber,
-                //             { headers: {"Authorization" : `Bearer ${token}`, 'Content-Type': 'text/plain'} }
-                //         );
-                //     if(response.data!==true){
-                //         setHospitalNumStatus(false)
-                //         errors.hospitalNumber=""
-                //         setObjValues ({...objValues,  uniqueId: e.target.value});
-                //         setHospitalNumStatus2(true)
-                //     }else{
-                //         errors.hospitalNumber=""
-                //         toast.error("Error! Hosiptal Number already exist");
-                //         setHospitalNumStatus(true)
-                //         setHospitalNumStatus2(false)
-                //     }
-                // }
-                // getHosiptalNumber();
-                // } 
+            // const handleInputChangeBasic = e => {  
+            //     setErrors({...temp, [e.target.name]:""})      
+            //     setBasicInfo ({...basicInfo,  [e.target.name]: e.target.value}); 
+            //     // if(e.target.name==='firstName' && e.target.value!==''){
+            //     //     const name = alphabetOnly(e.target.value)
+            //     //     setBasicInfo ({...basicInfo,  [e.target.name]: name});
+            //     // }
+            //     // if(e.target.name==='lastName' && e.target.value!==''){
+            //     //     const name = alphabetOnly(e.target.value)
+            //     //     setBasicInfo ({...basicInfo,  [e.target.name]: name});
+            //     // }
+            //     // if(e.target.name==='middleName' && e.target.value!==''){
+            //     //     const name = alphabetOnly(e.target.value)
+            //     //     setBasicInfo ({...basicInfo,  [e.target.name]: name});
+            //     // }
+            //     // if(e.target.name==='ninNumber' && e.target.value!==''){
+            //     //     const ninNumberValue = checkNINLimit(e.target.value)
+            //     //     setBasicInfo ({...basicInfo,  [e.target.name]: ninNumberValue});
+            //     // }
+            //     // if(e.target.name==='hospitalNumber' && e.target.value!==''){
+            //     // async function getHosiptalNumber() {
+            //     //     const hosiptalNumber=e.target.value
+            //     //     const response = await axios.post(`${baseUrl}patient/exist/hospital-number`, hosiptalNumber,
+            //     //             { headers: {"Authorization" : `Bearer ${token}`, 'Content-Type': 'text/plain'} }
+            //     //         );
+            //     //     if(response.data!==true){
+            //     //         setHospitalNumStatus(false)
+            //     //         errors.hospitalNumber=""
+            //     //         setObjValues ({...objValues,  uniqueId: e.target.value});
+            //     //         setHospitalNumStatus2(true)
+            //     //     }else{
+            //     //         errors.hospitalNumber=""
+            //     //         toast.error("Error! Hosiptal Number already exist");
+            //     //         setHospitalNumStatus(true)
+            //     //         setHospitalNumStatus2(false)
+            //     //     }
+            //     // }
+            //     // getHosiptalNumber();
+            //     // } 
                         
-            } 
+            // } 
             const handleInputChangeClientDetails = e =>{
                 setErrors({...temp, [e.target.name]:""})
                 setClientDetails({...clientDetails, [e.target.name]:e.target.value});
@@ -212,12 +212,12 @@ const Tetanus =(props)=>{
             let temp = { ...errors }
             const validate = () => {
         
-                temp.nameOfHealthFacility = basicInfo.nameOfHealthFacility ? "" : "Name of Health Facility is required"
-                temp.ward = basicInfo.ward ? "" : "Ward  is required."
-                temp.lga = basicInfo.lga ? "" : "Local Government Area is required."
-                temp.state = basicInfo.state ? "" : "State is required."
-                temp.date = basicInfo.date ? "" : "Date of Registration is required."
-                temp.facilityType = basicInfo.facilityType ? "" : "Facility Type is required."
+                // temp.nameOfHealthFacility = basicInfo.nameOfHealthFacility ? "" : "Name of Health Facility is required"
+                // temp.ward = basicInfo.ward ? "" : "Ward  is required."
+                // temp.lga = basicInfo.lga ? "" : "Local Government Area is required."
+                // temp.state = basicInfo.state ? "" : "State is required."
+                // temp.date = basicInfo.date ? "" : "Date of Registration is required."
+                // temp.facilityType = basicInfo.facilityType ? "" : "Facility Type is required."
  
                 //VACCINATION FORM VALIDATION
                 //temp.td1 = tetanusDiphtheria.td1 ? "" : "This field is required"
@@ -230,94 +230,77 @@ const Tetanus =(props)=>{
                     setErrors({ ...temp })
             return Object.values(temp).every(x => x == "")
         }
-            const handleSubmit = async (e)=>{
-                e.preventDefault(); 
-                tetanusDiphtheria.basicInfo=objValues
-                    if(validate()){
-                        // setSaving(true)
-                        const tetanusDiphtheria ={
-                            td1:"",
-                            td2:"",
-                            td3:"",
-                            td4:"",
-                            td5:"", 
-                            comment:""
+            // const handleSubmit = async (e)=>{
+            //     e.preventDefault(); 
+            //     tetanusDiphtheria.basicInfo=objValues
+            //         if(validate()){
+            //             // setSaving(true)
+            //             const tetanusDiphtheria ={
+            //                 td1:"",
+            //                 td2:"",
+            //                 td3:"",
+            //                 td4:"",
+            //                 td5:"", 
+            //                 comment:""
 
-                        }
-                        const basicInfo = {
-                            tetanusDiphtheria:[""],
-                            nameOfHealthFacility:"",
-                            ward:"",
-                            lga:"",
-                            state:"",
-                            date:"",
-                            facilityType:""
-                        }
+            //             }
+            //             const basicInfo = {
+            //                 tetanusDiphtheria:[""],
+            //                 nameOfHealthFacility:"",
+            //                 ward:"",
+            //                 lga:"",
+            //                 state:"",
+            //                 date:"",
+            //                 facilityType:""
+            //             }
 
-                        setSaving(true);
+            //             setSaving(true);
                         
                         
-                    }
-                    try {patientDTO.person=basicInfo;
-                        console.log(basicInfo)
-                    //patientDTO.vaccinationEnrollment=objValues;
-                    const response = await axios.post(`${baseUrl}covid/enrollments`, patientDTO, { headers: {"Authorization" : `Bearer ${token}`} });
-                    toast.success("Patient Register successful", {position: toast.POSITION.BOTTOM_CENTER});
-                    setSaving(false)
-                    history.push('/');
-                    }catch (error) {   
-                        setSaving(false)             
-                        if(error.response && error.response.data){
-                            let errorMessage = error.response.data.apierror && error.response.data.apierror.message!=="" ? error.response.data.apierror.message :  "Something went wrong, please try again";
-                            if(error.response.data.apierror && error.response.data.apierror.message!=="" && error.response.data.apierror && error.response.data.apierror.subErrors[0].message!==""){
-                                toast.error(error.response.data.apierror.message + " : " + error.response.data.apierror.subErrors[0].field + " " + error.response.data.apierror.subErrors[0].message, {position: toast.POSITION.BOTTOM_CENTER});
-                            }else{
-                                toast.error(errorMessage, {position: toast.POSITION.BOTTOM_CENTER});
-                            }
-                        }
-                        else{
-                            toast.error("Something went wrong. Please try again...", {position: toast.POSITION.BOTTOM_CENTER});
-                        }
-                    }
+            //         }
+            //         try {patientDTO.person=basicInfo;
+            //             console.log(basicInfo)
+            //         //patientDTO.vaccinationEnrollment=objValues;
+            //         const response = await axios.post(`${baseUrl}covid/enrollments`, patientDTO, { headers: {"Authorization" : `Bearer ${token}`} });
+            //         toast.success("Patient Register successful", {position: toast.POSITION.BOTTOM_CENTER});
+            //         setSaving(false)
+            //         history.push('/');
+            //         }catch (error) {   
+            //             setSaving(false)             
+            //             if(error.response && error.response.data){
+            //                 let errorMessage = error.response.data.apierror && error.response.data.apierror.message!=="" ? error.response.data.apierror.message :  "Something went wrong, please try again";
+            //                 if(error.response.data.apierror && error.response.data.apierror.message!=="" && error.response.data.apierror && error.response.data.apierror.subErrors[0].message!==""){
+            //                     toast.error(error.response.data.apierror.message + " : " + error.response.data.apierror.subErrors[0].field + " " + error.response.data.apierror.subErrors[0].message, {position: toast.POSITION.BOTTOM_CENTER});
+            //                 }else{
+            //                     toast.error(errorMessage, {position: toast.POSITION.BOTTOM_CENTER});
+            //                 }
+            //             }
+            //             else{
+            //                 toast.error("Something went wrong. Please try again...", {position: toast.POSITION.BOTTOM_CENTER});
+            //             }
+            //         }
                     
 
 
-            }
+            // }
 
 
             return(
                 <>
-                  <Link
-                        to={{
-                            pathname: "/",
-                            state: 'users'
-                        }}>
-                        <Button
-                            variant="contained"
-                            color="primary"
-                            className=" float-end mr-10 pr-10"
-                            style={{backgroundColor:'#014d88',fontWeight:"bolder", margingRight:"-40px"}}
-                            startIcon={<TiArrowBack />}
-                        >
-                            <span style={{ textTransform: "capitalize", color:'#fff' }}>Back </span>
-                        </Button>
-                    </Link>
-                    <br/> <br/>
-
                     {/* <Card className={classes.root}> */}
                         <CardContent>
                             <div className='col-xl-12 col-lg-12'>
                                 <Form>
                                 <div className="card">
-                                    <div className="card-header" style={{backgroundColor:"#014d88",color:'#fff',fontWeight:'bolder',  borderRadius:"0.2rem"}}>
+                                    {/* <div className="card-header" style={{backgroundColor:"#014d88",color:'#fff',fontWeight:'bolder',  borderRadius:"0.2rem"}}>
                                         <h5 className="card-title" style={{color:'#fff'}}>{userDetail===null ? "Basic Information" : "Edit User Information"}</h5>
-                                    </div>
+                                    </div> */}
 
-                                <div className="card-body">
+                                
                                     <div className="basic-form">
                                     
-                                        <div className="row">
-                                            <div className="form-group mb-3 col-md-4">
+                                        <div >
+                                            {/* <div className="form-group mb-3 col-md-4">
                                                 <FormGroup>
                                                     <Label for="firstName">Name Of Health Facility <span style={{ color:"red"}}> *</span></Label>
                                                     <Input
@@ -333,9 +316,9 @@ const Tetanus =(props)=>{
                                                     <span className={classes.error}>{errors.firstName}</span>
                                                     ) : "" }
                                                 </FormGroup>
-                                            </div>
+                                            </div> */}
 
-                                            <div className="form-group mb-3 col-md-4">
+                                            {/* <div className="form-group mb-3 col-md-4">
                                                 <FormGroup>
                                                     <Label>Ward</Label>
                                                     <Input
@@ -349,9 +332,9 @@ const Tetanus =(props)=>{
                                                         
                                                     />
                                                 </FormGroup>
-                                            </div>
+                                            </div> */}
 
-                                            <div className="form-group mb-3 col-md-4">
+                                            {/* <div className="form-group mb-3 col-md-4">
                                                 <FormGroup>
                                                     <Label>LGA <span style={{ color:"red"}}> *</span></Label>
                                                     <input
@@ -367,9 +350,9 @@ const Tetanus =(props)=>{
                                                     <span className={classes.error}>{errors.lastName}</span>
                                                     ) : "" }
                                                 </FormGroup>
-                                            </div>
+                                            </div> */}
                                         </div>
-                                        <div className={"row"}>
+                                        {/* <div className={"row"}>
 
                                                 <div className="form-group mb-3 col-md-3">
                                                     <FormGroup>
@@ -411,8 +394,8 @@ const Tetanus =(props)=>{
                                                     </FormGroup>
                                                 </div>
                                         
-                                        </div>
-                                    </div>
+                                        </div> */}
+                                    
                                 </div>
                                 </div>
                                     <div className="card">
@@ -672,7 +655,7 @@ const Tetanus =(props)=>{
                                                                         id="comment"
                                                                         value={tetanusDiphtheria.selectedOption}
                                                                         style={{border: "1px solid #014D88", borderRadius:"0.2rem"}}
-                                                                        onChange={handleInputChangeBasic}
+                                                                        //onChange={handleInputChangeBasic}
                                                                      />
                                                                    
                                                                     {errors.comment !=="" ? (
@@ -692,7 +675,7 @@ const Tetanus =(props)=>{
                                 color="primary"
                                 className={classes.button}
                                 startIcon={<SaveIcon />}
-                                onClick={handleSubmit}
+                                //onClick={handleSubmit}
                                 //disabled={disabledAgeBaseOnAge}
                                 style={{backgroundColor:'#014d88',fontWeight:"bolder"}}
                             >

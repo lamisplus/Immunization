@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import MaterialTable from 'material-table';
 import axios from "axios";
 
-import { token as token, url as baseUrl } from "./../../../api";
+import { token as token, url as baseUrl } from "../../../api";
 import { forwardRef } from 'react';
 import 'semantic-ui-css/semantic.min.css';
 import { Link } from 'react-router-dom'
@@ -163,7 +163,7 @@ const Patients = (props) => {
                                         <div>
                                             <Link
                                                 to={{
-                                                    pathname: "/immunization-patient",
+                                                    pathname: "/patient-history",
                                                     state: {patientObj: row}
                                                 }}
                                                 
@@ -185,7 +185,7 @@ const Patients = (props) => {
                                                 <Button 
                                                 style={{backgroundColor:'rgb(153, 46, 98)'}}
                                                 >
-                                                    <span style={{fontSize:'11px', color:'#fff', fontWeight:'bolder'}}>Enroll Immunization</span>
+                                                    <span style={{fontSize:'12px', color:'#fff', fontWeight:'bolder'}}>Patient Dashboard</span>
                                                 </Button>
                                                 
                                                 </ButtonGroup>

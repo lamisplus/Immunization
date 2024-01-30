@@ -13,6 +13,8 @@ import PatientHistory from './../History/PatientHistory'
 import Biometrics from './Biometric'
 import AddmissionHome from './../Admission/AddmissionHome';
 import PatientVaccinationHistory from './../Vaccination/VaccinationHistory'
+import ImmunizationHome from '../Immunization/ImmunizationHome';
+import Tetanus from '../Tetanus/TetanusHome';
 
 
 const styles = theme => ({
@@ -81,7 +83,10 @@ function PatientCard(props) {
           {activeContent.route==='vaccination' &&( <PatientVaccinationHistory patientObj={patientObj} setActiveContent={setActiveContent} activeContent={activeContent}/>)}
           {activeContent.route==='discharge' &&( <AddmissionHome patientObj={patientObj} setActiveContent={setActiveContent} activeContent={activeContent} />)}
           {activeContent.route==='icu' &&( <AddmissionHome patientObj={patientObj} setActiveContent={setActiveContent} activeContent={activeContent} />)}
-          {activeContent.route==='patient-history' &&( <PatientHistory patientObj={patientObj} setActiveContent={setActiveContent} activeContent={activeContent}/>)}         
+          {activeContent.route==='patient-history' &&( <PatientHistory patientObj={patientObj} setActiveContent={setActiveContent} activeContent={activeContent}/>)} 
+          {activeContent.route==='immunization-patient' &&( <ImmunizationHome patientObj={patientObj} setActiveContent={setActiveContent} activeContent={activeContent}/>)}
+          {activeContent.route==='tetanus-patient' &&( <Tetanus patientObj={patientObj} setActiveContent={setActiveContent} activeContent={activeContent}/>)} 
+           
           {/* History Pages */}
          
          </CardContent>

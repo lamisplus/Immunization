@@ -15,8 +15,8 @@ import PatientDetail from './main/webapp/jsx/components/Patient/PatientDetail'
 import RegisterPatientPage from './main/webapp/jsx/components/Patient/RegisterPatient';
 import EnrollPatientPage from './main/webapp/jsx/components/Patient/EnrollPatient';
 import UpdatePatientEnrollment from './main/webapp/jsx/components/Patient/UpdatePatientEnrollment';
-import Immunization from './main/webapp/jsx/components/Patient/Immunization';
-import Tetanus from './main/webapp/jsx/components/Patient/Tetanus'
+import Immunization from './main/webapp/jsx/components/Immunization/ImmunizationHome';
+import Tetanus from './main/webapp/jsx/components/Tetanus/TetanusHome'
 
 export default function App() {
   return (
@@ -30,7 +30,7 @@ export default function App() {
             <Tetanus />
           </Route>
           <Route path ="/immunization-patient">
-            <Immunization/>
+            <Immunization />
 
           </Route>
           <Route path="/patient-history">

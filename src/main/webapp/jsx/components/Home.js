@@ -5,7 +5,8 @@ import PatientVaccinatedLIst from './Patient/PatientVaccinatedLIst'
 import { Link } from 'react-router-dom'
 import Button from '@material-ui/core/Button';
 import { FaUserPlus } from "react-icons/fa";
-import ImmunizationPage from "./Patient/ImmunizationPage"
+import ImmunizationPage from "./Immunization/ImmunizationPage"
+import TetanusPage from "./Tetanus/TetanusPage";
 //import PageTitle from "./../layouts/PageTitle";
 const divStyle = {
   borderRadius: "2px",
@@ -34,29 +35,7 @@ const Home = () => {
                 <span style={{ textTransform: "capitalize" }}>New Patient</span>
             </Button>
         </Link>
-{/* 
-        <Link to={"immunization-patient"}>
-            <Button
-                variant="contained"
-                color="primary"
-                className=" float-end mb-10"
-                startIcon={<FaUserPlus size="10"/>}
-                style={{backgroundColor:'#014d88'}}
-            >
-                <span style={{ textTransform: "capitalize" }}>Immunization</span>
-            </Button>
-        </Link> */}
-        {/* <Link to={"tetanus-patient"}>
-            <Button
-                variant="contained"
-                color="primary"
-                className=" float-end mb-10"
-                startIcon={<FaUserPlus size="10"/>}
-                style={{backgroundColor:'#014d88'}}
-            >
-                <span style={{ textTransform: "capitalize" }}>Tetanus</span>
-            </Button>
-        </Link> */}
+
 
 
         <br/><br/>
@@ -81,8 +60,11 @@ const Home = () => {
                   <Tab eventKey="vaccinated" title="Covid-19 Vaccinated Patients">                   
                     <PatientVaccinatedLIst />
                   </Tab>
-                  <Tab eventKey="enrollImmunization" title="Routine Immunization">                   
+                  <Tab eventKey="immunization" title="Routine Immunization">                   
                     <ImmunizationPage />
+                  </Tab>
+                  <Tab eventKey="tetanus" title="Tetanus Diphtheria">
+                    <TetanusPage/>
                   </Tab>
 
                   

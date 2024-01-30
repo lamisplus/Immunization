@@ -15,6 +15,7 @@ function SubMenu(props) {
     const classes = useStyles();
     let gender=""
     const patientObjs = props.patientObj ? props.patientObj : {}
+    const [activeItem, setActiveItem] =  useState("recent-history")
     //const patientCurrentStatus=props.patientObj && props.patientObj.currentStatus==="Died (Confirmed)" ? true : false ;
     const [patientObj, setpatientObj] = useState(patientObjs)
     const [genderType, setGenderType] = useState()
@@ -58,6 +59,14 @@ function SubMenu(props) {
     const onClickHome = (row) =>{        
         props.setActiveContent({...props.activeContent, route:'recent-history'})
     }
+    const onClickImmunization = (row) =>{   
+        setActiveItem('immunization')     
+        props.setActiveContent({...props.activeContent, route:'immunization-patient'})
+    }
+    const onClickTetanus = (row) =>{   
+        setActiveItem('tetanus')     
+        props.setActiveContent({...props.activeContent, route:'tetanus-patient'})
+    }
     const loadPatientHistory = ()=>{
         //setActiveItem('history')
         props.setActiveContent({...props.activeContent, route:'patient-history'})
@@ -67,8 +76,11 @@ function SubMenu(props) {
     return (
          <div>
             <Menu size="large" color={"black"} inverted >
-                <Menu.Item onClick={() => onClickHome()} > Home</Menu.Item>                  
-                 {/* <Menu.Item onClick={() => loadVaccination()} >Vaccination</Menu.Item>
+                <Menu.Item onClick={() => onClickHome()} > Home</Menu.Item>  
+                <Menu.Item onClick={() => onClickImmunization()} > Immunization</Menu.Item>   
+                <Menu.Item onClick={() => onClickTetanus()} > Tetanus </Menu.Item> 
+{/* 
+                 <Menu.Item onClick={() => loadVaccination()} >Vaccination</Menu.Item>
                  <Menu.Item onClick={() => loadAddmission()} >Addmission</Menu.Item>
                 <Menu.Item onClick={() => loadIcu()} >Patient ICU</Menu.Item>
                 <Menu.Item onClick={() => onClickDischarge()} > Discharg/Death</Menu.Item>
