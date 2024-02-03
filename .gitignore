@@ -40,3 +40,44 @@ src/main/resources/views/static/hiv/
 ### VS Code ###
 .vscode/
 
+# Created by .ignore support plugin (hsz.mobi)
+### Java template
+*.class
+.vscode
+
+# BlueJ files
+*.ctxt
+
+# Mobile Tools for Java (J2ME)
+.mtj.tmp/
+
+# Package Files #
+*.jar
+*.war
+*.ear
+# production
+/build
+/node_modules
+*.build
+*.node_modules
+# virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
+hs_err_pid*
+### Sass template
+.sass-cache/
+*.css.map
+
+### Custom ignores
+target
+.idea
+*.iml
+db
+.DS_Store
+local-data
+gradlew
+gradle
+gradlew.bat
+mvnw
+mvnw.cmd
+.mvn
+pharmacy.iml
+
