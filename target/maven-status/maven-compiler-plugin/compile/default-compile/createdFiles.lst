@@ -20,7 +20,6 @@ org\lamisplus\modules\covid\domain\dto\QuestionResponseDTO.class
 org\lamisplus\modules\covid\domain\dto\CovidPatientStatusDTO.class
 org\lamisplus\modules\covid\repository\EncounterRepository.class
 org\lamisplus\modules\covid\domain\entity\QuestionResponse.class
-org\lamisplus\modules\covid\CovidModule.class
 org\lamisplus\modules\covid\service\VaccinationService.class
 org\lamisplus\modules\covid\utility\LocalDateConverter.class
 org\lamisplus\modules\covid\domain\entity\CovidPatient.class
@@ -47,6 +46,7 @@ org\lamisplus\modules\covid\installers\SchemaInstaller1.class
 org\lamisplus\modules\covid\repository\QuestionResponseRepository.class
 org\lamisplus\modules\covid\domain\dto\VaccinationDoseDTO.class
 org\lamisplus\modules\covid\controller\CovidVaccinationController.class
+org\lamisplus\modules\covid\ImmunizationModule.class
 org\lamisplus\modules\covid\installers\SchemaInstaller3.class
 org\lamisplus\modules\covid\service\CodeSetService.class
 org\lamisplus\modules\covid\utility\LocalTimeAttributeConverter.class

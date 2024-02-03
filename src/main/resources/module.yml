@@ -1,19 +1,19 @@
 basePackage: org.lamisplus.modules.covid
-name: CovidModule
+name: ImmunizationModule
 store: true
 menus:
-  - icon: fa fa-virus
+  - icon: fa fa-syringe
     disabled: false
-    name: COVID-19
-    state: covid
-    url: /across/resources/static/covid/index.html
-umdLocation: /across/resources/static/covid/index.html
+    name: Immunization
+    state: immunization
+    url: /across/resources/static/immunization/index.html
+umdLocation: /across/resources/static/immunization/index.html
 webModules:
-  - breadcrumb: COVID-19
-    name: CovidModule
-    path: covid
+  - breadcrumb: Immunization
+    name: ImmunizationModule
+    path: immunization
     position: 99
 permissions:
-  - name: create_covid_vaccination
-    description: create covid vaccination
-    moduleName: CovidModule
+  - name: create_routine_immunization
+    description: create routine immunization
+    moduleName: ImmunizationModule

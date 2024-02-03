@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <project name="maven-antrun-" default="main"  >
 <target name="main">
-  <copy todir="C:\Users\mathew.adegbite\LAMISPLUS\covid-module\target/classes/views/static/covid">
-    <fileset dir="C:\Users\mathew.adegbite\LAMISPLUS\covid-module/build"/>
+  <copy todir="C:\Users\user\Desktop\Projects\DataFi\Immunization\target/classes/views/static/immunization">
+    <fileset dir="C:\Users\user\Desktop\Projects\DataFi\Immunization/build"/>
   </copy>
 </target>
 </project>

@@ -90,6 +90,7 @@
     "react-overlay-loading": "^1.0.3",
     "react-perfect-scrollbar": "^1.5.8",
     "react-phone-input-2": "^2.11.0",
+    "react-query": "^3.19.0",
     "react-redux": "^7.2.4",
     "react-resize-detector": "^5.2.0",
     "react-router-dom": "^5.2.0",
@@ -124,7 +125,7 @@
   },
   "scripts": {
     "start": "react-scripts start",
-    "build": "react-scripts --max-old-space-size=15096 build && xcopy /s /y build src\\main\\resources\\views\\static\\covid",
+    "build": "react-scripts --max-old-space-size=15096 build && xcopy /s /y build src\\main\\resources\\views\\static\\immunization",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },

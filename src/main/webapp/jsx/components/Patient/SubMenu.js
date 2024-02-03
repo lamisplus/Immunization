@@ -1,95 +1,70 @@
-import React, { useState, useEffect } from "react";
-import axios from "axios";
-import {Dropdown, Menu } from "semantic-ui-react";
-import { makeStyles } from "@material-ui/core/styles";
-import { url as baseUrl, token } from "../../../api";
-
-
-const useStyles = makeStyles((theme) => ({
-    navItemText: {
-        padding: theme.spacing(2),
-    },
-}));
+import React, { useState } from "react";
+import { Menu } from "semantic-ui-react";
+import { calculateAgeNoText } from "../../utils/calculateAge";
 
 function SubMenu(props) {
-    const classes = useStyles();
-    let gender=""
-    const patientObjs = props.patientObj ? props.patientObj : {}
-    const [activeItem, setActiveItem] =  useState("recent-history")
-    //const patientCurrentStatus=props.patientObj && props.patientObj.currentStatus==="Died (Confirmed)" ? true : false ;
-    const [patientObj, setpatientObj] = useState(patientObjs)
-    const [genderType, setGenderType] = useState()
-    //console.log(patientObj)
-    useEffect(() => {
-        Observation();
-    }, [props.patientObj]);
-     //Get list of RegimenLine
-     const Observation =()=>{
-        axios
-            .get(`${baseUrl}observation/person/${props.patientObj.id}`,
-                { headers: {"Authorization" : `Bearer ${token}`} }
-            )
-            .then((response) => {
-                const observation = response.data
-                const mental= observation.filter((x)=> x.type==='mental health')
-                const evaluation= observation.filter((x)=> x.type==='initial evaluation')
-                
+  const patientProp = props.patientObj ? props.patientObj : {};
+  // eslint-disable-next-line no-unused-vars
+  const [activeItem, setActiveItem] = useState("recent-history");
+  const [patientObj] = useState(patientProp);
+  const [patientAge] = useState(
+    calculateAgeNoText(patientObj?.dob || patientObj?.dateOfBirth) || 0
+  );
 
-            })
-            .catch((error) => {
-            //console.log(error);
-            });
-        
-        }
+  const onClickHome = (row) => {
+    props.setActiveContent({ ...props.activeContent, route: "recent-history" });
+  };
 
+  const onClickImmunization = (row) => {
+    setActiveItem("immunization");
+    props.setActiveContent({
+      ...props.activeContent,
+      route: "immunization-patient",
+    });
+  };
 
-    
-    const loadVaccination = (row) =>{
-        props.setActiveContent({...props.activeContent, route:'vaccination'})
-    }
-    const loadIcu = (row) =>{
-        props.setActiveContent({...props.activeContent, route:'icu'})
-    }
-    const loadAddmission = (row) =>{
-        props.setActiveContent({...props.activeContent, route:'addmission'})
-    }
-    const onClickDischarge = (row) =>{        
-        props.setActiveContent({...props.activeContent, route:'discharge'})
-    }
-    const onClickHome = (row) =>{        
-        props.setActiveContent({...props.activeContent, route:'recent-history'})
-    }
-    const onClickImmunization = (row) =>{   
-        setActiveItem('immunization')     
-        props.setActiveContent({...props.activeContent, route:'immunization-patient'})
-    }
-    const onClickTetanus = (row) =>{   
-        setActiveItem('tetanus')     
-        props.setActiveContent({...props.activeContent, route:'tetanus-patient'})
-    }
-    const loadPatientHistory = ()=>{
-        //setActiveItem('history')
-        props.setActiveContent({...props.activeContent, route:'patient-history'})
-    }
+  const onClickTetanus = (row) => {
+    setActiveItem("tetanus");
+    props.setActiveContent({
+      ...props.activeContent,
+      route: "tetanus-patient",
+    });
+  };
 
+  const onClickCovid = (row) => {
+    setActiveItem("covid");
+    props.setActiveContent({
+      ...props.activeContent,
+      route: "covid-patient",
+    });
+  };
 
-    return (
-         <div>
-            <Menu size="large" color={"black"} inverted >
-                <Menu.Item onClick={() => onClickHome()} > Home</Menu.Item>  
-                <Menu.Item onClick={() => onClickImmunization()} > Immunization</Menu.Item>   
-                <Menu.Item onClick={() => onClickTetanus()} > Tetanus </Menu.Item> 
-{/* 
-                 <Menu.Item onClick={() => loadVaccination()} >Vaccination</Menu.Item>
-                 <Menu.Item onClick={() => loadAddmission()} >Addmission</Menu.Item>
-                <Menu.Item onClick={() => loadIcu()} >Patient ICU</Menu.Item>
-                <Menu.Item onClick={() => onClickDischarge()} > Discharg/Death</Menu.Item>
-                <Menu.Item onClick={() => loadPatientHistory(patientObj)} >History</Menu.Item>                     */}
-            </Menu>             
-        </div>
-    );
+  const loadPatientVaccinationHistory = () => {
+    setActiveItem("history");
+    props.setActiveContent({
+      ...props.activeContent,
+      route: "vaccination-history",
+    });
+  };
+
+  return (
+    <div style={{ marginTop: "20px" }}>
+      <Menu size="large" color={"black"} inverted>
+        <Menu.Item onClick={() => onClickHome()}> Home</Menu.Item>
+        <Menu.Item onClick={() => onClickImmunization()}>
+          {" "}
+          Routine Immunization
+        </Menu.Item>
+        <Menu.Item onClick={() => onClickTetanus()}> Tetanus </Menu.Item>
+        {patientAge >= 5 && (
+          <Menu.Item onClick={onClickCovid}> COVID-19 </Menu.Item>
+        )}
+        <Menu.Item onClick={() => loadPatientVaccinationHistory(patientObj)}>
+          History
+        </Menu.Item>
+      </Menu>
+    </div>
+  );
 }
-
-
 
 export default SubMenu;

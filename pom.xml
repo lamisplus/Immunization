@@ -11,11 +11,11 @@
 	</parent>
 
 	<groupId>org.lamisplus.modules</groupId>
-	<artifactId>covid</artifactId>
+	<artifactId>immunization</artifactId>
 	<version>2.0.0</version>
 	<packaging>jar</packaging>
-	<name>covid</name>
-	<description>Covid Module</description>
+	<name>immunization</name>
+	<description>Immunization Module</description>
 
 	<properties>
 		<java.version>1.8</java.version>
@@ -305,7 +305,7 @@
 						<phase>generate-resources</phase>
 						<configuration>
 							<target>
-								<copy todir="${project.build.directory}/classes/views/static/covid">
+								<copy todir="${project.build.directory}/classes/views/static/immunization">
 									<fileset dir="${project.basedir}/build" />
 								</copy>
 							</target>
