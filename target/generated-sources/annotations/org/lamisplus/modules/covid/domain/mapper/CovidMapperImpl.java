@@ -23,8 +23,8 @@ import org.springframework.stereotype.Component;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2023-06-27T21:33:56+0100",
-    comments = "version: 1.4.2.Final, compiler: javac, environment: Java 1.8.0_341 (Oracle Corporation)"
+    date = "2024-02-03T08:32:00+0100",
+    comments = "version: 1.4.2.Final, compiler: Eclipse JDT (IDE) 3.37.0.v20240103-0614, environment: Java 17.0.9 (Eclipse Adoptium)"
 )
 @Component
 public class CovidMapperImpl implements CovidMapper {
@@ -37,9 +37,9 @@ public class CovidMapperImpl implements CovidMapper {
 
         CodeSet codeSet = new CodeSet();
 
+        codeSet.setCategory( codeSetDTO.getCategory() );
         codeSet.setId( codeSetDTO.getId() );
         codeSet.setName( codeSetDTO.getName() );
-        codeSet.setCategory( codeSetDTO.getCategory() );
 
         return codeSet;
     }
@@ -52,15 +52,15 @@ public class CovidMapperImpl implements CovidMapper {
 
         CovidEncounter covidEncounter = new CovidEncounter();
 
-        covidEncounter.setId( encounterDTO.getId() );
-        covidEncounter.setPatientId( encounterDTO.getPatientId() );
-        covidEncounter.setVisitDate( encounterDTO.getVisitDate() );
         covidEncounter.setCategory( encounterDTO.getCategory() );
+        covidEncounter.setId( encounterDTO.getId() );
         covidEncounter.setLocation( encounterDTO.getLocation() );
+        covidEncounter.setPatientId( encounterDTO.getPatientId() );
         List<QuestionAnswer> list = encounterDTO.getQuestionAnswers();
         if ( list != null ) {
             covidEncounter.setQuestionAnswers( new ArrayList<QuestionAnswer>( list ) );
         }
+        covidEncounter.setVisitDate( encounterDTO.getVisitDate() );
 
         return covidEncounter;
     }
@@ -73,17 +73,17 @@ public class CovidMapperImpl implements CovidMapper {
 
         CovidPatient covidPatient = new CovidPatient();
 
-        covidPatient.setId( patientDTO.getId() );
-        covidPatient.setFirstName( patientDTO.getFirstName() );
-        covidPatient.setMidName( patientDTO.getMidName() );
-        covidPatient.setLastName( patientDTO.getLastName() );
-        covidPatient.setParticipantId( patientDTO.getParticipantId() );
-        covidPatient.setGender( patientDTO.getGender() );
-        covidPatient.setDob( patientDTO.getDob() );
-        covidPatient.setCurrentStatus( patientDTO.getCurrentStatus() );
-        covidPatient.setVaccinationStatus( patientDTO.getVaccinationStatus() );
         covidPatient.setAddress( patientDTO.getAddress() );
         covidPatient.setContactPoint( patientDTO.getContactPoint() );
+        covidPatient.setCurrentStatus( patientDTO.getCurrentStatus() );
+        covidPatient.setDob( patientDTO.getDob() );
+        covidPatient.setFirstName( patientDTO.getFirstName() );
+        covidPatient.setGender( patientDTO.getGender() );
+        covidPatient.setId( patientDTO.getId() );
+        covidPatient.setLastName( patientDTO.getLastName() );
+        covidPatient.setMidName( patientDTO.getMidName() );
+        covidPatient.setParticipantId( patientDTO.getParticipantId() );
+        covidPatient.setVaccinationStatus( patientDTO.getVaccinationStatus() );
 
         return covidPatient;
     }
@@ -96,10 +96,10 @@ public class CovidMapperImpl implements CovidMapper {
 
         Question question = new Question();
 
-        question.setId( questionDTO.getId() );
-        question.setName( questionDTO.getName() );
         question.setCategory( questionDTO.getCategory() );
         question.setDatatype( questionDTO.getDatatype() );
+        question.setId( questionDTO.getId() );
+        question.setName( questionDTO.getName() );
         List<QuestionResponse> list = questionDTO.getResponses();
         if ( list != null ) {
             question.setResponses( new ArrayList<QuestionResponse>( list ) );
@@ -116,9 +116,9 @@ public class CovidMapperImpl implements CovidMapper {
 
         QuestionAnswer questionAnswer = new QuestionAnswer();
 
+        questionAnswer.setAnswer( questionAnswerDTO.getAnswer() );
         questionAnswer.setId( questionAnswerDTO.getId() );
         questionAnswer.setQuestionId( questionAnswerDTO.getQuestionId() );
-        questionAnswer.setAnswer( questionAnswerDTO.getAnswer() );
 
         return questionAnswer;
     }
@@ -146,13 +146,13 @@ public class CovidMapperImpl implements CovidMapper {
         Vaccination vaccination = new Vaccination();
 
         vaccination.setId( vaccinationEnrollmentDTO.getId() );
-        vaccination.setPatientId( vaccinationEnrollmentDTO.getPatientId() );
-        vaccination.setVisitId( vaccinationEnrollmentDTO.getVisitId() );
-        vaccination.setVisitDate( vaccinationEnrollmentDTO.getVisitDate() );
-        vaccination.setWorkInHealthSector( vaccinationEnrollmentDTO.getWorkInHealthSector() );
-        vaccination.setOccupation( vaccinationEnrollmentDTO.getOccupation() );
         vaccination.setKnownMedicalCondition( vaccinationEnrollmentDTO.getKnownMedicalCondition() );
         vaccination.setMedicalCondition( vaccinationEnrollmentDTO.getMedicalCondition() );
+        vaccination.setOccupation( vaccinationEnrollmentDTO.getOccupation() );
+        vaccination.setPatientId( vaccinationEnrollmentDTO.getPatientId() );
+        vaccination.setVisitDate( vaccinationEnrollmentDTO.getVisitDate() );
+        vaccination.setVisitId( vaccinationEnrollmentDTO.getVisitId() );
+        vaccination.setWorkInHealthSector( vaccinationEnrollmentDTO.getWorkInHealthSector() );
 
         return vaccination;
     }
@@ -165,15 +165,15 @@ public class CovidMapperImpl implements CovidMapper {
 
         VaccinationDose vaccinationDose = new VaccinationDose();
 
-        vaccinationDose.setId( vaccinationDoseDTO.getId() );
-        vaccinationDose.setPatientId( vaccinationDoseDTO.getPatientId() );
+        vaccinationDose.setAdverseEffect( vaccinationDoseDTO.getAdverseEffect() );
+        vaccinationDose.setBatchNumber( vaccinationDoseDTO.getBatchNumber() );
         vaccinationDose.setDoseNumber( vaccinationDoseDTO.getDoseNumber() );
+        vaccinationDose.setId( vaccinationDoseDTO.getId() );
+        vaccinationDose.setLocation( vaccinationDoseDTO.getLocation() );
+        vaccinationDose.setPatientId( vaccinationDoseDTO.getPatientId() );
+        vaccinationDose.setVaccinationFacility( vaccinationDoseDTO.getVaccinationFacility() );
         vaccinationDose.setVaccine( vaccinationDoseDTO.getVaccine() );
         vaccinationDose.setVaccineDate( vaccinationDoseDTO.getVaccineDate() );
-        vaccinationDose.setLocation( vaccinationDoseDTO.getLocation() );
-        vaccinationDose.setVaccinationFacility( vaccinationDoseDTO.getVaccinationFacility() );
-        vaccinationDose.setBatchNumber( vaccinationDoseDTO.getBatchNumber() );
-        vaccinationDose.setAdverseEffect( vaccinationDoseDTO.getAdverseEffect() );
 
         return vaccinationDose;
     }
@@ -186,9 +186,9 @@ public class CovidMapperImpl implements CovidMapper {
 
         CodeSetDTO codeSetDTO = new CodeSetDTO();
 
+        codeSetDTO.setCategory( codeSet.getCategory() );
         codeSetDTO.setId( codeSet.getId() );
         codeSetDTO.setName( codeSet.getName() );
-        codeSetDTO.setCategory( codeSet.getCategory() );
 
         return codeSetDTO;
     }
@@ -201,15 +201,15 @@ public class CovidMapperImpl implements CovidMapper {
 
         CovidEncounterDTO covidEncounterDTO = new CovidEncounterDTO();
 
-        covidEncounterDTO.setId( encounter.getId() );
-        covidEncounterDTO.setPatientId( encounter.getPatientId() );
-        covidEncounterDTO.setVisitDate( encounter.getVisitDate() );
         covidEncounterDTO.setCategory( encounter.getCategory() );
+        covidEncounterDTO.setId( encounter.getId() );
         covidEncounterDTO.setLocation( encounter.getLocation() );
+        covidEncounterDTO.setPatientId( encounter.getPatientId() );
         List<QuestionAnswer> list = encounter.getQuestionAnswers();
         if ( list != null ) {
             covidEncounterDTO.setQuestionAnswers( new ArrayList<QuestionAnswer>( list ) );
         }
+        covidEncounterDTO.setVisitDate( encounter.getVisitDate() );
 
         return covidEncounterDTO;
     }
@@ -222,17 +222,17 @@ public class CovidMapperImpl implements CovidMapper {
 
         CovidPatientDTO covidPatientDTO = new CovidPatientDTO();
 
-        covidPatientDTO.setId( patient.getId() );
-        covidPatientDTO.setFirstName( patient.getFirstName() );
-        covidPatientDTO.setMidName( patient.getMidName() );
-        covidPatientDTO.setLastName( patient.getLastName() );
-        covidPatientDTO.setParticipantId( patient.getParticipantId() );
-        covidPatientDTO.setGender( patient.getGender() );
-        covidPatientDTO.setDob( patient.getDob() );
-        covidPatientDTO.setCurrentStatus( patient.getCurrentStatus() );
-        covidPatientDTO.setVaccinationStatus( patient.getVaccinationStatus() );
         covidPatientDTO.setAddress( patient.getAddress() );
         covidPatientDTO.setContactPoint( patient.getContactPoint() );
+        covidPatientDTO.setCurrentStatus( patient.getCurrentStatus() );
+        covidPatientDTO.setDob( patient.getDob() );
+        covidPatientDTO.setFirstName( patient.getFirstName() );
+        covidPatientDTO.setGender( patient.getGender() );
+        covidPatientDTO.setId( patient.getId() );
+        covidPatientDTO.setLastName( patient.getLastName() );
+        covidPatientDTO.setMidName( patient.getMidName() );
+        covidPatientDTO.setParticipantId( patient.getParticipantId() );
+        covidPatientDTO.setVaccinationStatus( patient.getVaccinationStatus() );
 
         return covidPatientDTO;
     }
@@ -245,10 +245,10 @@ public class CovidMapperImpl implements CovidMapper {
 
         QuestionDTO questionDTO = new QuestionDTO();
 
-        questionDTO.setId( question.getId() );
-        questionDTO.setName( question.getName() );
         questionDTO.setCategory( question.getCategory() );
         questionDTO.setDatatype( question.getDatatype() );
+        questionDTO.setId( question.getId() );
+        questionDTO.setName( question.getName() );
         List<QuestionResponse> list = question.getResponses();
         if ( list != null ) {
             questionDTO.setResponses( new ArrayList<QuestionResponse>( list ) );
@@ -265,9 +265,9 @@ public class CovidMapperImpl implements CovidMapper {
 
         QuestionAnswerDTO questionAnswerDTO = new QuestionAnswerDTO();
 
+        questionAnswerDTO.setAnswer( questionAnswer.getAnswer() );
         questionAnswerDTO.setId( questionAnswer.getId() );
         questionAnswerDTO.setQuestionId( questionAnswer.getQuestionId() );
-        questionAnswerDTO.setAnswer( questionAnswer.getAnswer() );
 
         return questionAnswerDTO;
     }
@@ -295,13 +295,13 @@ public class CovidMapperImpl implements CovidMapper {
         VaccinationEnrollmentDTO vaccinationEnrollmentDTO = new VaccinationEnrollmentDTO();
 
         vaccinationEnrollmentDTO.setId( vaccination.getId() );
-        vaccinationEnrollmentDTO.setPatientId( vaccination.getPatientId() );
-        vaccinationEnrollmentDTO.setVisitId( vaccination.getVisitId() );
-        vaccinationEnrollmentDTO.setVisitDate( vaccination.getVisitDate() );
-        vaccinationEnrollmentDTO.setWorkInHealthSector( vaccination.getWorkInHealthSector() );
         vaccinationEnrollmentDTO.setKnownMedicalCondition( vaccination.getKnownMedicalCondition() );
         vaccinationEnrollmentDTO.setMedicalCondition( vaccination.getMedicalCondition() );
         vaccinationEnrollmentDTO.setOccupation( vaccination.getOccupation() );
+        vaccinationEnrollmentDTO.setPatientId( vaccination.getPatientId() );
+        vaccinationEnrollmentDTO.setVisitDate( vaccination.getVisitDate() );
+        vaccinationEnrollmentDTO.setVisitId( vaccination.getVisitId() );
+        vaccinationEnrollmentDTO.setWorkInHealthSector( vaccination.getWorkInHealthSector() );
 
         return vaccinationEnrollmentDTO;
     }
@@ -314,15 +314,15 @@ public class CovidMapperImpl implements CovidMapper {
 
         VaccinationDoseDTO vaccinationDoseDTO = new VaccinationDoseDTO();
 
-        vaccinationDoseDTO.setId( vaccinationDose.getId() );
-        vaccinationDoseDTO.setPatientId( vaccinationDose.getPatientId() );
+        vaccinationDoseDTO.setAdverseEffect( vaccinationDose.getAdverseEffect() );
+        vaccinationDoseDTO.setBatchNumber( vaccinationDose.getBatchNumber() );
         vaccinationDoseDTO.setDoseNumber( vaccinationDose.getDoseNumber() );
+        vaccinationDoseDTO.setId( vaccinationDose.getId() );
+        vaccinationDoseDTO.setLocation( vaccinationDose.getLocation() );
+        vaccinationDoseDTO.setPatientId( vaccinationDose.getPatientId() );
+        vaccinationDoseDTO.setVaccinationFacility( vaccinationDose.getVaccinationFacility() );
         vaccinationDoseDTO.setVaccine( vaccinationDose.getVaccine() );
         vaccinationDoseDTO.setVaccineDate( vaccinationDose.getVaccineDate() );
-        vaccinationDoseDTO.setLocation( vaccinationDose.getLocation() );
-        vaccinationDoseDTO.setVaccinationFacility( vaccinationDose.getVaccinationFacility() );
-        vaccinationDoseDTO.setBatchNumber( vaccinationDose.getBatchNumber() );
-        vaccinationDoseDTO.setAdverseEffect( vaccinationDose.getAdverseEffect() );
 
         return vaccinationDoseDTO;
     }
