@@ -5,8 +5,7 @@ import PatientVaccinatedList from "./Patient/PatientVaccinatedList";
 import { Link } from "react-router-dom";
 import Button from "@material-ui/core/Button";
 import { FaUserPlus } from "react-icons/fa";
-import ImmunizationPage from "./Immunization/ImmunizationTable";
-import TetanusPage from "./Tetanus/TetanusPage";
+
 //import PageTitle from "./../layouts/PageTitle";
 const divStyle = {
   borderRadius: "2px",

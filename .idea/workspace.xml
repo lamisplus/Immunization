@@ -5,73 +5,105 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="0fa4cb75-960e-48e8-a7ce-44dd0d8b3a30" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/src/main/java/org/lamisplus/modules/covid/controller/RoutineImmunizationController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/org/lamisplus/modules/covid/domain/dto/RoutineImmunizationFormDTO.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/org/lamisplus/modules/covid/domain/entity/RoutineImmunizationForm.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/org/lamisplus/modules/covid/installers/SchemaInstaller5.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/org/lamisplus/modules/covid/repository/RoutineImmunizationFormRepository.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/org/lamisplus/modules/covid/service/RoutineImmunizationFormService.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/installers/covid/schema/schema-5.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/jsx/components/Covid/CovidVaccinationHome.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/jsx/components/Covid/covidFirstVaccinationValidationSchema.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/jsx/components/Immunization/useImmunizationFormSchema.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/jsx/components/Tetanus/useTetanusFormValidationSchema.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/jsx/services/fetchCodeset.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/jsx/services/fetchCovidVaccines.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/jsx/services/fetchRoutineImmunizationVaccine.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/jsx/services/fetchTetanusVaccine.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/jsx/utils/determineClientRoutineImmunizationVaccine.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.eslintcache" beforeDir="false" afterPath="$PROJECT_DIR$/.eslintcache" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/build/asset-manifest.json" beforeDir="false" afterPath="$PROJECT_DIR$/build/asset-manifest.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/build/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/build/index.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/static/css/2.c196819a.chunk.css" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/static/css/2.c196819a.chunk.css.map" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/static/css/main.ee612366.chunk.css" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/static/css/main.ee612366.chunk.css.map" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/static/js/2.ae35bb6d.chunk.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/static/js/2.ae35bb6d.chunk.js.LICENSE.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/static/js/2.ae35bb6d.chunk.js.map" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/static/js/3.f34c38c5.chunk.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/static/js/3.f34c38c5.chunk.js.LICENSE.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/static/js/3.f34c38c5.chunk.js.map" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/static/js/4.8ec65bd8.chunk.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/static/js/4.8ec65bd8.chunk.js.LICENSE.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/static/js/4.8ec65bd8.chunk.js.map" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/static/js/5.90d5d377.chunk.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/static/js/5.90d5d377.chunk.js.LICENSE.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/static/js/5.90d5d377.chunk.js.map" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/static/js/6.8826a755.chunk.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/static/js/6.8826a755.chunk.js.map" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/static/js/main.0cee2f6e.chunk.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/static/js/main.0cee2f6e.chunk.js.map" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/static/js/runtime-main.31084a7d.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/static/js/runtime-main.31084a7d.js.map" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/static/media/brand-icons.6729d297.svg" beforeDir="false" afterPath="$PROJECT_DIR$/build/static/media/brand-icons.6729d297.svg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/static/media/fingerprintimage.73ff98ea.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/static/media/icons.62d9dae4.svg" beforeDir="false" afterPath="$PROJECT_DIR$/build/static/media/icons.62d9dae4.svg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/static/media/outline-icons.9c4845b4.svg" beforeDir="false" afterPath="$PROJECT_DIR$/build/static/media/outline-icons.9c4845b4.svg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/static/media/rw-widgets.e8b49908.svg" beforeDir="false" afterPath="$PROJECT_DIR$/build/static/media/rw-widgets.e8b49908.svg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/public/index.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/App.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/App.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/lamisplus/modules/covid/CovidModule.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/lamisplus/modules/covid/ImmunizationModule.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/module.yml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/module.yml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/views/static/covid/asset-manifest.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/views/static/covid/asset-manifest.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/views/static/covid/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/views/static/covid/index.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/views/static/covid/static/media/brand-icons.6729d297.svg" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/views/static/covid/static/media/brand-icons.6729d297.svg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/views/static/covid/static/media/icons.62d9dae4.svg" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/views/static/covid/static/media/icons.62d9dae4.svg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/views/static/covid/static/media/outline-icons.9c4845b4.svg" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/views/static/covid/static/media/outline-icons.9c4845b4.svg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/views/static/covid/static/media/rw-widgets.e8b49908.svg" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/views/static/covid/static/media/rw-widgets.e8b49908.svg" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/lamisplus/modules/covid/service/CodeSetService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/lamisplus/modules/covid/service/CodeSetService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/views/static/immunization/asset-manifest.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/views/static/immunization/asset-manifest.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/views/static/immunization/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/views/static/immunization/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/views/static/immunization/static/css/2.ea94e9fb.chunk.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/views/static/immunization/static/css/2.ea94e9fb.chunk.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/views/static/immunization/static/css/main.833f75e1.chunk.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/views/static/immunization/static/css/main.833f75e1.chunk.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/views/static/immunization/static/media/brand-icons.6729d297.svg" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/views/static/immunization/static/media/brand-icons.6729d297.svg" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/views/static/immunization/static/media/icons.62d9dae4.svg" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/views/static/immunization/static/media/icons.62d9dae4.svg" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/views/static/immunization/static/media/outline-icons.9c4845b4.svg" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/views/static/immunization/static/media/outline-icons.9c4845b4.svg" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/views/static/immunization/static/media/rw-widgets.e8b49908.svg" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/views/static/immunization/static/media/rw-widgets.e8b49908.svg" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/webapp/api.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/api.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/jsx/components/Covid/CovidFirstVaccination.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/jsx/components/Covid/CovidFirstVaccination.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/webapp/jsx/components/Home.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/jsx/components/Home.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/webapp/jsx/components/Immunization/ImmunizationHome.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/jsx/components/Immunization/ImmunizationHome.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/jsx/components/Immunization/ImmunizationPage.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/jsx/components/Immunization/ImmunizationPage.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/jsx/components/Patient/PatientCard.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/jsx/components/Patient/PatientCard.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/webapp/jsx/components/Patient/PatientDetail.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/jsx/components/Patient/PatientDetail.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/jsx/components/Patient/PatientList.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/jsx/components/Patient/PatientList.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/jsx/components/Patient/PatientVaccinatedLIst.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/jsx/components/Patient/PatientVaccinatedLIst.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/jsx/components/Patient/RegisterPatient.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/jsx/components/Patient/RegisterPatient.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/webapp/jsx/components/Patient/SubMenu.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/jsx/components/Patient/SubMenu.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/webapp/jsx/components/Tetanus/TetanusHome.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/jsx/components/Tetanus/TetanusHome.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/jsx/components/Tetanus/TetanusPage.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/jsx/components/Tetanus/TetanusPage.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/jsx/components/Vaccination/VaccinationHistory.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/jsx/components/Vaccination/VaccinationHistory.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/antrun/build-main.xml" beforeDir="false" afterPath="$PROJECT_DIR$/target/antrun/build-main.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/application.yml" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/application.yml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/module.yml" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/module.yml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/org/lamisplus/modules/covid/CovidModule.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/views/static/covid/asset-manifest.json" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/views/static/covid/asset-manifest.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/views/static/covid/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/views/static/covid/index.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/views/static/covid/static/media/brand-icons.6729d297.svg" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/views/static/covid/static/media/brand-icons.6729d297.svg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/views/static/covid/static/media/icons.62d9dae4.svg" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/views/static/covid/static/media/icons.62d9dae4.svg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/views/static/covid/static/media/outline-icons.9c4845b4.svg" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/views/static/covid/static/media/outline-icons.9c4845b4.svg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/views/static/covid/static/media/rw-widgets.e8b49908.svg" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/views/static/covid/static/media/rw-widgets.e8b49908.svg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/covid-2.0.0.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/org/lamisplus/modules/covid/config/DomainConfiguration.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/org/lamisplus/modules/covid/config/DomainConfiguration.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/org/lamisplus/modules/covid/controller/CovidCodeSetController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/org/lamisplus/modules/covid/controller/CovidCodeSetController.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/org/lamisplus/modules/covid/controller/CovidEncounterController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/org/lamisplus/modules/covid/controller/CovidEncounterController.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/org/lamisplus/modules/covid/controller/CovidEnrollmentController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/org/lamisplus/modules/covid/controller/CovidEnrollmentController.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/org/lamisplus/modules/covid/controller/CovidPatientController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/org/lamisplus/modules/covid/controller/CovidPatientController.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/org/lamisplus/modules/covid/controller/CovidQuestionController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/org/lamisplus/modules/covid/controller/CovidQuestionController.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/org/lamisplus/modules/covid/controller/CovidVaccinationController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/org/lamisplus/modules/covid/controller/CovidVaccinationController.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/org/lamisplus/modules/covid/domain/CovidDomain.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/org/lamisplus/modules/covid/domain/CovidDomain.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/org/lamisplus/modules/covid/domain/dto/CodeSetDTO.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/org/lamisplus/modules/covid/domain/dto/CodeSetDTO.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/org/lamisplus/modules/covid/domain/dto/CovidEncounterDTO.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/org/lamisplus/modules/covid/domain/dto/CovidEncounterDTO.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/org/lamisplus/modules/covid/domain/dto/CovidPatientDTO.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/org/lamisplus/modules/covid/domain/dto/CovidPatientDTO.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/org/lamisplus/modules/covid/domain/dto/CovidPatientEnrollmentDTO.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/org/lamisplus/modules/covid/domain/dto/CovidPatientEnrollmentDTO.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/org/lamisplus/modules/covid/domain/dto/CovidPatientEnrollmentResponseDTO.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/org/lamisplus/modules/covid/domain/dto/CovidPatientEnrollmentResponseDTO.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/org/lamisplus/modules/covid/domain/dto/CovidPatientMetaDataDTO.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/org/lamisplus/modules/covid/domain/dto/CovidPatientMetaDataDTO.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/org/lamisplus/modules/covid/domain/dto/CovidPatientStatusDTO.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/org/lamisplus/modules/covid/domain/dto/CovidPatientStatusDTO.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/org/lamisplus/modules/covid/domain/dto/QuestionAnswerDTO.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/org/lamisplus/modules/covid/domain/dto/QuestionAnswerDTO.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/org/lamisplus/modules/covid/domain/dto/QuestionDTO.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/org/lamisplus/modules/covid/domain/dto/QuestionDTO.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/org/lamisplus/modules/covid/domain/dto/QuestionResponseDTO.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/org/lamisplus/modules/covid/domain/dto/QuestionResponseDTO.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/org/lamisplus/modules/covid/domain/dto/VaccinationDoseDTO.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/org/lamisplus/modules/covid/domain/dto/VaccinationDoseDTO.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/org/lamisplus/modules/covid/domain/dto/VaccinationEnrollmentDTO.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/org/lamisplus/modules/covid/domain/dto/VaccinationEnrollmentDTO.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/org/lamisplus/modules/covid/domain/entity/CodeSet.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/org/lamisplus/modules/covid/domain/entity/CodeSet.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/org/lamisplus/modules/covid/domain/entity/CovidAudit.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/org/lamisplus/modules/covid/domain/entity/CovidAudit.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/org/lamisplus/modules/covid/domain/entity/CovidEncounter.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/org/lamisplus/modules/covid/domain/entity/CovidEncounter.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/org/lamisplus/modules/covid/domain/entity/CovidPatient.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/org/lamisplus/modules/covid/domain/entity/CovidPatient.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/org/lamisplus/modules/covid/domain/entity/Question.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/org/lamisplus/modules/covid/domain/entity/Question.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/org/lamisplus/modules/covid/domain/entity/QuestionAnswer.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/org/lamisplus/modules/covid/domain/entity/QuestionAnswer.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/org/lamisplus/modules/covid/domain/entity/QuestionResponse.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/org/lamisplus/modules/covid/domain/entity/QuestionResponse.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/org/lamisplus/modules/covid/domain/entity/Vaccination.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/org/lamisplus/modules/covid/domain/entity/Vaccination.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/org/lamisplus/modules/covid/domain/entity/VaccinationDose.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/org/lamisplus/modules/covid/domain/entity/VaccinationDose.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/org/lamisplus/modules/covid/domain/mapper/CovidMapper.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/org/lamisplus/modules/covid/domain/mapper/CovidMapper.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/org/lamisplus/modules/covid/domain/mapper/CovidMapperImpl.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/org/lamisplus/modules/covid/domain/mapper/CovidMapperImpl.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/org/lamisplus/modules/covid/extensions/EntityScanConfiguration.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/org/lamisplus/modules/covid/extensions/EntityScanConfiguration.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/org/lamisplus/modules/covid/installers/SchemaInstaller1.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/org/lamisplus/modules/covid/installers/SchemaInstaller1.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/org/lamisplus/modules/covid/installers/SchemaInstaller2.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/org/lamisplus/modules/covid/installers/SchemaInstaller2.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/org/lamisplus/modules/covid/installers/SchemaInstaller3.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/org/lamisplus/modules/covid/installers/SchemaInstaller3.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/org/lamisplus/modules/covid/installers/SchemaInstaller4.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/org/lamisplus/modules/covid/installers/SchemaInstaller4.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/org/lamisplus/modules/covid/repository/CodeSetRepository.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/org/lamisplus/modules/covid/repository/CodeSetRepository.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/org/lamisplus/modules/covid/repository/CovidPatientRepository.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/org/lamisplus/modules/covid/repository/CovidPatientRepository.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/org/lamisplus/modules/covid/repository/EncounterRepository.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/org/lamisplus/modules/covid/repository/EncounterRepository.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/org/lamisplus/modules/covid/repository/PatientStatusRepository.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/org/lamisplus/modules/covid/repository/PatientStatusRepository.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/org/lamisplus/modules/covid/repository/QuestionAnswerRepository.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/org/lamisplus/modules/covid/repository/QuestionAnswerRepository.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/org/lamisplus/modules/covid/repository/QuestionRepository.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/org/lamisplus/modules/covid/repository/QuestionRepository.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/org/lamisplus/modules/covid/repository/QuestionResponseRepository.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/org/lamisplus/modules/covid/repository/QuestionResponseRepository.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/org/lamisplus/modules/covid/repository/VaccinationDoseRepository.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/org/lamisplus/modules/covid/repository/VaccinationDoseRepository.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/org/lamisplus/modules/covid/repository/VaccinationRepository.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/org/lamisplus/modules/covid/repository/VaccinationRepository.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/org/lamisplus/modules/covid/service/CodeSetService.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/org/lamisplus/modules/covid/service/CodeSetService.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/org/lamisplus/modules/covid/service/CovidEnrollmentService.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/org/lamisplus/modules/covid/service/CovidEnrollmentService.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/org/lamisplus/modules/covid/service/CovidPatientService.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/org/lamisplus/modules/covid/service/CovidPatientService.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/org/lamisplus/modules/covid/service/EncounterService.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/org/lamisplus/modules/covid/service/EncounterService.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/org/lamisplus/modules/covid/service/QuestionService.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/org/lamisplus/modules/covid/service/QuestionService.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/org/lamisplus/modules/covid/service/VaccinationDoseService.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/org/lamisplus/modules/covid/service/VaccinationDoseService.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/org/lamisplus/modules/covid/service/VaccinationService.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/org/lamisplus/modules/covid/service/VaccinationService.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/org/lamisplus/modules/covid/utility/CustomDateTimeFormat.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/org/lamisplus/modules/covid/utility/CustomDateTimeFormat.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/org/lamisplus/modules/covid/utility/HttpConnectionManager.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/org/lamisplus/modules/covid/utility/HttpConnectionManager.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/org/lamisplus/modules/covid/utility/LocalDateConverter.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/org/lamisplus/modules/covid/utility/LocalDateConverter.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/org/lamisplus/modules/covid/utility/LocalTimeAttributeConverter.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/org/lamisplus/modules/covid/utility/LocalTimeAttributeConverter.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/org/lamisplus/modules/covid/utility/RequestBodyUtil$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/org/lamisplus/modules/covid/utility/RequestBodyUtil$1.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/org/lamisplus/modules/covid/utility/RequestBodyUtil.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/org/lamisplus/modules/covid/utility/RequestBodyUtil.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/generated-sources/annotations/org/lamisplus/modules/covid/domain/mapper/CovidMapperImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/target/generated-sources/annotations/org/lamisplus/modules/covid/domain/mapper/CovidMapperImpl.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/maven-archiver/pom.properties" beforeDir="false" afterPath="$PROJECT_DIR$/target/maven-archiver/pom.properties" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/compile/default-compile/createdFiles.lst" beforeDir="false" afterPath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/compile/default-compile/createdFiles.lst" afterDir="false" />
@@ -81,6 +113,14 @@
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Class" />
+        <option value="spring-beans.schema" />
+      </list>
+    </option>
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -97,11 +137,16 @@
       </map>
     </option>
   </component>
+  <component name="MavenRunner">
+    <option name="skipTests" value="true" />
+  </component>
   <component name="ProjectColorInfo">{
   &quot;associatedIndex&quot;: 3
 }</component>
   <component name="ProjectId" id="2RvXPyOp9XyBz2nqQosBgPvuKiN" />
-  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true">
+    <ConfirmationsSetting value="2" id="Add" />
+  </component>
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
@@ -111,7 +156,7 @@
     &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
     &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
     &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;new&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;LAMISPlus-Web-Jan-31-2028&quot;,
     &quot;last_opened_file_path&quot;: &quot;C:/Users/mathew.adegbite/LAMISPLUS/public-repo/Covid-Module&quot;,
     &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
     &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
@@ -119,12 +164,52 @@
     &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
     &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
     &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  },
+  &quot;keyToStringList&quot;: {
+    &quot;DatabaseDriversLRU&quot;: [
+      &quot;postgresql&quot;
+    ]
   }
 }</component>
   <component name="RunAnythingCache">
     <option name="myCommands">
       <command value="mvn clean package" />
     </option>
+  </component>
+  <component name="RunManager" selected="Spring Boot.ImmunizationModule">
+    <configuration name="org.lamisplus.modules.covid in immunization" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="immunization" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="org.lamisplus.modules.covid.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="org.lamisplus.modules.covid" />
+      <option name="TEST_OBJECT" value="package" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="ImmunizationModule" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" temporary="true" nameIsGenerated="true">
+      <module name="immunization" />
+      <option name="SPRING_BOOT_MAIN_CLASS" value="org.lamisplus.modules.covid.ImmunizationModule" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="org.lamisplus.modules.covid.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Spring Boot.ImmunizationModule" />
+        <item itemvalue="JUnit.org.lamisplus.modules.covid in immunization" />
+      </list>
+    </recent_temporary>
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
@@ -136,12 +221,41 @@
       <updated>1688131511115</updated>
       <workItem from="1688131512528" duration="316000" />
       <workItem from="1706610524562" duration="3379000" />
-      <workItem from="1706616503376" duration="5062000" />
+      <workItem from="1706616503376" duration="5661000" />
+      <workItem from="1707303922154" duration="16842000" />
+      <workItem from="1707752601826" duration="18000" />
+      <workItem from="1707825306427" duration="8259000" />
     </task>
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
+  </component>
+  <component name="UnknownFeatures">
+    <option featureType="dependencySupport" implementationName="java:org.springframework.security:spring-security-core" />
+    <option featureType="dependencySupport" implementationName="javascript:npm:react" />
+    <option featureType="dependencySupport" implementationName="java:org.springframework:spring-core" />
+    <option featureType="dependencySupport" implementationName="java:jakarta.validation:jakarta.validation-api" />
+    <option featureType="dependencySupport" implementationName="java:org.springframework.integration:spring-integration-core" />
+    <option featureType="dependencySupport" implementationName="java:io.projectreactor:reactor-core" />
+    <option featureType="dependencySupport" implementationName="java:javax.ws.rs:javax.ws.rs-api" />
+    <option featureType="dependencySupport" implementationName="java:javax.persistence:javax.persistence-api" />
+    <option featureType="dependencySupport" implementationName="java:org.springframework.data:spring-data-commons" />
+    <option featureType="dependencySupport" implementationName="executable:kubectl" />
+    <option featureType="dependencySupport" implementationName="java:org.hibernate.validator:hibernate-validator" />
+    <option featureType="dependencySupport" implementationName="java:javax.validation:validation-api" />
+    <option featureType="dependencySupport" implementationName="java:org.springframework:spring-webmvc" />
+    <option featureType="dependencySupport" implementationName="java:org.projectlombok:lombok" />
+    <option featureType="dependencySupport" implementationName="java:org.springframework.cloud:spring-cloud-stream" />
+    <option featureType="dependencySupport" implementationName="java:org.springframework:spring-websocket" />
+    <option featureType="dependencySupport" implementationName="executable:docker" />
+    <option featureType="dependencySupport" implementationName="java:jakarta.persistence:jakarta.persistence-api" />
+    <option featureType="dependencySupport" implementationName="java:io.confluent:kafka-schema-registry-client" />
+    <option featureType="dependencySupport" implementationName="java:javax.ejb:ejb-api" />
+    <option featureType="dependencySupport" implementationName="java:org.thymeleaf:thymeleaf" />
+    <option featureType="dependencySupport" implementationName="java:org.springframework:spring-messaging" />
+    <option featureType="dependencySupport" implementationName="java:org.springframework.boot:spring-boot" />
+    <option featureType="dependencySupport" implementationName="javascript:npm:postcss" />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
     <option name="TAB_STATES">

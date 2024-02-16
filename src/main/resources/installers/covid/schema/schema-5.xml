@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.5.xsd">
+
+    <changeSet id="20230408-0001" author="emmanuel">
+        <sql>
+            CREATE TABLE IF NOT EXISTS routine_immunization
+            (
+                id bigint NOT NULL DEFAULT nextval('covid_vaccination_id_seq'),
+                uuid character varying(100),
+                patient_id bigint,
+                patient_uuid character varying(100),
+                vaccine_type character varying(100),
+                vaccine_detail character varying(100),
+                vaccine_id bigint,
+                missed_vaccine: character varying(100),
+                missed_vaccine_type: character varying(100),
+                vaccination_date date,
+                archived int,
+                PRIMARY KEY (id)
+            );
+
+        </sql>
+    </changeSet>
+</databaseChangeLog>
+

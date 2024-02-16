@@ -19,7 +19,7 @@ function SubMenu(props) {
     setActiveItem("immunization");
     props.setActiveContent({
       ...props.activeContent,
-      route: "immunization-patient",
+      route: "routine-immunization-patient",
     });
   };
 

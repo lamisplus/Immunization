@@ -11,7 +11,7 @@ import SubMenu from "./SubMenu";
 import PatientVaccinationHistory from "./../Vaccination/VaccinationHistory";
 import ImmunizationHome from "../Immunization/ImmunizationHome";
 import Tetanus from "../Tetanus/TetanusHome";
-import CovidFirstVaccinationDose from "../Covid/CovidFirstVaccination";
+import CovidVaccinationHome from "../Covid/CovidVaccinationHome";
 
 const styles = (theme) => ({
   root: {
@@ -101,7 +101,7 @@ function PatientCard(props) {
               />
             )}
             
-            {activeContent.route === "immunization-patient" && (
+            {activeContent.route === "routine-immunization-patient" && (
               <ImmunizationHome
                 patientObj={patientObj}
                 setActiveContent={setActiveContent}
@@ -116,7 +116,7 @@ function PatientCard(props) {
               />
             )}
             {activeContent.route === "covid-patient" && (
-              <CovidFirstVaccinationDose
+              <CovidVaccinationHome
                 patientObj={patientObj}
                 setActiveContent={setActiveContent}
                 activeContent={activeContent}

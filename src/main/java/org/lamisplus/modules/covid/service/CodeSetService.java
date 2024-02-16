@@ -14,7 +14,7 @@ import java.util.List;
 public class CodeSetService {
     private final CodeSetRepository codeSetRepository;
 
-    public List<CodeSet> GetVaccinationStatusCodeSet(){
+    public List<CodeSet> GetVaccinationStatusCodeSet() {
         return codeSetRepository.findAllByCategory("VACCINATION_STATUS");
     }
 
