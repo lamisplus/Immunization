@@ -9,7 +9,6 @@
             CREATE TABLE IF NOT EXISTS routine_immunization
             (
                 id bigint NOT NULL DEFAULT nextval('covid_vaccination_id_seq'),
-                uuid character varying(100),
                 patient_id bigint,
                 patient_uuid character varying(100),
                 vaccine_type character varying(100),
