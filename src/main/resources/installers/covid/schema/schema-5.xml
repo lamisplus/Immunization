@@ -8,18 +8,17 @@
         <sql>
             CREATE TABLE IF NOT EXISTS routine_immunization
             (
-                id bigint NOT NULL DEFAULT nextval('covid_vaccination_id_seq'),
+                id bigint NOT NULL PRIMARY KEY,
                 patient_id bigint,
                 patient_uuid character varying(100),
                 vaccine_type character varying(100),
                 vaccine_detail character varying(100),
                 vaccine_id bigint,
-                missed_vaccine: character varying(100),
-                missed_vaccine_type: character varying(100),
+                missed_vaccine character varying(100),
+                missed_vaccine_type character varying(100),
                 vaccination_date date,
-                archived int,
-                PRIMARY KEY (id)
-            );
+                archived int
+                );
 
         </sql>
     </changeSet>

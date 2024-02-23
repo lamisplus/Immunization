@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Form, Label } from "reactstrap";
+import { Form, Input, Label } from "reactstrap";
 import { library } from "@fortawesome/fontawesome-svg-core";
 import {
   faCheckSquare,
@@ -22,6 +22,8 @@ import SaveIcon from "@material-ui/icons/Save";
 import CancelIcon from "@material-ui/icons/Cancel";
 import MatButton from "@material-ui/core/Button";
 import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
+import moment from "moment";
+import { useSaveImmunization } from "../../customHooks/useSaveImmunization";
 
 library.add(faCheckSquare, faCoffee, faEdit, faTrash);
 
@@ -110,20 +112,31 @@ const Immunization = (props) => {
     ["ROUTINE_IMMUNIZATION_VACCINE_TYPE"],
     () => fetchRoutineImmunizationVaccine("ROUTINE_IMMUNIZATION_VACCINE_TYPE")
   );
-  const { formik } = useImmunizationFormValidationSchema();
+
 
   const handleSubmit = async () => {
-
+    console.log(props.patientObj);
     Object.keys(formik?.initialValues).forEach((fieldName) => {
       formik?.setFieldTouched(fieldName, true);
     });
     const errorObj = await formik.validateForm();
     const isValid = Object.keys(errorObj).length === 0;
-    console.log(isValid, formik.values);
 
+    const payload = {
+      immunizationType: "ROUTINE_IMMUNIZATION",
+      patientId: props?.patientObj?.id,
+      patientUuid: props?.patientObj?.uuid,
+      vaccinationDate: formik?.values?.vaccinationDate,
+      uniqueImmunizationData: formik.values,
+    };
 
+    if (isValid) {
+      // mutate(payload)
+    }
+  };
+//  const { mutate} = useSaveIm)
 
-  }
+  const { formik } = useImmunizationFormValidationSchema();
 
   const history = useHistory();
   return (
@@ -148,6 +161,28 @@ const Immunization = (props) => {
               <div className="card-body">
                 <div className="row">
                   <div className="form-group mb-3 col-md-12">
+                    <Label>Date of vaccination</Label>
+                    <Input
+                      className="form-control"
+                      name="vaccinationDate"
+                      id="vaccinationDate"
+                      type="date"
+                      onChange={formik.handleChange}
+                      {...{
+                        max: moment(new Date()).format("YYYY-MM-DD"),
+                      }}
+                      onBlur={formik.handleBlur}
+                      value={formik?.values?.vaccinationDate}
+                    />
+                    {formik?.touched?.vaccinationDate &&
+                      formik?.errors.vaccinationDate && (
+                        <span className={classes.error}>
+                          {formik?.errors.vaccinationDate}
+                        </span>
+                      )}
+                  </div>
+
+                  <div className="form-group mb-3 col-md-12">
                     <Label>
                       Type of vaccine {isLoading && "Loading vaccine ..."}
                     </Label>
@@ -163,7 +198,7 @@ const Immunization = (props) => {
                       onBlur={formik.handleBlur}
                       value={formik?.values?.vaccineType}
                     >
-                      <option>Select vaccine type</option>
+                      <option value="">Select vaccine type</option>
                       {vaccines?.map((vacc) => (
                         <option key={vacc?.id} value={vacc?.code}>
                           {vacc?.display}
@@ -172,11 +207,11 @@ const Immunization = (props) => {
                     </select>
 
                     {formik?.touched?.vaccineType &&
-                        formik?.errors.vaccineType && (
-                            <span className={classes.error}>
+                      formik?.errors.vaccineType && (
+                        <span className={classes.error}>
                           {formik?.errors.vaccineType}
                         </span>
-                        )}
+                      )}
                   </div>
 
                   <div className="form-group mb-3 col-md-12">
@@ -195,11 +230,11 @@ const Immunization = (props) => {
                       value={formik?.values?.vaccineDetail}
                     />
                     {formik?.touched?.vaccineDetail &&
-                        formik?.errors.vaccineDetail && (
-                            <span className={classes.error}>
+                      formik?.errors.vaccineDetail && (
+                        <span className={classes.error}>
                           {formik?.errors.vaccineDetail}
                         </span>
-                        )}
+                      )}
                   </div>
 
                   <div className="form-group mb-3 col-md-12">
@@ -213,24 +248,24 @@ const Immunization = (props) => {
                         borderRadius: "0.2rem",
                       }}
                       onChange={(e) => {
-                        formik.setFieldValue("missedVaccineType", null);
-                        formik.setFieldValue("missedVaccine", e.target.value);
+                        formik.setFieldValue("missedVaccineType", "");
+                        formik.handleChange(e);
                       }}
                       onBlur={formik.handleBlur}
                       value={formik?.values?.missedVaccine}
                     >
-                      <option>Select option</option>
+                      <option value="">Select option</option>
 
                       <option value={"yes"}>Yes</option>
                       <option value={"no"}>No</option>
                     </select>
 
                     {formik?.touched?.missedVaccine &&
-                        formik?.errors.missedVaccine && (
-                            <span className={classes.error}>
+                      formik?.errors.missedVaccine && (
+                        <span className={classes.error}>
                           {formik?.errors.missedVaccine}
                         </span>
-                        )}
+                      )}
                   </div>
 
                   {formik?.values?.missedVaccine === "yes" && (
@@ -250,6 +285,7 @@ const Immunization = (props) => {
                         onChange={formik.handleChange}
                         onBlur={formik.handleBlur}
                         value={formik?.values?.missedVaccineType}
+                        disabled={isLoadingMissedVaccine}
                       >
                         <option value="">Select vaccine type</option>
                         {missedVaccine?.map((vacc) => (
@@ -260,11 +296,11 @@ const Immunization = (props) => {
                       </select>
 
                       {formik?.touched?.missedVaccineType &&
-                          formik?.errors.missedVaccineType && (
-                              <span className={classes.error}>
-                          {formik?.errors.missedVaccineType}
-                        </span>
-                          )}
+                        formik?.errors.missedVaccineType && (
+                          <span className={classes.error}>
+                            {formik?.errors.missedVaccineType}
+                          </span>
+                        )}
                     </div>
                   )}
                 </div>
