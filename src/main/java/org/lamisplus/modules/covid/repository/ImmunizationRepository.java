@@ -23,6 +23,8 @@ public interface ImmunizationRepository extends JpaRepository<Immunization, Long
             @Param("archived") int archived,
             Pageable pageable);
 
-    @Query(nativeQuery = true, value = "SELECT * FROM immunization")
+    @Query(nativeQuery = true, value = "SELECT * FROM " +
+        "immunization WHERE archived = 0"
+    )
     Page<Immunization> getAllPaged(Pageable pageable);
 }

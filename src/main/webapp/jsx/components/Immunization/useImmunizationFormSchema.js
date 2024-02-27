@@ -1,13 +1,16 @@
 import { useFormik } from "formik";
 import * as yup from "yup";
 
-export const useImmunizationFormValidationSchema = (onSubmit) => {
+export const useImmunizationFormValidationSchema = (
+  onSubmit,
+  initialValues
+) => {
   const immunizationFormIntialValues = {
     vaccineType: "",
     vaccineDetail: "",
     missedVaccine: "",
     missedVaccineType: "",
-    vaccinationDate: ""
+    vaccinationDate: "",
   };
 
   const ImmunizationFormInitialSchema = yup.object({
@@ -23,7 +26,9 @@ export const useImmunizationFormValidationSchema = (onSubmit) => {
   });
 
   const formik = useFormik({
-    initialValues: immunizationFormIntialValues,
+    initialValues: initialValues
+      ? { ...immunizationFormIntialValues, ...initialValues }
+      : immunizationFormIntialValues,
     onSubmit,
     validationSchema: ImmunizationFormInitialSchema,
   });

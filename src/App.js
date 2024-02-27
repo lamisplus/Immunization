@@ -19,7 +19,7 @@ export default function App() {
     <Router>
       <QueryClientProvider client={queryClient}>
         <div>
-          <ToastContainer />
+          <ToastContainer  autoClose={3000} hideProgressBar position="bottom-center"/>
           <Switch>
             <Route path="/tetanus-patient">
               <TetanusHome />

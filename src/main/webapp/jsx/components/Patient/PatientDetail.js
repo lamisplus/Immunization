@@ -12,6 +12,8 @@ import PatientVaccinationHistory from "./../Vaccination/VaccinationHistory";
 import ImmunizationHome from "../Immunization/ImmunizationHome";
 import Tetanus from "../Tetanus/TetanusHome";
 import CovidVaccinationHome from "../Covid/CovidVaccinationHome";
+import PatientnHistory from "../History/PatientHistory";
+import RecentHistory from "../History/PatientHistory";
 
 const styles = (theme) => ({
   root: {
@@ -52,7 +54,7 @@ function PatientCard(props) {
   let history = useHistory();
   const [art, setArt] = useState(false);
   const [activeContent, setActiveContent] = useState({
-    route: "recent-history",
+    route: "patient-vaccination-history",
     id: "",
     activeTab: "home",
     actionType: "create",
@@ -100,7 +102,7 @@ function PatientCard(props) {
                 activeContent={activeContent}
               />
             )}
-            
+
             {activeContent.route === "routine-immunization-patient" && (
               <ImmunizationHome
                 patientObj={patientObj}
@@ -108,6 +110,7 @@ function PatientCard(props) {
                 activeContent={activeContent}
               />
             )}
+
             {activeContent.route === "tetanus-patient" && (
               <Tetanus
                 patientObj={patientObj}
@@ -115,6 +118,7 @@ function PatientCard(props) {
                 activeContent={activeContent}
               />
             )}
+
             {activeContent.route === "covid-patient" && (
               <CovidVaccinationHome
                 patientObj={patientObj}
@@ -123,7 +127,20 @@ function PatientCard(props) {
               />
             )}
 
-
+            {/* {activeContent.route === "patient-vaccination-history" && (
+              <RecentHistory
+                patientObj={patientObj}
+                setActiveContent={setActiveContent}
+                activeContent={activeContent}
+              />
+            )} */}
+            {activeContent.route === "patient-vaccination-history" && (
+              <PatientVaccinationHistory
+                patientObj={patientObj}
+                setActiveContent={setActiveContent}
+                activeContent={activeContent}
+              />
+            )}
           </div>
         </CardContent>
       </Card>

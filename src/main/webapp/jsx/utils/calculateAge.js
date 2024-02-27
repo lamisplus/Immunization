@@ -1,4 +1,4 @@
-export const calculateAge = (dob, noText) => {
+export const calculateAge = (dob) => {
     const today = new Date();
     const birthDate = new Date(dob); // create a date object directlyfrom`dob1`argument
     let age_now = today.getFullYear() - birthDate.getFullYear();

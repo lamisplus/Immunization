@@ -1,7 +1,7 @@
 import { useFormik } from "formik";
 import * as yup from "yup";
 
-export const useCovidFirstVaccinationFormValidationSchema = (onSubmit) => {
+export const useCovidVaccinationFormValidationSchema = (onSubmit) => {
   const covidFirstVaccinationInitialValue = {
     workInHealthSector: "",
     knownMedicalCondition: "",
@@ -9,7 +9,7 @@ export const useCovidFirstVaccinationFormValidationSchema = (onSubmit) => {
     adverseEffect: "",
     adverseEffectOption: "",
     vaccineType: "",
-    dateOfFirstDosage: "",
+    vaccinationDate: "",
     location: "",
     vaccinationFacility: "",
     batchNumber: "",
@@ -37,7 +37,7 @@ export const useCovidFirstVaccinationFormValidationSchema = (onSubmit) => {
 
     vaccineType: yup.string().required("This field is required"),
 
-    dateOfFirstDosage: yup.string().required("This field is required"),
+    vaccinationDate: yup.date().required("This field is required"),
 
     location: yup.string().required("This field is required"),
 

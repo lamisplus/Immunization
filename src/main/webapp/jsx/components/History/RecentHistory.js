@@ -11,7 +11,6 @@ const RecentHistory = (props) => {
       
       <div className="row">
         <VaccinationHistory patientObj={props.patientObj}/>
-     
       </div>
       
     </Fragment>

@@ -24,7 +24,7 @@ import Moment from "moment";
 import momentLocalizer from "react-widgets-moment";
 import { getVaccinatedPatientDataKey } from "../../utils/queryKeys";
 import { useQuery } from "react-query";
-import { fetchAllCovidVaccinatedPatients } from "../../services/fetchAllCovidVaccinatedPatients";
+import { fetchAllVaccinatedPatients } from "../../services/fetchAllVaccinatedPatients";
 import { Link } from "react-router-dom";
 import Button from "@material-ui/core/Button";
 import ButtonGroup from "@material-ui/core/ButtonGroup";
@@ -83,17 +83,37 @@ const Patients = (props) => {
       { ...query, page: nextPage },
     ];
     await queryClient.prefetchQuery(queryKey, () =>
-      fetchAllCovidVaccinatedPatients({ ...query, page: nextPage })
+      fetchAllVaccinatedPatients({ ...query, page: nextPage })
     );
   };
 
   const { data, isLoading, refetch } = useQuery(
     [getVaccinatedPatientDataKey, query],
-    () => fetchAllCovidVaccinatedPatients(query),
+    () => fetchAllVaccinatedPatients(query),
     {
       onSuccess: () => prefetchNextPage(),
     }
   );
+
+  function removeDuplicatePatients(array) {
+    const uniqueMap = new Map();
+    
+    if (array) {
+      // Iterate through the array
+    array.forEach(item => {
+      // Use patientId as key in the map
+      uniqueMap.set(item.patientId, item);
+    });
+    
+    // Convert the map back to an array of objects
+    const uniqueArray = Array.from(uniqueMap.values());
+    
+    return uniqueArray;
+    }
+
+    return []
+  }
+  
 
   return (
     <div>
@@ -132,27 +152,30 @@ const Patients = (props) => {
             title: "Patient Name",
             field: "firstName",
             hidden: showPPI,
-            render: (row) =>{
-            const lastName = row?.lastName || row?.otherName || row?.surname || "";
-              return (row?.firstName + " " + lastName)
-            }
+            render: (row) => {
+              const lastname = row?.uniqueImmunizationData?.patientDto?.lastname;
+              const firstName = row?.uniqueImmunizationData?.patientDto?.firstName;
+              return firstName + " " + lastname;
+            },
           },
           {
             title: "Hospital Number",
             field: "participantId",
             filtering: false,
+            render: (row) => row?.uniqueImmunizationData?.patientDto?.identifier?.identifier[0]?.value,
           },
           {
             title: "Sex",
             field: "gender",
             filtering: false,
-            render: (row) => (row?.gender !== null ? row.gender.display : ""),
+            render: (row) => row?.uniqueImmunizationData?.patientDto?.sex,
           },
           {
             title: "Age",
             field: "dob",
             filtering: false,
-            render: (row) => calculateAge(row?.dob),
+            render: (row) =>
+              calculateAge(row?.uniqueImmunizationData?.patientDto?.dateOfBirth),
           },
 
           {
@@ -161,7 +184,7 @@ const Patients = (props) => {
             filtering: false,
             render: (row) => (
               <Label color="blue" size="mini">
-                {row?.vaccinationStatus || ""}
+                {"Vaccinated"}
               </Label>
             ),
           },
@@ -174,7 +197,7 @@ const Patients = (props) => {
                 <Link
                   to={{
                     pathname: "/patient-vaccination-history",
-                    state: { patientObj: row },
+                    state: { patientObj: row?.uniqueImmunizationData?.patientDto },
                   }}
                 >
                   <ButtonGroup
@@ -213,10 +236,10 @@ const Patients = (props) => {
             ),
           },
         ]}
-        data={data?.records || []}
-        totalCount={data?.totalRecords}
+        data={removeDuplicatePatients(data?.content) || []}
+        totalCount={data?.totalElements}
         isLoading={isLoading}
-        page={data?.currentPage}
+        page={data?.pageNumber}
         options={{
           headerStyle: {
             backgroundColor: "#014d88",

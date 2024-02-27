@@ -5,14 +5,14 @@ import { calculateAgeNoText } from "../../utils/calculateAge";
 function SubMenu(props) {
   const patientProp = props.patientObj ? props.patientObj : {};
   // eslint-disable-next-line no-unused-vars
-  const [activeItem, setActiveItem] = useState("recent-history");
+  const [activeItem, setActiveItem] = useState("patient-vaccination-history");
   const [patientObj] = useState(patientProp);
   const [patientAge] = useState(
     calculateAgeNoText(patientObj?.dob || patientObj?.dateOfBirth) || 0
   );
 
   const onClickHome = (row) => {
-    props.setActiveContent({ ...props.activeContent, route: "recent-history" });
+    props.setActiveContent({ ...props.activeContent, route: "patient-vaccination-history" });
   };
 
   const onClickImmunization = (row) => {
@@ -20,6 +20,7 @@ function SubMenu(props) {
     props.setActiveContent({
       ...props.activeContent,
       route: "routine-immunization-patient",
+      actionType: "create",
     });
   };
 
@@ -28,6 +29,7 @@ function SubMenu(props) {
     props.setActiveContent({
       ...props.activeContent,
       route: "tetanus-patient",
+      actionType: "create",
     });
   };
 
@@ -36,6 +38,7 @@ function SubMenu(props) {
     props.setActiveContent({
       ...props.activeContent,
       route: "covid-patient",
+      actionType: "create",
     });
   };
 

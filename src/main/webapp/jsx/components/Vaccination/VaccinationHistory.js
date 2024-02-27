@@ -1,8 +1,5 @@
-import React, { useCallback, useEffect, useState } from "react";
-import MaterialTable from "material-table";
-import axios from "axios";
-import { url as baseUrl } from "./../../../api";
-import { token } from "./../../../api";
+import React, { useState } from "react";
+import MaterialTable, { MTableToolbar } from "material-table";
 import { forwardRef } from "react";
 import "semantic-ui-css/semantic.min.css";
 import AddBox from "@material-ui/icons/AddBox";
@@ -20,19 +17,20 @@ import Remove from "@material-ui/icons/Remove";
 import SaveAlt from "@material-ui/icons/SaveAlt";
 import Search from "@material-ui/icons/Search";
 import ViewColumn from "@material-ui/icons/ViewColumn";
-import { Card, CardBody } from "reactstrap";
-import Button from "@material-ui/core/Button";
-import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import "react-widgets/dist/css/react-widgets.css";
-import { Dropdown, Menu, Icon as IconMenu } from "semantic-ui-react";
 import "@reach/menu-button/styles.css";
-import { Modal } from "react-bootstrap";
-import Vaccination from "./../Vaccination/AddViccination";
 import Moment from "moment";
 import momentLocalizer from "react-widgets-moment";
+import { getVaccinatedPatientDataKey } from "../../utils/queryKeys";
+import { useQuery } from "react-query";
+import Button from "@material-ui/core/Button";
+import { queryClient } from "../../utils/queryClient";
+import { fetchPatientVaccinationHistory } from "../../services/fetchPatientVaccinationHistory";
+import { Dropdown, Menu, Icon } from "semantic-ui-react";
+import "@reach/menu-button/styles.css";
+import { useArchiveImmunization } from "../../customHooks/useArchiveImmunization";
 
-//Dtate Picker package
 Moment.locale("en");
 momentLocalizer();
 
@@ -60,199 +58,196 @@ const tableIcons = {
   ViewColumn: forwardRef((props, ref) => <ViewColumn {...props} ref={ref} />),
 };
 
-const PatientVaccinationHistory = (props) => {
-  const [vacinationList, setVaccinationList] = useState([]);
-  const patientObj = props && props.patientObj ? props.patientObj : [];
-  const [modal, setModal] = useState(false);
-  const toggle = () => setModal(!modal);
-  const [openDeleteModal, setOpenDeleteModal] = React.useState(false);
-  const toggleDeleteModal = () => setOpenDeleteModal(!openDeleteModal);
-  const [record, setRecord] = useState(null);
-  const [saving, setSaving] = useState(false);
-  useEffect(() => {
-    patients();
+const PatientsVaccinaionHistory = (props) => {
+  const [showPPI, setShowPPI] = useState(true);
+  const [query, setQueryParams] = useState({
+    page: 0,
+    pageSize: 20,
+    search: "",
+    id: props?.patientObj?.id,
   });
-
-  ///GET LIST OF Patient's Vaccinations
-  const patients = useCallback(async () => {
-    try {
-      const response = await axios.get(
-        `${baseUrl}covid/vaccinations/patients/${patientObj.id}`,
-        { headers: { Authorization: `Bearer ${token}` } }
-      );
-      setVaccinationList(response.data);
-    } catch (error) {
-      // Handle the error
+  const handleCheckBox = (e) => {
+    if (e.target.checked) {
+      setShowPPI(false);
+    } else {
+      setShowPPI(true);
     }
-  }, [patientObj.id, setVaccinationList]);
+  };
 
-  const LoadEditModal = (row) => {
-    setRecord(row);
-    toggle();
+  const prefetchNextPage = async () => {
+    const nextPage = query.page + 1;
+    // Use the same query key as in the useQuery hook
+    const queryKey = [
+      getVaccinatedPatientDataKey,
+      { ...query, page: nextPage },
+    ];
+    await queryClient.prefetchQuery(queryKey, () =>
+      fetchPatientVaccinationHistory({ ...query, page: nextPage })
+    );
   };
-  const LoadDeleteModal = (row) => {
-    toggleDeleteModal();
-    setRecord(row);
-  };
-  console.log(record);
-  const LoadDeletePage = () => {
-    setSaving(true);
-    axios
-      .delete(`${baseUrl}covid/vaccinations/${record.id}`, {
-        headers: { Authorization: `Bearer ${token}` },
-      })
-      .then((response) => {
-        toast.success("Record Deleted Successfully");
-        patients();
-        toggleDeleteModal();
-        setSaving(false);
-      })
-      .catch((error) => {
-        setSaving(false);
-        if (error.response && error.response.data) {
-          let errorMessage =
-            error.response.data.apierror &&
-            error.response.data.apierror.message !== ""
-              ? error.response.data.apierror.message
-              : "Something went wrong, please try again";
-          toast.error(errorMessage);
-        } else {
-          toast.error("Something went wrong. Please try again...");
-        }
+
+  const { data, isLoading, refetch } = useQuery(
+    [getVaccinatedPatientDataKey, query],
+    () => fetchPatientVaccinationHistory(query),
+    {
+      onSuccess: () => prefetchNextPage(),
+    }
+  );
+
+  const LoadViewPage = (row, action) => {
+    if (row.immunizationType === "ROUTINE_IMMUNIZATION") {
+      props.setActiveContent({
+        ...props.activeContent,
+        route: "routine-immunization-patient",
+        id: row.id,
+        actionType: action,
       });
+    } else if (row.immunizationType === "TETANUS_IMMUNIZATION") {
+      props.setActiveContent({
+        ...props.activeContent,
+        route: "tetanus-patient",
+        id: row.id,
+        actionType: action,
+      });
+    } else {
+      props.setActiveContent({
+        ...props.activeContent,
+        route: "covid-patient",
+        id: row.id,
+        actionType: action,
+      });
+    }
   };
+  const LoadDeletePage = (row) => {
+    mutate(row.id);
+  };
+
+  const { mutate } = useArchiveImmunization();
 
   return (
     <div>
-      <Card>
-        <CardBody>
-          <MaterialTable
-            icons={tableIcons}
-            title="Patient Vaccination History "
-            columns={[
-              { title: "Vaccine", field: "vaccine", filtering: false },
-              {
-                title: "Vaccine Date",
-                field: "vaccineDate",
-              },
+      <MaterialTable
+        icons={tableIcons}
+        title="Patient Vaccination History"
+        components={{
+          Toolbar: (props) => (
+            <div>
+              <div className="form-check custom-checkbox  float-left mt-4 ml-3 ">
+                <input
+                  type="checkbox"
+                  className="form-check-input"
+                  name="showPP!"
+                  id="showPP"
+                  value="showPP"
+                  checked={showPPI === true ? false : true}
+                  onChange={handleCheckBox}
+                  style={{
+                    border: "1px solid #014D88",
+                    borderRadius: "0.25rem",
+                  }}
+                />
+                <label className="form-check-label" htmlFor="basic_checkbox_1">
+                  <b style={{ color: "#014d88", fontWeight: "bold" }}>
+                    SHOW PII
+                  </b>
+                </label>
+              </div>
+              <MTableToolbar {...props} />
+            </div>
+          ),
+        }}
+        columns={[
+          {
+            title: "Immunization Type",
+            field: "immunizationType",
+            filtering: true,
+            // hidden: showPPI,
+          },
+          {
+            title: "Vaccine Type",
+            field: "vaccineType",
+            filtering: false,
+            render: (row) => row?.uniqueImmunizationData?.vaccineType,
+          },
+          {
+            title: "Vaccination Date",
+            field: "vaccinationDate",
+            filtering: false,
+            render: (row) => row?.uniqueImmunizationData?.vaccinationDate,
+          },
 
-              { title: "Dose Number", field: "doseNumber", filtering: false },
-              { title: "Location", field: "location", filtering: false },
-              { title: "Batch Number", field: "batchNumber", filtering: false },
-              {
-                title: "Adverse Effect ",
-                field: "adverseEffect",
-                filtering: false,
-              },
-              {
-                title: "Vaccination Facility",
-                field: "vaccinationFacility",
-                filtering: false,
-              },
-              { title: "Actions", field: "actions", filtering: false },
-            ]}
-            data={vacinationList.map((row) => ({
-              vaccine: row.vaccineName,
-              vaccineDate: row.vaccineDate,
-              batchNumber: row.batchNumber,
-              doseNumber: row.doseNumber,
-              location: row.location,
-              vaccinationFacility: row.vaccinationFacility,
-              adverseEffect: row.adverseEffect,
-              actions: (
-                <div>
-                  <Menu.Menu position="right">
-                    <Menu.Item>
-                      <Button
-                        style={{
-                          backgroundColor: "rgb(153,46,98)",
-                          color: "#fff",
-                        }}
-                        primary
-                      >
-                        <Dropdown item text="Action">
-                          <Dropdown.Menu style={{ marginTop: "10px" }}>
-                            <Dropdown.Item onClick={() => LoadEditModal(row)}>
-                              <IconMenu name="edit" />
-                              Edit
-                            </Dropdown.Item>
-                            <Dropdown.Item onClick={() => LoadDeleteModal(row)}>
-                              {" "}
-                              <IconMenu name="trash" /> Delete
-                            </Dropdown.Item>
-                          </Dropdown.Menu>
-                        </Dropdown>
-                      </Button>
-                    </Menu.Item>
-                  </Menu.Menu>
-                </div>
-              ),
-            }))}
-            options={{
-              headerStyle: {
-                backgroundColor: "#014d88",
-                color: "#fff",
-              },
-              searchFieldStyle: {
-                width: "200%",
-                margingLeft: "250px",
-              },
-              filtering: false,
-              exportButton: false,
-              searchFieldAlignment: "left",
-              pageSizeOptions: [10, 20, 100],
-              pageSize: 10,
-              debounceInterval: 400,
-            }}
-          />
-        </CardBody>
-      </Card>
-      <Vaccination
-        toggle={toggle}
-        showModal={modal}
-        patientObj={props.patientObj}
-        loadPatients={patients}
-        records={record}
+          {
+            title: "Actions",
+            field: "actions",
+            filtering: false,
+            render: (row) => (
+              <div>
+                <Menu.Menu position="right">
+                  <Menu.Item>
+                    <Button
+                      style={{ backgroundColor: "rgb(153,46,98)" }}
+                      primary
+                    >
+                      <Dropdown item text="Action">
+                        <Dropdown.Menu style={{ marginTop: "10px" }}>
+                          <Dropdown.Item
+                            onClick={() => LoadViewPage(row, "view")}
+                          >
+                            {" "}
+                            <Icon name="eye" />
+                            View{" "}
+                          </Dropdown.Item>
+
+                          <Dropdown.Item
+                            onClick={() => LoadViewPage(row, "update")}
+                          >
+                            <Icon name="edit" />
+                            Edit
+                          </Dropdown.Item>
+
+                          <Dropdown.Item
+                            onClick={() => LoadDeletePage(row, "delete")}
+                          >
+                            {" "}
+                            <Icon name="trash" /> Delete
+                          </Dropdown.Item>
+                        </Dropdown.Menu>
+                      </Dropdown>
+                    </Button>
+                  </Menu.Item>
+                </Menu.Menu>
+              </div>
+            ),
+          },
+        ]}
+        data={data?.content || []}
+        totalCount={data?.totalElements}
+        isLoading={isLoading}
+        page={data?.pageNumber}
+        options={{
+          headerStyle: {
+            backgroundColor: "#014d88",
+            color: "#fff",
+          },
+          searchFieldStyle: {
+            width: "200%",
+            margingLeft: "250px",
+          },
+          filtering: false,
+          paging: true,
+          exportButton: false,
+          searchFieldAlignment: "left",
+          pageSizeOptions: [10, 20, 100],
+          pageSize: query?.pageSize || 10,
+          debounceInterval: 400,
+        }}
+        onChangePage={(newPage) => {
+          setQueryParams((prevFilters) => ({ ...prevFilters, page: newPage }));
+          refetch(query);
+        }}
       />
-      <Modal
-        show={openDeleteModal}
-        toggle={toggleDeleteModal}
-        className="fade"
-        size="md"
-        aria-labelledby="contained-modal-title-vcenter"
-        centered
-        backdrop="static"
-      >
-        <Modal.Header>
-          <Modal.Title id="contained-modal-title-vcenter">
-            Notification!
-          </Modal.Title>
-        </Modal.Header>
-        <Modal.Body>
-          <h4>
-            Are you Sure you want to delete -{" "}
-            <b>{record && record.batchNumber}</b>
-          </h4>
-        </Modal.Body>
-        <Modal.Footer>
-          <Button
-            onClick={() => LoadDeletePage(record)}
-            style={{ backgroundColor: "red", color: "#fff" }}
-            disabled={saving}
-          >
-            {saving === false ? "Yes" : "Deleting..."}
-          </Button>
-          <Button
-            onClick={toggleDeleteModal}
-            style={{ backgroundColor: "#014d88", color: "#fff" }}
-            disabled={saving}
-          >
-            No
-          </Button>
-        </Modal.Footer>
-      </Modal>
     </div>
   );
 };
 
-export default PatientVaccinationHistory;
+export default PatientsVaccinaionHistory;

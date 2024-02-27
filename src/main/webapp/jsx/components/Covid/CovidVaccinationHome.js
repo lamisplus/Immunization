@@ -15,23 +15,99 @@ import { Link } from "react-router-dom";
 import { TiArrowBack } from "react-icons/ti";
 import "react-phone-input-2/lib/style.css";
 import "react-widgets/dist/css/react-widgets.css";
-import CovidFirstVaccinationDose from "./CovidFirstVaccination";
+import CreateCovidVaccination from "./CreateCovidVaccination";
+import { getVaccinatedPatientDataKey } from "../../utils/queryKeys";
+import { fetchPatientVaccinationHistory } from "../../services/fetchPatientVaccinationHistory";
+import { useQuery } from "react-query";
+import UpdateCovidVaccination from "./UpdateCovidVaccination";
 
 library.add(faCheckSquare, faCoffee, faEdit, faTrash);
 
 const CovidVaccinationHome = (props) => {
   const [vaccineDosage, setVaccineDosage] = useState("");
+  const actionType = props?.activeContent?.actionType || "create";
 
-  const covidFormMap = {
-    FIRST: <CovidFirstVaccinationDose />,
+  const [query] = useState({
+    page: 0,
+    pageSize: 20,
+    search: "",
+    id: props?.patientObj?.id,
+  });
+  const [
+    doesPreviousCovidVaccinationExist,
+    setDoesPreviousCovidVaccinationExist,
+  ] = useState(false);
+
+  const componentMap = {
+    create: (
+      <CreateCovidVaccination
+        {...props}
+        vaccineDosage={vaccineDosage}
+        setVaccineDosage={setVaccineDosage}
+      />
+    ),
+    update: (
+      <UpdateCovidVaccination
+        {...props}
+        disableInputs={false}
+        vaccineDosage={vaccineDosage}
+        setVaccineDosage={setVaccineDosage}
+      />
+    ),
+    view: (
+      <UpdateCovidVaccination
+        {...props}
+        disableInputs={true}
+        vaccineDosage={vaccineDosage}
+        setVaccineDosage={setVaccineDosage}
+      />
+    ),
   };
 
-  const RenderCovidForm = () => {
-    if (!vaccineDosage || vaccineDosage === "") {
-      return null;
+  const mapCompoenentToActionType = (actionType) => {
+    if (!actionType) {
+      return componentMap["create"];
     }
-    return covidFormMap[vaccineDosage];
+
+    return componentMap[actionType];
   };
+
+  const setPatientVaccinationDosage = (content) => {
+    const firstDose =
+      content?.filter(
+        (data) => data.uniqueImmunizationData?.vaccinationDosage === "FIRST"
+      )?.[0] || null;
+    const secondDose =
+      content?.filter(
+        (data) => data.uniqueImmunizationData?.vaccinationDosage === "SECOND"
+      )?.[0] || null;
+    const boosterDose =
+      content?.filter(
+        (data) => data.uniqueImmunizationData?.vaccinationDosage === "BOOSTER"
+      )?.[0] || null;
+
+    if (boosterDose) {
+      setDoesPreviousCovidVaccinationExist(true);
+      setVaccineDosage("BOOSTER");
+    } else if (secondDose) {
+      setDoesPreviousCovidVaccinationExist(true);
+      setVaccineDosage("BOOSTER");
+    } else if (firstDose) {
+      setDoesPreviousCovidVaccinationExist(true);
+      setVaccineDosage("SECOND");
+    } else {
+      setDoesPreviousCovidVaccinationExist(true);
+      setVaccineDosage("FIRST");
+    }
+  };
+
+  useQuery(
+    [getVaccinatedPatientDataKey, query],
+    () => fetchPatientVaccinationHistory(query),
+    {
+      onSuccess: (data) => setPatientVaccinationDosage(data?.content),
+    }
+  );
 
   return (
     <div>
@@ -82,11 +158,12 @@ const CovidVaccinationHome = (props) => {
                       id="vaccineDosage"
                       value={vaccineDosage}
                       onChange={(e) => setVaccineDosage(e.target.value)}
+                      disabled={doesPreviousCovidVaccinationExist}
                     >
                       <option value="">Select option</option>
-                      <option value="FIRST">First</option>
-                      <option value="SECOND">Second</option>
-                      <option value="THIRD">Third</option>
+                      <option value="FIRST">FIRST</option>
+                      <option value="SECOND">SECOND</option>
+                      <option value="BOOSTER">BOOSTER</option>
                     </Input>
                   </FormGroup>
                 </div>
@@ -95,8 +172,7 @@ const CovidVaccinationHome = (props) => {
           </div>
         </div>
       </div>
-
-      {RenderCovidForm()}
+      {mapCompoenentToActionType(actionType)}
     </div>
   );
 };
