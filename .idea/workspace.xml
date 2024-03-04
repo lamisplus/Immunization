@@ -9,23 +9,13 @@
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/build/asset-manifest.json" beforeDir="false" afterPath="$PROJECT_DIR$/build/asset-manifest.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/build/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/build/index.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/App.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/App.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/lamisplus/modules/covid/domain/dto/ImmunizationDTO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/lamisplus/modules/covid/domain/dto/ImmunizationDTO.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/lamisplus/modules/covid/domain/entity/Immunization.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/lamisplus/modules/covid/domain/entity/Immunization.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/lamisplus/modules/covid/repository/ImmunizationRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/lamisplus/modules/covid/repository/ImmunizationRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/installers/covid/schema/schema-5.xml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/installers/covid/schema/schema-5.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/views/static/immunization/asset-manifest.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/views/static/immunization/asset-manifest.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/views/static/immunization/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/views/static/immunization/index.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/webapp/api.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/api.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/jsx/components/Immunization/ImmunizationHome.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/jsx/components/Immunization/ImmunizationHome.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/jsx/components/Immunization/useImmunizationFormSchema.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/jsx/components/Immunization/useImmunizationFormSchema.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/jsx/components/History/PatientHistory.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/jsx/components/History/PatientHistory.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/webapp/jsx/components/Patient/PatientDetail.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/jsx/components/Patient/PatientDetail.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/jsx/components/Patient/SubMenu.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/jsx/components/Patient/SubMenu.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/jsx/components/Vaccination/VaccinationHistory.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/jsx/components/Vaccination/VaccinationHistory.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/jsx/customHooks/useSaveImmunization.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/jsx/customHooks/useSaveImmunization.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/jsx/services/fetchAllCovidVaccinatedPatients.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/jsx/utils/calculateAge.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/jsx/utils/calculateAge.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/jsx/utils/queryClient.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/jsx/utils/queryClient.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/application.yml" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/application.yml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/generated-sources/annotations/org/lamisplus/modules/covid/domain/mapper/CovidMapperImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/target/generated-sources/annotations/org/lamisplus/modules/covid/domain/mapper/CovidMapperImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/maven-archiver/pom.properties" beforeDir="false" afterPath="$PROJECT_DIR$/target/maven-archiver/pom.properties" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -160,6 +150,7 @@
       <workItem from="1707825306427" duration="8259000" />
       <workItem from="1708453177728" duration="11162000" />
       <workItem from="1708674659016" duration="10352000" />
+      <workItem from="1709575056357" duration="1719000" />
     </task>
     <servers />
   </component>

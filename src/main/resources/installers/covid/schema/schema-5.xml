@@ -4,20 +4,19 @@
         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
         xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.5.xsd">
 
-    <changeSet id="20230408-0001" author="emmanuel">
+    <changeSet id="20230410-0007" author="emmanuel">
         <sql>
-            CREATE TABLE IF NOT EXISTS routine_immunization
+
+            CREATE TABLE IF NOT EXISTS immunization
             (
-                id bigint NOT NULL PRIMARY KEY,
+                id integer NOT NULL DEFAULT nextval('immunization_id_seq'::regclass),
                 patient_id bigint,
-                patient_uuid character varying(100),
-                vaccine_type character varying(100),
-                vaccine_detail character varying(100),
-                vaccine_id bigint,
-                missed_vaccine character varying(100),
-                missed_vaccine_type character varying(100),
+                patient_uuid character varying(100) COLLATE pg_catalog."default",
+                immunization_type character varying COLLATE pg_catalog."default",
+                unique_immunization_data character varying COLLATE pg_catalog."default",
                 vaccination_date date,
-                archived int
+                archived integer,
+                CONSTRAINT immunization_pkey PRIMARY KEY (id)
                 );
 
         </sql>

@@ -12,7 +12,7 @@ import PatientVaccinationHistory from "./../Vaccination/VaccinationHistory";
 import ImmunizationHome from "../Immunization/ImmunizationHome";
 import Tetanus from "../Tetanus/TetanusHome";
 import CovidVaccinationHome from "../Covid/CovidVaccinationHome";
-import PatientnHistory from "../History/PatientHistory";
+// import PatientnHistory from "../History/PatientHistory";
 import RecentHistory from "../History/PatientHistory";
 
 const styles = (theme) => ({
@@ -127,13 +127,6 @@ function PatientCard(props) {
               />
             )}
 
-            {/* {activeContent.route === "patient-vaccination-history" && (
-              <RecentHistory
-                patientObj={patientObj}
-                setActiveContent={setActiveContent}
-                activeContent={activeContent}
-              />
-            )} */}
             {activeContent.route === "patient-vaccination-history" && (
               <PatientVaccinationHistory
                 patientObj={patientObj}
@@ -141,6 +134,13 @@ function PatientCard(props) {
                 activeContent={activeContent}
               />
             )}
+            {/* {activeContent.route === "patient-vaccination-history" && (
+              <RecentHistory
+                patientObj={patientObj}
+                setActiveContent={setActiveContent}
+                activeContent={activeContent}
+              />
+            )} */}
           </div>
         </CardContent>
       </Card>
