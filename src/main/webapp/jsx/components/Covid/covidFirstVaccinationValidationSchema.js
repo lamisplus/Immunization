@@ -13,10 +13,12 @@ export const useCovidVaccinationFormValidationSchema = (onSubmit) => {
     location: "",
     vaccinationFacility: "",
     batchNumber: "",
+    vaccinationDosage: ""
   };
 
   const covidFirstVaccValidationSchema = yup.object({
     workInHealthSector: yup.string().required("This field is required"),
+    vaccinationDosage: yup.string().required("This field is required"),
 
     knownMedicalCondition: yup.string().required("This field is required"),
 

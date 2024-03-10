@@ -13,9 +13,8 @@
       <change beforePath="$PROJECT_DIR$/src/main/resources/views/static/immunization/asset-manifest.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/views/static/immunization/asset-manifest.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/resources/views/static/immunization/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/views/static/immunization/index.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/webapp/api.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/api.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/jsx/components/History/PatientHistory.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/jsx/components/History/PatientHistory.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/jsx/components/Patient/PatientDetail.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/jsx/components/Patient/PatientDetail.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/generated-sources/annotations/org/lamisplus/modules/covid/domain/mapper/CovidMapperImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/target/generated-sources/annotations/org/lamisplus/modules/covid/domain/mapper/CovidMapperImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/maven-archiver/pom.properties" beforeDir="false" afterPath="$PROJECT_DIR$/target/maven-archiver/pom.properties" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -150,7 +149,7 @@
       <workItem from="1707825306427" duration="8259000" />
       <workItem from="1708453177728" duration="11162000" />
       <workItem from="1708674659016" duration="10352000" />
-      <workItem from="1709575056357" duration="1719000" />
+      <workItem from="1709575056357" duration="6898000" />
     </task>
     <servers />
   </component>

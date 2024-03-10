@@ -24,6 +24,8 @@ import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
 import { useCovidVaccinationFormValidationSchema } from "./covidFirstVaccinationValidationSchema";
 import { fetchImmunizationById } from "../../services/fetchImmunizationById";
 import { useUpdateImmunization } from "../../customHooks/useUpdateImmunization";
+import { getVaccinatedPatientDataKey } from "../../utils/queryKeys";
+import { fetchPatientVaccinationHistory } from "../../services/fetchPatientVaccinationHistory";
 
 library.add(faCheckSquare, faCoffee, faEdit, faTrash);
 
@@ -102,6 +104,13 @@ const UpdateCovidVaccination = (props) => {
   const [formInitialValue, setFormInitialValue] = useState(null);
   const disableInputs = props?.disableInputs;
 
+  const [query] = useState({
+    page: 0,
+    pageSize: 20,
+    search: "",
+    id: props?.patientObj?.id,
+  });
+
   const { data: covidAdverseEffects } = useQuery(
     ["GET_CODESETS", "COVID_ADVERSE_EFFECT"],
     () => fetchCodesets("COVID_ADVERSE_EFFECT")
@@ -120,19 +129,18 @@ const UpdateCovidVaccination = (props) => {
 
     const payload = {
       immunizationType: "COVID_IMMUNIZATION",
-      dosage: props.vaccineDosage,
+      dosage: formik?.values?.vaccinationDosage,
       patientId: props?.patientObj?.id,
       patientUuid: props?.patientObj?.uuid,
       vaccinationDate: formik?.values?.vaccinationDate,
       uniqueImmunizationData: {
         ...formik.values,
         patientDto: props.patientObj,
-        vaccinationDosage: props?.vaccineDosage,
       },
     };
 
     if (isValid) {
-        mutate({ data: payload, id: props?.activeContent?.id })
+      mutate({ data: payload, id: props?.activeContent?.id });
     }
   };
 
@@ -158,6 +166,8 @@ const UpdateCovidVaccination = (props) => {
           vaccinationFacility:
             data?.uniqueImmunizationData?.vaccinationFacility,
           batchNumber: data?.uniqueImmunizationData?.batchNumber,
+
+          vaccinationDosage: data?.uniqueImmunizationData?.vaccinationDosage,
         };
         if (formInitialValue === null) {
           setFormInitialValue(initialValues);
@@ -168,8 +178,52 @@ const UpdateCovidVaccination = (props) => {
     }
   );
 
+  useQuery([getVaccinatedPatientDataKey, query], () =>
+    fetchPatientVaccinationHistory(query)
+  );
+
   return (
     <div>
+      <div>
+        <div className="col-xl-12 col-lg-12">
+          <div className="card">
+            <div className="card-body">
+              <div className="row">
+                <div className="form-group mb-3 col-md-12">
+                  <FormGroup>
+                    <Label>
+                      Vaccine Dosage
+                      <span style={{ color: "red" }}> *</span>
+                    </Label>
+                    <Input
+                      type="select"
+                      name="vaccinationDosage"
+                      id="vaccinationDosage"
+                      disabled={disableInputs}
+                      onChange={formik.handleChange}
+                      onBlur={formik.handleBlur}
+                      value={formik.values?.vaccinationDosage}
+                      readOnly={disableInputs}
+                    >
+                      <option value="">Select option</option>
+                      <option value="FIRST">FIRST</option>
+                      <option value="SECOND">SECOND</option>
+                      <option value="BOOSTER">BOOSTER</option>
+                    </Input>
+
+                    {formik?.touched?.vaccinationDosage &&
+                      formik?.errors.vaccinationDosage && (
+                        <span className={classes.error}>
+                          {formik?.errors.vaccinationDosage}
+                        </span>
+                      )}
+                  </FormGroup>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
       <Card className={classes.root}>
         <CardContent>
           <div className="col-xl-12 col-lg-12">

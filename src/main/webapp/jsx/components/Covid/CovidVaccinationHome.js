@@ -1,6 +1,6 @@
+/* eslint-disable no-unused-vars */
 import React, { useState } from "react";
 import Button from "@material-ui/core/Button";
-import { FormGroup, Label, Input } from "reactstrap";
 import { library } from "@fortawesome/fontawesome-svg-core";
 import {
   faCheckSquare,
@@ -24,7 +24,6 @@ import UpdateCovidVaccination from "./UpdateCovidVaccination";
 library.add(faCheckSquare, faCoffee, faEdit, faTrash);
 
 const CovidVaccinationHome = (props) => {
-  const [vaccineDosage, setVaccineDosage] = useState("");
   const actionType = props?.activeContent?.actionType || "create";
 
   const [query] = useState({
@@ -33,80 +32,22 @@ const CovidVaccinationHome = (props) => {
     search: "",
     id: props?.patientObj?.id,
   });
-  const [
-    doesPreviousCovidVaccinationExist,
-    setDoesPreviousCovidVaccinationExist,
-  ] = useState(false);
 
   const componentMap = {
-    create: (
-      <CreateCovidVaccination
-        {...props}
-        vaccineDosage={vaccineDosage}
-        setVaccineDosage={setVaccineDosage}
-      />
-    ),
-    update: (
-      <UpdateCovidVaccination
-        {...props}
-        disableInputs={false}
-        vaccineDosage={vaccineDosage}
-        setVaccineDosage={setVaccineDosage}
-      />
-    ),
-    view: (
-      <UpdateCovidVaccination
-        {...props}
-        disableInputs={true}
-        vaccineDosage={vaccineDosage}
-        setVaccineDosage={setVaccineDosage}
-      />
-    ),
+    create: <CreateCovidVaccination {...props} />,
+    update: <UpdateCovidVaccination {...props} disableInputs={false} />,
+    view: <UpdateCovidVaccination {...props} disableInputs={true} />,
   };
 
   const mapCompoenentToActionType = (actionType) => {
     if (!actionType) {
       return componentMap["create"];
     }
-
     return componentMap[actionType];
   };
 
-  const setPatientVaccinationDosage = (content) => {
-    const firstDose =
-      content?.filter(
-        (data) => data.uniqueImmunizationData?.vaccinationDosage === "FIRST"
-      )?.[0] || null;
-    const secondDose =
-      content?.filter(
-        (data) => data.uniqueImmunizationData?.vaccinationDosage === "SECOND"
-      )?.[0] || null;
-    const boosterDose =
-      content?.filter(
-        (data) => data.uniqueImmunizationData?.vaccinationDosage === "BOOSTER"
-      )?.[0] || null;
-
-    if (boosterDose) {
-      setDoesPreviousCovidVaccinationExist(true);
-      setVaccineDosage("BOOSTER");
-    } else if (secondDose) {
-      setDoesPreviousCovidVaccinationExist(true);
-      setVaccineDosage("BOOSTER");
-    } else if (firstDose) {
-      setDoesPreviousCovidVaccinationExist(true);
-      setVaccineDosage("SECOND");
-    } else {
-      setDoesPreviousCovidVaccinationExist(true);
-      setVaccineDosage("FIRST");
-    }
-  };
-
-  useQuery(
-    [getVaccinatedPatientDataKey, query],
-    () => fetchPatientVaccinationHistory(query),
-    {
-      onSuccess: (data) => setPatientVaccinationDosage(data?.content),
-    }
+  useQuery([getVaccinatedPatientDataKey, query], () =>
+    fetchPatientVaccinationHistory(query)
   );
 
   return (
@@ -141,37 +82,6 @@ const CovidVaccinationHome = (props) => {
       <br />
       <br />
 
-      <div>
-        <div className="col-xl-12 col-lg-12">
-          <div className="card">
-            <div className="card-body">
-              <div className="row">
-                <div className="form-group mb-3 col-md-12">
-                  <FormGroup>
-                    <Label>
-                      Vaccine Dosage
-                      <span style={{ color: "red" }}> *</span>
-                    </Label>
-                    <Input
-                      type="select"
-                      name="vaccineDosage"
-                      id="vaccineDosage"
-                      value={vaccineDosage}
-                      onChange={(e) => setVaccineDosage(e.target.value)}
-                      disabled={doesPreviousCovidVaccinationExist}
-                    >
-                      <option value="">Select option</option>
-                      <option value="FIRST">FIRST</option>
-                      <option value="SECOND">SECOND</option>
-                      <option value="BOOSTER">BOOSTER</option>
-                    </Input>
-                  </FormGroup>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
       {mapCompoenentToActionType(actionType)}
     </div>
   );

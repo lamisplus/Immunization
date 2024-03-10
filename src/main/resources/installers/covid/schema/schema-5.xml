@@ -6,19 +6,20 @@
 
     <changeSet id="20230410-0007" author="emmanuel">
         <sql>
-
-            CREATE TABLE IF NOT EXISTS immunization
+            DROP TABLE IF EXISTS public.immunization;
+            CREATE SEQUENCE immunization_id_seq;
+            CREATE TABLE public.immunization
             (
-                id integer NOT NULL DEFAULT nextval('immunization_id_seq'::regclass),
+                id bigint NOT NULL DEFAULT nextval('immunization_id_seq'),
                 patient_id bigint,
-                patient_uuid character varying(100) COLLATE pg_catalog."default",
-                immunization_type character varying COLLATE pg_catalog."default",
-                unique_immunization_data character varying COLLATE pg_catalog."default",
+                patient_uuid character varying(100),
+                immunization_type character varying,
+                unique_immunization_data character varying,
                 vaccination_date date,
                 archived integer,
-                CONSTRAINT immunization_pkey PRIMARY KEY (id)
-                );
-
+                PRIMARY KEY (id)
+            );
+            ALTER SEQUENCE immunization_id_seq OWNED BY immunization.id;
         </sql>
     </changeSet>
 </databaseChangeLog>

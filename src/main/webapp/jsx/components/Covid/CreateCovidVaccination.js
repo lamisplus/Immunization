@@ -1,5 +1,6 @@
+/* eslint-disable no-unused-vars */
 import MatButton from "@material-ui/core/Button";
-import React from "react";
+import React, { useState } from "react";
 import { FormGroup, Label, Input, Form, Spinner } from "reactstrap";
 import { library } from "@fortawesome/fontawesome-svg-core";
 import {
@@ -23,7 +24,8 @@ import { fetchCovidVaccines } from "../../services/fetchCovidVaccines";
 import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
 import { useCovidVaccinationFormValidationSchema } from "./covidFirstVaccinationValidationSchema";
 import { useSaveImmunization } from "../../customHooks/useSaveImmunization";
-
+import { getVaccinatedPatientDataKey } from "../../utils/queryKeys";
+import { fetchPatientVaccinationHistory } from "../../services/fetchPatientVaccinationHistory";
 
 library.add(faCheckSquare, faCoffee, faEdit, faTrash);
 
@@ -100,8 +102,6 @@ const useStyles = makeStyles((theme) => ({
 const CreateCovidVaccination = (props) => {
   const classes = useStyles();
 
-  
-
   const { data: covidAdverseEffects } = useQuery(
     ["GET_CODESETS", "COVID_ADVERSE_EFFECT"],
     () => fetchCodesets("COVID_ADVERSE_EFFECT")
@@ -110,8 +110,6 @@ const CreateCovidVaccination = (props) => {
   const { data: vaccines } = useQuery(["COVID_VACCINES"], () =>
     fetchCovidVaccines()
   );
-
- 
 
   const handleSubmit = async () => {
     Object.keys(formik?.initialValues).forEach((fieldName) => {
@@ -122,15 +120,13 @@ const CreateCovidVaccination = (props) => {
 
     const payload = {
       immunizationType: "COVID_IMMUNIZATION",
-      dosage: props.vaccineDosage,
+
       patientId: props?.patientObj?.id,
       patientUuid: props?.patientObj?.uuid,
       vaccinationDate: formik?.values?.vaccinationDate,
-      
       uniqueImmunizationData: {
         ...formik.values,
         patientDto: props.patientObj,
-        vaccinationDosage: props?.vaccineDosage,
       },
     };
 
@@ -143,8 +139,89 @@ const CreateCovidVaccination = (props) => {
   const { formik } = useCovidVaccinationFormValidationSchema(handleSubmit);
   const { mutate } = useSaveImmunization(formik);
 
+  const actionType = props?.activeContent?.actionType || "create";
+
+  const [query] = useState({
+    page: 0,
+    pageSize: 20,
+    search: "",
+    id: props?.patientObj?.id,
+  });
+
+  const setPatientVaccinationDosage = (content) => {
+    const firstDose =
+      content?.filter(
+        (data) => data.uniqueImmunizationData?.vaccinationDosage === "FIRST"
+      )?.[0] || null;
+    const secondDose =
+      content?.filter(
+        (data) => data.uniqueImmunizationData?.vaccinationDosage === "SECOND"
+      )?.[0] || null;
+    const boosterDose =
+      content?.filter(
+        (data) => data.uniqueImmunizationData?.vaccinationDosage === "BOOSTER"
+      )?.[0] || null;
+
+    if (boosterDose) {
+      formik?.setFieldValue("vaccinationDosage", "BOOSTER");
+    } else if (secondDose) {
+      formik?.setFieldValue("vaccinationDosage", "BOOSTER");
+    } else if (firstDose) {
+      formik?.setFieldValue("vaccinationDosage", "SECOND");
+    } else {
+      formik?.setFieldValue("vaccinationDosage", "FIRST");
+    }
+  };
+
+  useQuery(
+    [getVaccinatedPatientDataKey, query],
+    () => fetchPatientVaccinationHistory(query),
+    {
+      onSuccess: (data) => setPatientVaccinationDosage(data?.content),
+    }
+  );
+
   return (
     <div>
+      <div>
+        <div className="col-xl-12 col-lg-12">
+          <div className="card">
+            <div className="card-body">
+              <div className="row">
+                <div className="form-group mb-3 col-md-12">
+                  <FormGroup>
+                    <Label>
+                      Vaccine Dosage
+                      <span style={{ color: "red" }}> *</span>
+                    </Label>
+                    <Input
+                      type="select"
+                      name="vaccinationDosage"
+                      id="vaccinationDosage"
+                      onChange={formik.handleChange}
+                      onBlur={formik.handleBlur}
+                      value={formik.values?.vaccinationDosage}
+                    >
+                      <option value="">Select option</option>
+                      <option value="FIRST">FIRST</option>
+                      <option value="SECOND">SECOND</option>
+                      <option value="BOOSTER">BOOSTER</option>
+                    </Input>
+
+                    {formik?.touched?.vaccinationDosage &&
+                      formik?.errors.vaccinationDosage && (
+                        <span className={classes.error}>
+                          {formik?.errors.vaccinationDosage}
+                        </span>
+                      )}
+                  </FormGroup>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
       <Card className={classes.root}>
         <CardContent>
           <div className="col-xl-12 col-lg-12">
