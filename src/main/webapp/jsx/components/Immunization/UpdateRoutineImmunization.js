@@ -139,7 +139,7 @@ const UpdateRoutineImmunization = (props) => {
   };
 
   const { formik } = useImmunizationFormValidationSchema(handleSubmit);
-  const { mutate } = useUpdateImmunization(formik);
+  const { mutate } = useUpdateImmunization(formik, props);
   const history = useHistory();
 
   useQuery(

@@ -129,7 +129,7 @@ const CreateTetanusImmunizationTetanus = (props) => {
   };
 
   const { formik } = useTetanusFormValidationSchema(handleSubmit);
-  const { mutate } = useSaveImmunization(formik);
+  const { mutate } = useSaveImmunization(formik, props);
 
   return (
     <Card className={classes.root}>

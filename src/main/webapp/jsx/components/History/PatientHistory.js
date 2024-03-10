@@ -1,12 +1,11 @@
 import React, { Fragment, useState } from "react";
 import PerfectScrollbar from "react-perfect-scrollbar";
-import { Alert } from "react-bootstrap";
 import "react-widgets/dist/css/react-widgets.css";
 import { getVaccinatedPatientDataKey } from "../../utils/queryKeys";
 import { queryClient } from "../../utils/queryClient";
 import { fetchPatientVaccinationHistory } from "../../services/fetchPatientVaccinationHistory";
 import { useQuery } from "react-query";
-import { useArchiveImmunization } from "../../customHooks/useArchiveImmunization";
+// import { useArchiveImmunization } from "../../customHooks/useArchiveImmunization";
 import { Card, Accordion } from "react-bootstrap";
 
 const RecentHistory = (props) => {
@@ -19,17 +18,6 @@ const RecentHistory = (props) => {
     id: props?.patientObj?.id,
   });
 
-  // const ActivityName = (name) => {
-  //   if (name === "COVID_IMMUNIZATION") {
-  //     return "CI";
-  //   } else if (name === "TETANUS_IMMUNIZATIOn") {
-  //     return "TI";
-  //   } else if (name === "ROUTINE_IMMUNIZATION") {
-  //     return "RI";
-  //   } else {
-  //     return "IM";
-  //   }
-  // };
 
   const prefetchNextPage = async () => {
     const nextPage = query.page + 1;
@@ -51,42 +39,10 @@ const RecentHistory = (props) => {
     }
   );
 
-  const LoadViewPage = (row, action) => {
-    if (row.immunizationType === "ROUTINE_IMMUNIZATION") {
-      props.setActiveContent({
-        ...props.activeContent,
-        route: "routine-immunization-patient",
-        id: row.id,
-        actionType: action,
-      });
-    } else if (row.immunizationType === "TETANUS_IMMUNIZATION") {
-      props.setActiveContent({
-        ...props.activeContent,
-        route: "tetanus-patient",
-        id: row.id,
-        actionType: action,
-      });
-    } else {
-      props.setActiveContent({
-        ...props.activeContent,
-        route: "covid-patient",
-        id: row.id,
-        actionType: action,
-      });
-    }
-  };
-  const LoadDeletePage = (row) => {
-    mutate(row.id);
-  };
+  
+  // const {mutate} = useArchiveImmunization();
 
-  const {mutate} = useArchiveImmunization();
-
-  const redirectLink = () => {
-    props.setActiveContent({ ...props.activeContent, route: "recent-history" });
-  };
-  const LoadModal = (row) => {
-    // toggle();
-  };
+ 
 
   return (
     <Fragment>
@@ -145,7 +101,7 @@ const RecentHistory = (props) => {
                                         <div className="timeline-panel">
                                           <div
                                             className={
-                                              index % 2 == 0
+                                              index % 2 === 0
                                                 ? "media me-2 media-info"
                                                 : "media me-2 media-success"
                                             }

@@ -14,6 +14,7 @@ import Tetanus from "../Tetanus/TetanusHome";
 import CovidVaccinationHome from "../Covid/CovidVaccinationHome";
 // import PatientnHistory from "../History/PatientHistory";
 import RecentHistory from "../History/PatientHistory";
+import RecentActivities from "../History/RecentActivities";
 
 const styles = (theme) => ({
   root: {
@@ -128,7 +129,7 @@ function PatientCard(props) {
             )}
 
             {activeContent.route === "patient-vaccination-history" && (
-              <PatientVaccinationHistory
+              <RecentActivities
                 patientObj={patientObj}
                 setActiveContent={setActiveContent}
                 activeContent={activeContent}

@@ -136,7 +136,7 @@ const CreateRoutineImmunization = (props) => {
     }
   };
   const { formik } = useImmunizationFormValidationSchema(handleSubmit);
-  const { mutate } = useSaveImmunization(formik);
+  const { mutate } = useSaveImmunization(formik, props);
   const history = useHistory();
 
   return (

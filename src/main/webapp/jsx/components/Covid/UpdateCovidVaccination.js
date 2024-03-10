@@ -146,7 +146,7 @@ const UpdateCovidVaccination = (props) => {
 
   const history = useHistory();
   const { formik } = useCovidVaccinationFormValidationSchema(handleSubmit);
-  const { mutate, isLoading: isLoadingMutate } = useUpdateImmunization(formik);
+  const { mutate, isLoading: isLoadingMutate } = useUpdateImmunization(formik, props);
   useQuery(
     ["FETCH_IMMUNIZATION_BY_ID", props?.activeContent?.id],
     () => fetchImmunizationById(props?.activeContent?.id),

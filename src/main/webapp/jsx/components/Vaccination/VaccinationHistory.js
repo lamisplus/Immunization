@@ -118,11 +118,12 @@ const PatientsVaccinaionHistory = (props) => {
       });
     }
   };
+
   const LoadDeletePage = (row) => {
     mutate(row.id);
   };
 
-  const { mutate } = useArchiveImmunization();
+  const { mutate } = useArchiveImmunization(props);
 
   return (
     <div>

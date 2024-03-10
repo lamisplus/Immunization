@@ -137,7 +137,7 @@ const CreateCovidVaccination = (props) => {
 
   const history = useHistory();
   const { formik } = useCovidVaccinationFormValidationSchema(handleSubmit);
-  const { mutate } = useSaveImmunization(formik);
+  const { mutate } = useSaveImmunization(formik, props);
 
   const actionType = props?.activeContent?.actionType || "create";
 

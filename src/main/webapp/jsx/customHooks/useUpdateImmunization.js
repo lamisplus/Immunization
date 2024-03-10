@@ -1,11 +1,9 @@
 import { useMutation } from "react-query";
 import { toast } from "react-toastify";
-import { useHistory } from "react-router-dom";
 import { queryClient } from "../utils/queryClient";
 import { updateImmunization } from "../services/updateImmunization";
 
-export const useUpdateImmunization = (formik) => {
-  const history = useHistory();
+export const useUpdateImmunization = (formik, props) => {
 
   const { mutate, isLoading, isError } = useMutation({
     mutationFn: updateImmunization,
@@ -14,9 +12,7 @@ export const useUpdateImmunization = (formik) => {
       formik.resetForm();
       queryClient.invalidateQueries()
       queryClient.refetchQueries()
-      history.push({
-        pathname: "/",
-      });
+      props.setActiveContent({ ...props.activeContent, route: "patient-vaccination-history" });
     },
   });
 

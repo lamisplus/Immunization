@@ -1,11 +1,10 @@
 import { useMutation } from "react-query";
 import { toast } from "react-toastify";
-import { useHistory } from "react-router-dom";
 import { queryClient } from "../utils/queryClient";
 import { archiveImmunzation } from "../services/archiveImmunization";
 
-export const useArchiveImmunization = () => {
-  const history = useHistory();
+export const useArchiveImmunization = (props) => {
+ 
 
   const { mutate, isLoading, isError } = useMutation({
     mutationFn: archiveImmunzation,
@@ -13,9 +12,8 @@ export const useArchiveImmunization = () => {
       toast.success("Immunization deleted successful.");
       queryClient.invalidateQueries()
       queryClient.refetchQueries();
-      history.push({
-        pathname: "/",
-      });
+      props.setActiveContent({ ...props.activeContent, route: "patient-vaccination-history" });
+
     },
 
     onError: () => {
