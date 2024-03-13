@@ -59,20 +59,14 @@ const tableIcons = {
 };
 
 const PatientsVaccinaionHistory = (props) => {
-  const [showPPI, setShowPPI] = useState(true);
+  
   const [query, setQueryParams] = useState({
     page: 0,
-    pageSize: 20,
+    pageSize: 10,
     search: "",
     id: props?.patientObj?.id,
   });
-  const handleCheckBox = (e) => {
-    if (e.target.checked) {
-      setShowPPI(false);
-    } else {
-      setShowPPI(true);
-    }
-  };
+ 
 
   const prefetchNextPage = async () => {
     const nextPage = query.page + 1;
@@ -133,26 +127,6 @@ const PatientsVaccinaionHistory = (props) => {
         components={{
           Toolbar: (props) => (
             <div>
-              <div className="form-check custom-checkbox  float-left mt-4 ml-3 ">
-                <input
-                  type="checkbox"
-                  className="form-check-input"
-                  name="showPP!"
-                  id="showPP"
-                  value="showPP"
-                  checked={showPPI === true ? false : true}
-                  onChange={handleCheckBox}
-                  style={{
-                    border: "1px solid #014D88",
-                    borderRadius: "0.25rem",
-                  }}
-                />
-                <label className="form-check-label" htmlFor="basic_checkbox_1">
-                  <b style={{ color: "#014d88", fontWeight: "bold" }}>
-                    SHOW PII
-                  </b>
-                </label>
-              </div>
               <MTableToolbar {...props} />
             </div>
           ),

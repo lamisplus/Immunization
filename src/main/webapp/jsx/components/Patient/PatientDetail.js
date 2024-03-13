@@ -12,8 +12,6 @@ import PatientVaccinationHistory from "./../Vaccination/VaccinationHistory";
 import ImmunizationHome from "../Immunization/ImmunizationHome";
 import Tetanus from "../Tetanus/TetanusHome";
 import CovidVaccinationHome from "../Covid/CovidVaccinationHome";
-// import PatientnHistory from "../History/PatientHistory";
-import RecentHistory from "../History/PatientHistory";
 import RecentActivities from "../History/RecentActivities";
 
 const styles = (theme) => ({
@@ -95,7 +93,7 @@ function PatientCard(props) {
             art={art}
             setActiveContent={setActiveContent}
           />
-          <div>
+          <div style={{marginTop: 30}}>
             {activeContent.route === "vaccination-history" && (
               <PatientVaccinationHistory
                 patientObj={patientObj}

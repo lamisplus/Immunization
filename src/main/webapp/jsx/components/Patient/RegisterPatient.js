@@ -523,10 +523,16 @@ const RegisterPatient = (props) => {
   };
   /*****  Validation  Relationship Input*/
   const validateRelatives = () => {
+    console.log(relatives)
+    const nigerianPhoneNumberRegex = /^(\+?234|0)([789]\d{9})$/;
+    const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+
+
     let temp = { ...errors };
     temp.firstName = relatives.firstName ? "" : "First Name is required";
     //temp.lastName = relatives.lastName ? "" : "Last Name  is required."
-    //temp.phone = relatives.phone ? "" : "Phone Number  is required."
+    temp.phone = relatives.phone  && !nigerianPhoneNumberRegex.test(relatives.phone)? "Check Phone Number." : ""
+    temp.contactEmail = relatives.email  && !emailRegex.test(relatives.email)? "Check Email Address." : ""
     temp.relationshipId = relatives.relationshipId
       ? ""
       : "Relationship Type is required.";
@@ -1097,7 +1103,7 @@ const RegisterPatient = (props) => {
                             name="dob"
                             min="1940-01-01"
                             id="dob"
-                            max={basicInfo.dateOfRegistration}
+                            max={basicInfo?.dateOfRegistration || moment(new Date()).format("YYYY-MM-DD")}
                             value={basicInfo.dob}
                             onChange={handleDobChange}
                             style={{
@@ -1562,15 +1568,7 @@ const RegisterPatient = (props) => {
                                   <td>{item.contactPoint.value}</td>
                                   <td>{item.address?.line[0]}</td>
                                   <td>
-                                    {/* <button
-                                      type="button"
-                                      className="btn btn-default btn-light btn-sm editRow"
-                                      onClick={() =>
-                                        handleEditRelative(item, index)
-                                      }
-                                    >
-                                      <FontAwesomeIcon icon="edit" />
-                                    </button> */}
+                                  
                                     &nbsp;&nbsp;
                                     <button
                                       type="button"
@@ -1706,13 +1704,13 @@ const RegisterPatient = (props) => {
                                     Phone Number
                                   </Label>
                                   <Input
-                                    type="text"
+                                    type="number"
                                     name="phone"
                                     id="phone"
                                     onChange={(e) => {
                                       checkPhoneNumber(e, "phone");
                                     }}
-                                    value={relatives.phone?.value}
+                                    value={relatives.phone}
                                     style={{
                                       border: "1px solid #014D88",
                                       borderRadius: "0.2rem",
@@ -1745,7 +1743,13 @@ const RegisterPatient = (props) => {
                                     onChange={handleInputChangeRelatives}
                                     required
                                   />
-                                  {/* {errors.contactEmail && <p>{errors.contactEmail.message}</p>} */}
+                                  {errors.contactEmail !== "" ? (
+                                    <span className={classes.error}>
+                                      {errors.contactEmail}
+                                    </span>
+                                  ) : (
+                                    ""
+                                  )}
                                 </FormGroup>
                               </div>
 

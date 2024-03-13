@@ -187,7 +187,9 @@ const UpdateRoutineImmunization = (props) => {
               <div className="card-body">
                 <div className="row">
                   <div className="form-group mb-3 col-md-12">
-                    <Label>Date of vaccination</Label>
+                    <Label>Date of vaccination
+                    <span style={{ color: "red" }}> *</span>
+                    </Label>
                     <Input
                       className="form-control"
                       name="vaccinationDate"
@@ -213,6 +215,7 @@ const UpdateRoutineImmunization = (props) => {
                   <div className="form-group mb-3 col-md-12">
                     <Label>
                       Type of vaccine {isLoading && "Loading vaccine ..."}
+                      <span style={{ color: "red" }}> *</span>
                     </Label>
                     <select
                       className="form-control"
@@ -245,7 +248,9 @@ const UpdateRoutineImmunization = (props) => {
                   </div>
 
                   <div className="form-group mb-3 col-md-12">
-                    <Label>Detail of vaccine</Label>
+                    <Label>Detail of vaccine
+                    <span style={{ color: "red" }}> *</span>
+                    </Label>
                     <textarea
                       className="form-control"
                       name="vaccineDetail"
@@ -270,7 +275,9 @@ const UpdateRoutineImmunization = (props) => {
                   </div>
 
                   <div className="form-group mb-3 col-md-12">
-                    <Label>Any missed vaccination ?</Label>
+                    <Label>Any missed vaccination ?
+                    <span style={{ color: "red" }}> *</span>
+                    </Label>
                     <select
                       className="form-control"
                       name="missedVaccine"
@@ -307,6 +314,7 @@ const UpdateRoutineImmunization = (props) => {
                       <Label>
                         Enter missed vaccine{" "}
                         {isLoadingMissedVaccine && "Loading vaccine ..."}
+                        <span style={{ color: "red" }}> *</span>
                       </Label>
                       <select
                         className="form-control"

@@ -54,33 +54,7 @@ const CovidVaccinationHome = (props) => {
     <div>
       <ToastContainer autoClose={3000} hideProgressBar />
 
-      <div style={{ marginTop: 10, marginBottom: 20 }}>
-        <Link
-          to={{
-            pathname: "/",
-            state: "users",
-          }}
-        >
-          <Button
-            variant="contained"
-            color="primary"
-            className=" float-end mr-10 pr-10"
-            style={{
-              backgroundColor: "#014d88",
-              fontWeight: "bolder",
-              margingRight: "-40px",
-            }}
-            startIcon={<TiArrowBack />}
-          >
-            <span style={{ textTransform: "capitalize", color: "#fff" }}>
-              Back{" "}
-            </span>
-          </Button>
-        </Link>
-      </div>
-
-      <br />
-      <br />
+     
 
       {mapCompoenentToActionType(actionType)}
     </div>
