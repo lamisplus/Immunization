@@ -5,9 +5,15 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="0fa4cb75-960e-48e8-a7ce-44dd0d8b3a30" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.eslintcache" beforeDir="false" afterPath="$PROJECT_DIR$/.eslintcache" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/asset-manifest.json" beforeDir="false" afterPath="$PROJECT_DIR$/build/asset-manifest.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/build/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/views/static/immunization/asset-manifest.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/views/static/immunization/asset-manifest.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/views/static/immunization/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/views/static/immunization/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/api.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/api.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/generated-sources/annotations/org/lamisplus/modules/covid/domain/mapper/CovidMapperImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/target/generated-sources/annotations/org/lamisplus/modules/covid/domain/mapper/CovidMapperImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/maven-archiver/pom.properties" beforeDir="false" afterPath="$PROJECT_DIR$/target/maven-archiver/pom.properties" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -143,7 +149,7 @@
       <workItem from="1708453177728" duration="11162000" />
       <workItem from="1708674659016" duration="10352000" />
       <workItem from="1709575056357" duration="8609000" />
-      <workItem from="1710752136627" duration="598000" />
+      <workItem from="1710752136627" duration="2113000" />
     </task>
     <servers />
   </component>
