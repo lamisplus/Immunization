@@ -206,6 +206,12 @@ const Patients = (props) => {
           ),
         }}
         data={data?.records || []}
+         onQueryChange={
+          window.scrollTo({
+            top: 0,
+            behavior: "smooth",
+          })
+        }
         totalCount={data?.totalRecords}
         isLoading={isLoading}
         page={data?.currentPage}
