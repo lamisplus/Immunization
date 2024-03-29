@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 org\lamisplus\modules\covid\domain\dto\CovidPatientEnrollmentResponseDTO.class
 org\lamisplus\modules\covid\domain\dto\QuestionDTO.class
 org\lamisplus\modules\covid\repository\VaccinationRepository.class
@@ -67,3 +68,21 @@ org\lamisplus\modules\covid\domain\entity\Question.class
 org\lamisplus\modules\covid\domain\mapper\CovidMapper.class
 org\lamisplus\modules\covid\domain\mapper\CovidMapperImpl.class
 org\lamisplus\modules\covid\domain\entity\Vaccination.class
+=======
+org\lamisplus\modules\immunization\installers\SchemaInstaller5.class
+org\lamisplus\modules\immunization\domain\entity\Immunization$ImmunizationBuilder.class
+org\lamisplus\modules\immunization\service\ImmunizationService.class
+org\lamisplus\modules\immunization\domain\entity\Immunization.class
+org\lamisplus\modules\immunization\utility\RequestBodyUtil$1.class
+org\lamisplus\modules\immunization\utility\CustomDateTimeFormat.class
+org\lamisplus\modules\immunization\config\DomainConfiguration.class
+org\lamisplus\modules\immunization\domain\dto\ImmunizationDTO.class
+org\lamisplus\modules\immunization\utility\LocalDateConverter.class
+org\lamisplus\modules\immunization\ImmunizationModule.class
+org\lamisplus\modules\immunization\controller\ImmunizationController.class
+org\lamisplus\modules\immunization\utility\HttpConnectionManager.class
+org\lamisplus\modules\immunization\repository\ImmunizationRepository.class
+org\lamisplus\modules\immunization\utility\LocalTimeAttributeConverter.class
+org\lamisplus\modules\immunization\domain\dto\ImmunizationDTO$ImmunizationDTOBuilder.class
+org\lamisplus\modules\immunization\utility\RequestBodyUtil.class
+>>>>>>> 01db469d07a83427ee0c4d3c149c9f742c0140ab

@@ -11,7 +11,11 @@
 	</parent>
 
 	<groupId>org.lamisplus.modules</groupId>
+<<<<<<< HEAD
 	<artifactId>Immunization</artifactId>
+=======
+	<artifactId>immunization</artifactId>
+>>>>>>> 01db469d07a83427ee0c4d3c149c9f742c0140ab
 	<version>2.0.0</version>
 	<packaging>jar</packaging>
 	<name>immunization</name>

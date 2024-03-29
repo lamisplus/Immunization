@@ -165,9 +165,15 @@ const PatientsVaccinaionHistory = (props) => {
           },
         ]}
         data={
+<<<<<<< HEAD
           !isLoading && data &&
           data?.content &&
           data?.content?.length !== 0 ?
+=======
+          data &&
+          data?.content &&
+          data?.content?.length !== 0 &&
+>>>>>>> 01db469d07a83427ee0c4d3c149c9f742c0140ab
           data?.content?.map?.((row) => ({
             immunizationType: row?.immunizationType,
             vaccineType: row?.uniqueImmunizationData?.vaccineType,
@@ -208,7 +214,11 @@ const PatientsVaccinaionHistory = (props) => {
                 </Menu.Menu>
               </div>
             ),
+<<<<<<< HEAD
           })): []
+=======
+          }))
+>>>>>>> 01db469d07a83427ee0c4d3c149c9f742c0140ab
         }
         totalCount={data?.totalElements}
         isLoading={isLoading}
