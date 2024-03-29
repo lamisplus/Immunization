@@ -15,6 +15,11 @@ export const useTetanusFormValidationSchema = (onSubmit) => {
       then: yup.date().required("This field is required"),
       otherwise: yup.date(),
     }),
+    vaccinationResult: yup.string().when("vaccineType", {
+      is: (vaccineType) => vaccineType !== "",
+      then: yup.string().required("This field is required"),
+      otherwise: yup.string(),
+    }),
   });
 
   const formik = useFormik({

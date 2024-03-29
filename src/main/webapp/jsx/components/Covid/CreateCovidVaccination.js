@@ -191,7 +191,7 @@ const CreateCovidVaccination = (props) => {
                 <div className="form-group mb-3 col-md-12">
                   <FormGroup>
                     <Label>
-                      Vaccine Dosage
+                      Dosage Number
                       <span style={{ color: "red" }}> *</span>
                     </Label>
                     <Input
@@ -438,6 +438,13 @@ const CreateCovidVaccination = (props) => {
                           name="vaccinationDate"
                           id="vaccinationDate"
                           max={moment(new Date()).format("YYYY-MM-DD")}
+                          {...{
+                            min: moment(
+                              new Date(
+                                props?.patientObj?.dateOfBirth || props?.patientObj?.dob
+                              )
+                            ).format("YYYY-MM-DD"),
+                          }}
                           onChange={formik.handleChange}
                           onBlur={formik.handleBlur}
                           value={formik.values?.vaccinationDate}

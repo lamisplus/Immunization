@@ -65,18 +65,23 @@ function PatientCard(props) {
   const calculate_age = (dob) => {
     var today = new Date();
     var dateParts = dob.split("-");
-    var dateObject = new Date(+dateParts[2], dateParts[1] - 1, +dateParts[0]);
-    var birthDate = new Date(dateObject); // create a date object directlyfrom`dob1`argument
-    var age_now = today.getFullYear() - birthDate.getFullYear();
-    var m = today.getMonth() - birthDate.getMonth();
-    if (m < 0 || (m === 0 && today.getDate() < birthDate.getDate())) {
-      age_now--;
+    var dateObject = new Date(+dateParts[2], dateParts[1] - 1, +dateParts[0]); // Correct the order of date parts
+    var birthDate = new Date(dateObject); // Create a Date object directly from the 'dob' argument
+    var age_years = today.getFullYear() - birthDate.getFullYear();
+    var age_months = today.getMonth() - birthDate.getMonth();
+    if (age_months < 0 || (age_months === 0 && today.getDate() < birthDate.getDate())) {
+        age_years--;
+        age_months = 12 + age_months; // Adjust months if negative
     }
-    if (age_now === 0) {
-      return m + " month(s)";
+    if (age_years === 0) {
+        return age_months + " month(s)";
     }
-    return age_now + " year(s)";
-  };
+    return age_years + " year(s)";
+};
+
+ 
+
+
   const getPhoneNumber = (identifier) => {
     const identifiers = identifier;
     const phoneNumber = identifiers.contactPoint.find(

@@ -1,5 +1,6 @@
-basePackage: org.lamisplus.modules.covid
+basePackage: org.lamisplus.modules.immunization
 name: ImmunizationModule
+gitHubLink: https://api.github.com/repos/lamisplus/Immunization/releases/latest
 store: true
 menus:
   - icon: fa fa-syringe

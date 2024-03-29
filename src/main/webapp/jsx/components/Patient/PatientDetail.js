@@ -133,13 +133,7 @@ function PatientCard(props) {
                 activeContent={activeContent}
               />
             )}
-            {/* {activeContent.route === "patient-vaccination-history" && (
-              <RecentHistory
-                patientObj={patientObj}
-                setActiveContent={setActiveContent}
-                activeContent={activeContent}
-              />
-            )} */}
+          
           </div>
         </CardContent>
       </Card>

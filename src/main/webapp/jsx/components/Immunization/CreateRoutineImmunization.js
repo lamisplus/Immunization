@@ -175,6 +175,13 @@ const CreateRoutineImmunization = (props) => {
                       {...{
                         max: moment(new Date()).format("YYYY-MM-DD"),
                       }}
+                      {...{
+                        min: moment(
+                          new Date(
+                            clientDateOfBirth
+                          )
+                        ).format("YYYY-MM-DD"),
+                      }}
                       onBlur={formik.handleBlur}
                       value={formik?.values?.vaccinationDate}
                     />

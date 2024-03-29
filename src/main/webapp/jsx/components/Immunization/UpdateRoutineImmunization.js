@@ -199,6 +199,13 @@ const UpdateRoutineImmunization = (props) => {
                       {...{
                         max: moment(new Date()).format("YYYY-MM-DD"),
                       }}
+                      {...{
+                        min: moment(
+                          new Date(
+                            clientDateOfBirth
+                          )
+                        ).format("YYYY-MM-DD"),
+                      }}
                       disabled={disableInputs}
                       readOnly={disableInputs}
                       onBlur={formik.handleBlur}
