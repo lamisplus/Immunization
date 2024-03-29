@@ -27,9 +27,10 @@ import { useQuery } from "react-query";
 import Button from "@material-ui/core/Button";
 import { queryClient } from "../../utils/queryClient";
 import { fetchPatientVaccinationHistory } from "../../services/fetchPatientVaccinationHistory";
-import { Dropdown, Menu, Icon } from "semantic-ui-react";
 import "@reach/menu-button/styles.css";
 import { useArchiveImmunization } from "../../customHooks/useArchiveImmunization";
+import { Dropdown, Menu, Icon as IconMenu } from "semantic-ui-react";
+import { Modal } from "react-bootstrap";
 
 Moment.locale("en");
 momentLocalizer();
@@ -59,14 +60,21 @@ const tableIcons = {
 };
 
 const PatientsVaccinaionHistory = (props) => {
-  
+  const [openDeleteModal, setOpenDeleteModal] = React.useState(false);
+  const toggleDeleteModal = () => setOpenDeleteModal(!openDeleteModal);
+  const [record, setRecord] = useState(null);
+
+  const onToggleModal = (row) => {
+    toggleDeleteModal();
+    setRecord(row);
+  };
+
   const [query, setQueryParams] = useState({
     page: 0,
     pageSize: 10,
     search: "",
     id: props?.patientObj?.id,
   });
- 
 
   const prefetchNextPage = async () => {
     const nextPage = query.page + 1;
@@ -113,8 +121,10 @@ const PatientsVaccinaionHistory = (props) => {
     }
   };
 
-  const LoadDeletePage = (row) => {
-    mutate(row.id);
+  const LoadDeletePage = () => {
+    toggleDeleteModal();
+    mutate(record?.id);
+    setRecord(null);
   };
 
   const { mutate } = useArchiveImmunization(props);
@@ -135,32 +145,42 @@ const PatientsVaccinaionHistory = (props) => {
           {
             title: "Immunization Type",
             field: "immunizationType",
-            filtering: true,
-            // hidden: showPPI,
+            filtering: false,
           },
           {
             title: "Vaccine Type",
             field: "vaccineType",
             filtering: false,
-            render: (row) => row?.uniqueImmunizationData?.vaccineType,
           },
           {
             title: "Vaccination Date",
             field: "vaccinationDate",
             filtering: false,
-            render: (row) => row?.uniqueImmunizationData?.vaccinationDate,
           },
 
           {
             title: "Actions",
             field: "actions",
             filtering: false,
-            render: (row) => (
+          },
+        ]}
+        data={
+          !isLoading && data &&
+          data?.content &&
+          data?.content?.length !== 0 ?
+          data?.content?.map?.((row) => ({
+            immunizationType: row?.immunizationType,
+            vaccineType: row?.uniqueImmunizationData?.vaccineType,
+            vaccinationDate: row?.uniqueImmunizationData?.vaccinationDate || "",
+            actions: (
               <div>
                 <Menu.Menu position="right">
                   <Menu.Item>
                     <Button
-                      style={{ backgroundColor: "rgb(153,46,98)" }}
+                      style={{
+                        backgroundColor: "rgb(153,46,98)",
+                        color: "#fff",
+                      }}
                       primary
                     >
                       <Dropdown item text="Action">
@@ -168,23 +188,18 @@ const PatientsVaccinaionHistory = (props) => {
                           <Dropdown.Item
                             onClick={() => LoadViewPage(row, "view")}
                           >
-                            {" "}
-                            <Icon name="eye" />
-                            View{" "}
+                            <IconMenu name="eye" />
+                            View
                           </Dropdown.Item>
-
                           <Dropdown.Item
                             onClick={() => LoadViewPage(row, "update")}
                           >
-                            <Icon name="edit" />
+                            <IconMenu name="edit" />
                             Edit
                           </Dropdown.Item>
-
-                          <Dropdown.Item
-                            onClick={() => LoadDeletePage(row, "delete")}
-                          >
+                          <Dropdown.Item onClick={() => onToggleModal(row)}>
                             {" "}
-                            <Icon name="trash" /> Delete
+                            <IconMenu name="trash" /> Delete
                           </Dropdown.Item>
                         </Dropdown.Menu>
                       </Dropdown>
@@ -193,12 +208,11 @@ const PatientsVaccinaionHistory = (props) => {
                 </Menu.Menu>
               </div>
             ),
-          },
-        ]}
-        data={data?.content || []}
+          })): []
+        }
         totalCount={data?.totalElements}
         isLoading={isLoading}
-        page={data?.pageNumber}
+        page={data?.pagable?.pageNumber}
         options={{
           headerStyle: {
             backgroundColor: "#014d88",
@@ -220,7 +234,52 @@ const PatientsVaccinaionHistory = (props) => {
           setQueryParams((prevFilters) => ({ ...prevFilters, page: newPage }));
           refetch(query);
         }}
+        onChangeRowsPerPage={(newPageSize) => {
+          setQueryParams((prevFilters) => ({
+            ...prevFilters,
+            pageSize: newPageSize,
+          }));
+          refetch(query);
+        }}
       />
+
+      <Modal
+        show={openDeleteModal}
+        toggle={toggleDeleteModal}
+        className="fade"
+        size="md"
+        aria-labelledby="contained-modal-title-vcenter"
+        centered
+        backdrop="static"
+      >
+        <Modal.Header>
+          <Modal.Title id="contained-modal-title-vcenter">
+            Notification!
+          </Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <h4>
+            Are you Sure you want to delete -{" "}
+            <b>{record && record?.immunizationType}</b>
+          </h4>
+        </Modal.Body>
+        <Modal.Footer>
+          <Button
+            onClick={() => LoadDeletePage(record)}
+            style={{ backgroundColor: "red", color: "#fff" }}
+            disabled={isLoading}
+          >
+            {isLoading === false ? "Yes" : "Deleting..."}
+          </Button>
+          <Button
+            onClick={toggleDeleteModal}
+            style={{ backgroundColor: "#014d88", color: "#fff" }}
+            disabled={isLoading}
+          >
+            No
+          </Button>
+        </Modal.Footer>
+      </Modal>
     </div>
   );
 };

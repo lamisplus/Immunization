@@ -31,6 +31,8 @@ import ButtonGroup from "@material-ui/core/ButtonGroup";
 import { MdDashboard } from "react-icons/md";
 import { calculateAge } from "../../utils/calculateAge";
 import { queryClient } from "../../utils/queryClient";
+import { getHospitalNumber } from "../../utils";
+import moment from "moment";
 
 //Date Picker package
 Moment.locale("en");
@@ -60,7 +62,7 @@ const tableIcons = {
   ViewColumn: forwardRef((props, ref) => <ViewColumn {...props} ref={ref} />),
 };
 
-const Patients = (props) => {
+const PatientList = (props) => {
   const [showPPI, setShowPPI] = useState(true);
   const [query, setQueryParams] = useState({
     page: 0,
@@ -92,6 +94,7 @@ const Patients = (props) => {
     }
   );
 
+
   return (
     <div>
       <MaterialTable
@@ -100,40 +103,59 @@ const Patients = (props) => {
         columns={[
           {
             title: "Patient Name",
-            field: "firstName",
+            field: "name",
             hidden: showPPI,
-            render: (row) =>
-              row?.firstName + " " + row?.surname || row?.otherName || "",
           },
           {
             title: "Hospital Number",
-            field: "participantId",
+            field: "hospital_number",
             filtering: false,
-            render: (row) => {
-              const identifiers = row?.identifier?.identifier?.filter((obj) => obj?.type === "HospitalNumber")
-              const currentIdentifier = identifiers.pop();
-              
-            return  (currentIdentifier?.value !== null ? currentIdentifier.value : "")
-            },
-          },
-          {
-            title: "Sex",
-            field: "gender",
-            filtering: false,
-            render: (row) => (row?.gender !== null ? row.gender.display : ""),
-          },
-          {
-            title: "Age",
-            field: "dateOfBirth",
-            filtering: false,
-            render: (row) => calculateAge(row?.dateOfBirth),
           },
 
-          {
-            title: "Actions",
-            field: "actions",
-            filtering: false,
-            render: (row) => (
+          { title: "Sex", field: "gender", filtering: false },
+          { title: "Age", field: "age", filtering: false },
+
+          { title: "Actions", field: "actions", filtering: false },
+        ]}
+        components={{
+          Toolbar: (props) => (
+            <div>
+              <div className="form-check custom-checkbox  float-left mt-4 ml-3 ">
+                <input
+                  type="checkbox"
+                  className="form-check-input"
+                  name="showPP!"
+                  id="showPP"
+                  value="showPP"
+                  checked={showPPI === true ? false : true}
+                  onChange={handleCheckBox}
+                  style={{
+                    border: "1px solid #014D88",
+                    borderRadius: "0.25rem",
+                  }}
+                />
+                <label className="form-check-label" htmlFor="basic_checkbox_1">
+                  <b style={{ color: "#014d88", fontWeight: "bold" }}>
+                    SHOW PII
+                  </b>
+                </label>
+              </div>
+              <MTableToolbar {...props} />
+            </div>
+          ),
+        }}
+        data={
+          !isLoading && data &&
+          data?.records ?
+          data?.records?.map?.((row) => ({
+            name: row?.firstName + " " + row?.surname || row?.otherName || "",
+            hospital_number: getHospitalNumber(row),
+            gender: row?.gender !== null ? row.gender.display : "",
+            age: calculateAge(
+              moment(row?.dob || row?.dateOfBirth).format("DD-MM-YYYY")
+            ),
+
+            actions: (
               <div>
                 <Link
                   to={{
@@ -176,45 +198,8 @@ const Patients = (props) => {
                 </Link>
               </div>
             ),
-          },
-        ]}
-        components={{
-          Toolbar: (props) => (
-            <div>
-              <div className="form-check custom-checkbox  float-left mt-4 ml-3 ">
-                <input
-                  type="checkbox"
-                  className="form-check-input"
-                  name="showPP!"
-                  id="showPP"
-                  value="showPP"
-                  checked={showPPI === true ? false : true}
-                  onChange={handleCheckBox}
-                  style={{
-                    border: "1px solid #014D88",
-                    borderRadius: "0.25rem",
-                  }}
-                />
-                <label className="form-check-label" htmlFor="basic_checkbox_1">
-                  <b style={{ color: "#014d88", fontWeight: "bold" }}>
-                    SHOW PII
-                  </b>
-                </label>
-              </div>
-              <MTableToolbar {...props} />
-            </div>
-          ),
-        }}
-        data={data?.records || []}
-         onQueryChange={
-          window.scrollTo({
-            top: 0,
-            behavior: "smooth",
-          })
+          })): []
         }
-        totalCount={data?.totalRecords}
-        isLoading={isLoading}
-        page={data?.currentPage}
         options={{
           headerStyle: {
             backgroundColor: "#014d88",
@@ -232,8 +217,18 @@ const Patients = (props) => {
           pageSize: query?.pageSize || 10,
           debounceInterval: 400,
         }}
+        page={data?.currentPage}
+        totalCount={data?.totalRecords}
         onChangePage={(newPage) => {
           setQueryParams((prevFilters) => ({ ...prevFilters, page: newPage }));
+          refetch(query);
+        }}
+        isLoading={isLoading}
+        onChangeRowsPerPage={(newPageSize) => {
+          setQueryParams((prevFilters) => ({
+            ...prevFilters,
+            pageSize: newPageSize,
+          }));
           refetch(query);
         }}
       />
@@ -241,4 +236,4 @@ const Patients = (props) => {
   );
 };
 
-export default Patients;
+export default PatientList;

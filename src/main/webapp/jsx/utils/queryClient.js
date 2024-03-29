@@ -7,7 +7,7 @@ const queryClientSettings = {
       refetchOnMount: "always",
       refetchOnWindowFocus: true,
       refetchOnReconnect: true,
-      cacheTime: 60000,
+      cacheTime: 3.6e6,
       refetchInterval: 3.6e6, //1 hour
       refetchIntervalInBackground: true,
       suspense: false,

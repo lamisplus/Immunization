@@ -122,7 +122,6 @@ const CreateTetanusImmunizationTetanus = (props) => {
         patientDto: props.patientObj,
       },
     };
-
     if (isValid) {
       mutate(payload);
     }
@@ -157,7 +156,8 @@ const CreateTetanusImmunizationTetanus = (props) => {
                 <div className="form-group mb-3 col-md-6">
                   <FormGroup>
                     <Label>
-                      Type of vaccine {isLoading && "Loading vaccine ..."}
+                      Type of tetanus vaccine{" "}
+                      {isLoading && "Loading vaccine ..."}
                       <span style={{ color: "red" }}> *</span>
                     </Label>
                     <Input
@@ -172,7 +172,7 @@ const CreateTetanusImmunizationTetanus = (props) => {
                       <option>Select</option>
                       {!isLoading &&
                         tetanusVaccines?.map((vacc) => (
-                          <option  value={vacc?.code} key={vacc?.id}>
+                          <option value={vacc?.code} key={vacc?.id}>
                             {vacc?.name || vacc?.display}
                           </option>
                         ))}
@@ -204,12 +204,46 @@ const CreateTetanusImmunizationTetanus = (props) => {
                         {...{
                           max: moment(new Date()).format("YYYY-MM-DD"),
                         }}
+                        {...{
+                          min: moment(
+                            new Date(
+                              props?.patientObj?.dateOfBirth ||
+                                props?.patientObj?.dob
+                            )
+                          ).format("YYYY-MM-DD"),
+                        }}
                       />
 
                       {formik?.touched?.vaccinationDate &&
                         formik?.errors.vaccinationDate && (
                           <span className={classes.error}>
                             {formik?.errors.vaccinationDate}
+                          </span>
+                        )}
+                    </FormGroup>
+                  </div>
+                )}
+
+                {formik?.values?.vaccineType !== "" && (
+                  <div className="form-group mb-3 col-md-6">
+                    <FormGroup>
+                      <Label>
+                        Enter Vaccine Result
+                        <span style={{ color: "red" }}> *</span>
+                      </Label>
+                      <Input
+                        type="text"
+                        name="vaccinationResult"
+                        id="vaccinationResult"
+                        onChange={formik.handleChange}
+                        onBlur={formik.handleBlur}
+                        value={formik.values?.vaccinationResult}
+                      />
+
+                      {formik?.touched?.vaccinationResult &&
+                        formik?.errors.vaccinationResult && (
+                          <span className={classes.error}>
+                            {formik?.errors.vaccinationResult}
                           </span>
                         )}
                     </FormGroup>

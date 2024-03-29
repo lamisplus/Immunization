@@ -6,10 +6,21 @@ import { useQuery } from "react-query";
 import { Dropdown } from "react-bootstrap";
 import PerfectScrollbar from "react-perfect-scrollbar";
 import { Card, Accordion } from "react-bootstrap";
-
+import { Modal } from "react-bootstrap";
+import Button from "@material-ui/core/Button";
 import "react-widgets/dist/css/react-widgets.css";
 
 const RecentActivities = (props) => {
+  const [openDeleteModal, setOpenDeleteModal] = React.useState(false);
+  const toggleDeleteModal = () => setOpenDeleteModal(!openDeleteModal);
+  const [record, setRecord] = useState(null);
+
+  const onToggleModal = (row) => {
+    toggleDeleteModal();
+    setRecord(row);
+  };
+
+
   const [query] = useState({
     page: 0,
     pageSize: 20,
@@ -24,7 +35,7 @@ const RecentActivities = (props) => {
     () => fetchPatientVaccinationHistory(query)
   );
 
-  const LoadViewPage = (row, action) => {
+ const LoadViewPage = (row, action) => {
     if (row.immunizationType === "ROUTINE_IMMUNIZATION") {
       props.setActiveContent({
         ...props.activeContent,
@@ -49,9 +60,12 @@ const RecentActivities = (props) => {
     }
   };
 
-  const LoadDeletePage = (row) => {
-    mutate(row.id);
+  const LoadDeletePage = () => {
+    toggleDeleteModal();
+    mutate(record?.id);
+    setRecord(null);
   };
+
 
   const { mutate } = useArchiveImmunization(props);
 
@@ -89,142 +103,135 @@ const RecentActivities = (props) => {
                     defaultActiveKey="0"
                   >
                     <>
-                      {!isLoading && data?.content?.map?.((data, index) => (
-                        <div className="accordion-item" key={index}>
-                          <Accordion.Toggle
-                            as={Card.Text}
-                            eventKey={`${index}`}
-                            className={`accordion-header ${
-                              activeAccordionHeaderShadow === 1
-                                ? ""
-                                : "collapsed"
-                            } accordion-header-info`}
-                            onClick={() =>
-                              setActiveAccordionHeaderShadow(
-                                activeAccordionHeaderShadow === 1 ? -1 : index
-                              )
-                            }
-                          >
-                            <span className="accordion-header-icon"></span>
-                            <span className="accordion-header-text">
-                              Vaccination Date : <span className="">{data.vaccinationDate}</span>{" "}
-                            </span>
-                            <span className="accordion-header-indicator"></span>
-                          </Accordion.Toggle>
-                          <Accordion.Collapse
-                            eventKey={`${index}`}
-                            className="accordion__body"
-                          >
-                            <div className="accordion-body-text">
-                              <ul className="timeline">
-                                
-                                      <li>
-                                        <div className="timeline-panel">
-                                          <div
-                                            className={
-                                              index % 2 === 0
-                                                ? "media me-2 media-info"
-                                                : "media me-2 media-success"
+                      {!isLoading &&
+                        data?.content?.map?.((data, index) => (
+                          <div className="accordion-item" key={index}>
+                            <Accordion.Toggle
+                              as={Card.Text}
+                              eventKey={`${index}`}
+                              className={`accordion-header ${
+                                activeAccordionHeaderShadow === 1
+                                  ? ""
+                                  : "collapsed"
+                              } accordion-header-info`}
+                              onClick={() =>
+                                setActiveAccordionHeaderShadow(
+                                  activeAccordionHeaderShadow === 1 ? -1 : index
+                                )
+                              }
+                            >
+                              <span className="accordion-header-icon"></span>
+                              <span className="accordion-header-text">
+                                Vaccination Date :{" "}
+                                <span className="">{data.vaccinationDate}</span>{" "}
+                              </span>
+                              <span className="accordion-header-indicator"></span>
+                            </Accordion.Toggle>
+                            <Accordion.Collapse
+                              eventKey={`${index}`}
+                              className="accordion__body"
+                            >
+                              <div className="accordion-body-text">
+                                <ul className="timeline">
+                                  <li>
+                                    <div className="timeline-panel">
+                                      <div
+                                        className={
+                                          index % 2 === 0
+                                            ? "media me-2 media-info"
+                                            : "media me-2 media-success"
+                                        }
+                                      >
+                                        {ActivityName(data.immunizationType)}
+                                      </div>
+                                      <div className="media-body">
+                                        <h5 className="mb-1">
+                                          {data.immunizationType}
+                                        </h5>
+                                        <small className="d-block">
+                                          {data.vaccinationDate}
+                                        </small>
+                                      </div>
+
+                                      <Dropdown className="dropdown">
+                                        <Dropdown.Toggle
+                                          variant=" light"
+                                          className="i-false p-0 btn-info sharp"
+                                        >
+                                          <svg
+                                            width="18px"
+                                            height="18px"
+                                            viewBox="0 0 24 24"
+                                            version="1.1"
+                                          >
+                                            <g
+                                              stroke="none"
+                                              strokeWidth="1"
+                                              fill="none"
+                                              fillRule="evenodd"
+                                            >
+                                              <rect
+                                                x="0"
+                                                y="0"
+                                                width="24"
+                                                height="24"
+                                              />
+                                              <circle
+                                                fill="#000000"
+                                                cx="5"
+                                                cy="12"
+                                                r="2"
+                                              />
+                                              <circle
+                                                fill="#000000"
+                                                cx="12"
+                                                cy="12"
+                                                r="2"
+                                              />
+                                              <circle
+                                                fill="#000000"
+                                                cx="19"
+                                                cy="12"
+                                                r="2"
+                                              />
+                                            </g>
+                                          </svg>
+                                        </Dropdown.Toggle>
+                                        <Dropdown.Menu className="dropdown-menu">
+                                          <Dropdown.Item
+                                            className="dropdown-item"
+                                            onClick={() =>
+                                              LoadViewPage(data, "view")
                                             }
                                           >
-                                            {ActivityName(
-                                              data.immunizationType
-                                            )}
-                                          </div>
-                                          <div className="media-body">
-                                            <h5 className="mb-1">
-                                              { data.immunizationType}
-                                            </h5>
-                                            <small className="d-block">
-                                              {data.vaccinationDate}
-                                            </small>
-                                          </div>
+                                            View
+                                          </Dropdown.Item>
 
-                                          <Dropdown className="dropdown">
-                                            <Dropdown.Toggle
-                                              variant=" light"
-                                              className="i-false p-0 btn-info sharp"
-                                            >
-                                              <svg
-                                                width="18px"
-                                                height="18px"
-                                                viewBox="0 0 24 24"
-                                                version="1.1"
-                                              >
-                                                <g
-                                                  stroke="none"
-                                                  strokeWidth="1"
-                                                  fill="none"
-                                                  fillRule="evenodd"
-                                                >
-                                                  <rect
-                                                    x="0"
-                                                    y="0"
-                                                    width="24"
-                                                    height="24"
-                                                  />
-                                                  <circle
-                                                    fill="#000000"
-                                                    cx="5"
-                                                    cy="12"
-                                                    r="2"
-                                                  />
-                                                  <circle
-                                                    fill="#000000"
-                                                    cx="12"
-                                                    cy="12"
-                                                    r="2"
-                                                  />
-                                                  <circle
-                                                    fill="#000000"
-                                                    cx="19"
-                                                    cy="12"
-                                                    r="2"
-                                                  />
-                                                </g>
-                                              </svg>
-                                            </Dropdown.Toggle>
-                                            <Dropdown.Menu className="dropdown-menu">
-                                              <Dropdown.Item
-                                                className="dropdown-item"
-                                                onClick={() =>
-                                                  LoadViewPage(data, "view")
-                                                }
-                                              >
-                                                View
-                                              </Dropdown.Item>
+                                          <Dropdown.Item
+                                            className="dropdown-item"
+                                            onClick={() =>
+                                              LoadViewPage(data, "update")
+                                            }
+                                          >
+                                            Update
+                                          </Dropdown.Item>
 
-                                              <Dropdown.Item
-                                                className="dropdown-item"
-                                                onClick={() =>
-                                                  LoadViewPage(
-                                                    data,
-                                                    "update"
-                                                  )
-                                                }
-                                              >
-                                                Update
-                                              </Dropdown.Item>
-
-                                              <Dropdown.Item
-                                                className="dropdown-item"
-                                                to="/widget-basic"
-                                                onClick={() =>
-                                                  LoadDeletePage(data)
-                                                }
-                                              >
-                                                Delete
-                                              </Dropdown.Item>
-                                            </Dropdown.Menu>
-                                          </Dropdown>
-                                        </div>
-                                      </li>
-                                  
-                              </ul>
-                            </div>
-                          </Accordion.Collapse>
-                        </div>
-                      ))}
+                                          <Dropdown.Item
+                                            className="dropdown-item"
+                                            to="/widget-basic"
+                                            onClick={() => onToggleModal(data)}
+                                          >
+                                            Delete
+                                          </Dropdown.Item>
+                                        </Dropdown.Menu>
+                                      </Dropdown>
+                                    </div>
+                                  </li>
+                                </ul>
+                              </div>
+                            </Accordion.Collapse>
+                          </div>
+                        ))}
                     </>
                   </Accordion>
                 </PerfectScrollbar>
@@ -237,6 +244,44 @@ const RecentActivities = (props) => {
           </div>
         </div>
       </div>
+
+      <Modal
+        show={openDeleteModal}
+        toggle={toggleDeleteModal}
+        className="fade"
+        size="md"
+        aria-labelledby="contained-modal-title-vcenter"
+        centered
+        backdrop="static"
+      >
+        <Modal.Header>
+          <Modal.Title id="contained-modal-title-vcenter">
+            Notification!
+          </Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <h4>
+            Are you Sure you want to delete -{" "}
+            <b>{record && record?.immunizationType}</b>
+          </h4>
+        </Modal.Body>
+        <Modal.Footer>
+          <Button
+            onClick={() => LoadDeletePage(record)}
+            style={{ backgroundColor: "red", color: "#fff" }}
+            disabled={isLoading}
+          >
+            {isLoading === false ? "Yes" : "Deleting..."}
+          </Button>
+          <Button
+            onClick={toggleDeleteModal}
+            style={{ backgroundColor: "#014d88", color: "#fff" }}
+            disabled={isLoading}
+          >
+            No
+          </Button>
+        </Modal.Footer>
+      </Modal>
     </div>
   );
 };

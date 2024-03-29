@@ -24,7 +24,6 @@ import { useUpdateImmunization } from "../../customHooks/useUpdateImmunization";
 import { fetchImmunizationById } from "../../services/fetchImmunizationById";
 import moment from "moment";
 
-
 library.add(faCheckSquare, faCoffee, faEdit, faTrash);
 
 const useStyles = makeStyles((theme) => ({
@@ -131,10 +130,13 @@ const UpdateTetanusImmunizationTetanus = (props) => {
     if (isValid) {
       mutate({ data: payload, id: props?.activeContent?.id });
     }
-  };  
+  };
 
   const { formik } = useTetanusFormValidationSchema(handleSubmit);
-  const { mutate, isLoading: isLoadingMutate } = useUpdateImmunization(formik, props);
+  const { mutate, isLoading: isLoadingMutate } = useUpdateImmunization(
+    formik,
+    props
+  );
   useQuery(
     ["FETCH_IMMUNIZATION_BY_ID", props?.activeContent?.id],
     () => fetchImmunizationById(props?.activeContent?.id),
@@ -143,6 +145,7 @@ const UpdateTetanusImmunizationTetanus = (props) => {
         const initialValues = {
           vaccinationDate: data?.vaccinationDate,
           vaccineType: data?.uniqueImmunizationData?.vaccineType,
+          vaccinationResult: data?.uniqueImmunizationData?.vaccinationResult,
         };
         if (formInitialValue === null) {
           setFormInitialValue(initialValues);
@@ -227,8 +230,16 @@ const UpdateTetanusImmunizationTetanus = (props) => {
                         disabled={disableInputs}
                         readOnly={disableInputs}
                         {...{
-                            max: moment(new Date()).format("YYYY-MM-DD"),
-                          }}
+                          max: moment(new Date()).format("YYYY-MM-DD"),
+                        }}
+                        {...{
+                          min: moment(
+                            new Date(
+                              props?.patientObj?.dateOfBirth ||
+                                props?.patientObj?.dob
+                            )
+                          ).format("YYYY-MM-DD"),
+                        }}
                       />
 
                       {formik?.touched?.vaccinationDate &&
@@ -240,27 +251,57 @@ const UpdateTetanusImmunizationTetanus = (props) => {
                     </FormGroup>
                   </div>
                 )}
+
+                {formik?.values?.vaccineType !== "" && (
+                  <div className="form-group mb-3 col-md-6">
+                    <FormGroup>
+                      <Label>
+                        Enter Vaccine Result
+                        <span style={{ color: "red" }}> *</span>
+                      </Label>
+                      <Input
+                        type="text"
+                        name="vaccinationResult"
+                        id="vaccinationResult"
+                        onChange={formik.handleChange}
+                        onBlur={formik.handleBlur}
+                        value={formik.values?.vaccinationResult}
+                        disabled={disableInputs}
+                        readOnly={disableInputs}
+                      />
+
+                      {formik?.touched?.vaccinationResult &&
+                        formik?.errors.vaccinationResult && (
+                          <span className={classes.error}>
+                            {formik?.errors.vaccinationResult}
+                          </span>
+                        )}
+                    </FormGroup>
+                  </div>
+                )}
               </div>
             </div>
             {isLoadingMutate ? <Spinner /> : ""}
             <br />
             {!disableInputs && (
-            <MatButton
-              type="button"
-              variant="contained"
-              color="primary"
-              className={classes.button}
-              startIcon={<SaveIcon />}
-              onClick={handleSubmit}
-              style={{ backgroundColor: "#014d88", fontWeight: "bolder" }}
-            >
-              {!isLoadingMutate ? (
-                <span style={{ textTransform: "capitalize" }}>Update</span>
-              ) : (
-                <span style={{ textTransform: "capitalize" }}>Updating...</span>
-              )}
-            </MatButton>)}
-
+              <MatButton
+                type="button"
+                variant="contained"
+                color="primary"
+                className={classes.button}
+                startIcon={<SaveIcon />}
+                onClick={handleSubmit}
+                style={{ backgroundColor: "#014d88", fontWeight: "bolder" }}
+              >
+                {!isLoadingMutate ? (
+                  <span style={{ textTransform: "capitalize" }}>Update</span>
+                ) : (
+                  <span style={{ textTransform: "capitalize" }}>
+                    Updating...
+                  </span>
+                )}
+              </MatButton>
+            )}
 
             {!disableInputs && (
               <MatButton

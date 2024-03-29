@@ -32,6 +32,8 @@ import { MdDashboard } from "react-icons/md";
 import { Label } from "semantic-ui-react";
 import { calculateAge } from "../../utils/calculateAge";
 import { queryClient } from "../../utils/queryClient";
+import moment from "moment";
+
 
 Moment.locale("en");
 momentLocalizer();
@@ -60,7 +62,7 @@ const tableIcons = {
   ViewColumn: forwardRef((props, ref) => <ViewColumn {...props} ref={ref} />),
 };
 
-const Patients = (props) => {
+const PatientVaccinatedList = (props) => {
   const [showPPI, setShowPPI] = useState(true);
   const [query, setQueryParams] = useState({
     page: 0,
@@ -94,26 +96,27 @@ const Patients = (props) => {
       onSuccess: () => prefetchNextPage(),
     }
   );
+  console.log(data)
+
 
   function removeDuplicatePatients(array) {
     const uniqueMap = new Map();
-    
+
     if (array) {
       // Iterate through the array
-    array.forEach(item => {
-      // Use patientId as key in the map
-      uniqueMap.set(item.patientId, item);
-    });
-    
-    // Convert the map back to an array of objects
-    const uniqueArray = Array.from(uniqueMap.values());
-    
-    return uniqueArray;
+      array.forEach((item) => {
+        // Use patientId as key in the map
+        uniqueMap.set(item.patientId, item);
+      });
+
+      // Convert the map back to an array of objects
+      const uniqueArray = Array.from(uniqueMap.values());
+
+      return uniqueArray;
     }
 
-    return []
+    return [];
   }
-  
 
   return (
     <div>
@@ -152,52 +155,63 @@ const Patients = (props) => {
             title: "Patient Name",
             field: "firstName",
             hidden: showPPI,
-            render: (row) => {
-              const lastname = row?.uniqueImmunizationData?.patientDto?.lastname;
-              const firstName = row?.uniqueImmunizationData?.patientDto?.firstName;
-              return firstName + " " + lastname;
-            },
           },
           {
             title: "Hospital Number",
             field: "participantId",
             filtering: false,
-            render: (row) => row?.uniqueImmunizationData?.patientDto?.identifier?.identifier[0]?.value,
           },
           {
             title: "Sex",
             field: "gender",
             filtering: false,
-            render: (row) => row?.uniqueImmunizationData?.patientDto?.sex,
           },
           {
             title: "Age",
-            field: "dob",
+            field: "age",
             filtering: false,
-            render: (row) =>
-              calculateAge(row?.uniqueImmunizationData?.patientDto?.dateOfBirth),
           },
 
           {
             title: "Vaccination Status",
             field: "vaccinationStatus",
             filtering: false,
-            render: (row) => (
-              <Label color="blue" size="mini">
-                {"Vaccinated"}
-              </Label>
-            ),
           },
           {
             title: "Actions",
             field: "actions",
             filtering: false,
-            render: (row) => (
+          },
+        ]}
+        data={
+          !isLoading &&  data && data?.content ?
+          removeDuplicatePatients( data?.content)?.map?.((row) => ({
+            firstName:
+              row?.uniqueImmunizationData?.patientDto?.firstName +
+                " " +
+                row?.uniqueImmunizationData?.patientDto?.surname ||
+              row?.uniqueImmunizationData?.patientDto?.otherName,
+            participantId:
+              row?.uniqueImmunizationData?.patientDto?.identifier
+                ?.identifier?.[0]?.value,
+
+            gender: row?.uniqueImmunizationData?.patientDto?.sex,
+            age: calculateAge(
+              moment(row?.uniqueImmunizationData?.patientDto?.dob || row?.uniqueImmunizationData?.patientDto?.dateOfBirth).format("DD-MM-YYYY")
+            ),
+            vaccinationStatus: (
+              <Label color="blue" size="mini">
+                {"Vaccinated"}
+              </Label>
+            ),
+            actions: (
               <div>
                 <Link
                   to={{
                     pathname: "/patient-vaccination-history",
-                    state: { patientObj: row?.uniqueImmunizationData?.patientDto },
+                    state: {
+                      patientObj: row?.uniqueImmunizationData?.patientDto,
+                    },
                   }}
                 >
                   <ButtonGroup
@@ -234,9 +248,8 @@ const Patients = (props) => {
                 </Link>
               </div>
             ),
-          },
-        ]}
-        data={removeDuplicatePatients(data?.content) || []}
+          })): []
+        }
         totalCount={data?.totalElements}
         isLoading={isLoading}
         page={data?.pageNumber}
@@ -261,9 +274,16 @@ const Patients = (props) => {
           setQueryParams((prevFilters) => ({ ...prevFilters, page: newPage }));
           refetch(query);
         }}
+        onChangeRowsPerPage={(newPageSize) => {
+          setQueryParams((prevFilters) => ({
+            ...prevFilters,
+            pageSize: newPageSize,
+          }));
+          refetch(query);
+        }}
       />
     </div>
   );
 };
 
-export default Patients;
+export default PatientVaccinatedList;
