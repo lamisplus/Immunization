@@ -6,9 +6,15 @@
 
     <changeSet id="20230410-0007" author="emmanuel">
         <sql>
-            DROP TABLE IF EXISTS public.immunization;
+            DELETE FROM base_menu WHERE module_id=(SELECT id FROM base_module WHERE name ='CovidModule');
+            DELETE FROM public.base_module_artifact WHERE module_id=(SELECT id FROM base_module WHERE name ='CovidModule');
+            DELETE FROM public.base_module_dependencies WHERE module_id=(SELECT id FROM base_module WHERE name ='CovidModule');
+            DELETE FROM public.base_web_module WHERE module_id=(SELECT id FROM base_module WHERE name ='CovidModule');
+            DELETE FROM base_module WHERE name ='CovidModule';
+
+
             CREATE SEQUENCE immunization_id_seq;
-            CREATE TABLE public.immunization
+            CREATE TABLE IF NOT EXISTS public.immunization
             (
                 id bigint NOT NULL DEFAULT nextval('immunization_id_seq'),
                 patient_id bigint,
