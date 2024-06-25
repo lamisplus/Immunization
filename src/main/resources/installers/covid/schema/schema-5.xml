@@ -4,15 +4,8 @@
         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
         xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.5.xsd">
 
-    <changeSet id="20230410-0007" author="emmanuel">
+    <changeSet id="20230410-0007" author="emmanuel" failOnError="true">
         <sql>
-            DELETE FROM base_menu WHERE module_id=(SELECT id FROM base_module WHERE name ='CovidModule');
-            DELETE FROM public.base_module_artifact WHERE module_id=(SELECT id FROM base_module WHERE name ='CovidModule');
-            DELETE FROM public.base_module_dependencies WHERE module_id=(SELECT id FROM base_module WHERE name ='CovidModule');
-            DELETE FROM public.base_web_module WHERE module_id=(SELECT id FROM base_module WHERE name ='CovidModule');
-            DELETE FROM base_module WHERE name ='CovidModule';
-
-
             CREATE SEQUENCE immunization_id_seq;
             CREATE TABLE IF NOT EXISTS public.immunization
             (

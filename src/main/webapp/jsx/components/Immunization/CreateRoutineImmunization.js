@@ -101,8 +101,9 @@ const CreateRoutineImmunization = (props) => {
   const classes = useStyles();
   const clientDateOfBirth =
     props?.patientObj?.dateOfBirth || props?.patientObj?.dob;
-
-  const [queryKey] = useState(determineClientImmunization(clientDateOfBirth));
+    
+    const [queryKey] = useState(determineClientImmunization(clientDateOfBirth));
+    console.log(clientDateOfBirth, queryKey)
 
   const { data: vaccines, isLoading } = useQuery([queryKey], () =>
     fetchRoutineImmunizationVaccine(queryKey)
