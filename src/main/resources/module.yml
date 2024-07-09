@@ -1,4 +1,4 @@
-basePackage: org.lamisplus.modules.covid
+basePackage: org.lamisplus.modules.immunization
 name: ImmunizationModule
 store: true
 menus:

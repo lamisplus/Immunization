@@ -411,7 +411,7 @@ const CreateCovidVaccination = (props) => {
                           value={formik.values?.vaccineType}
                         >
                           <option value="">Select</option>
-                          {vaccines?.map((vaccine) => (
+                          {vaccines?.map?.((vaccine) => (
                             <option value={vaccine?.code} key={vaccine?.id}>
                               {vaccine?.name}
                             </option>

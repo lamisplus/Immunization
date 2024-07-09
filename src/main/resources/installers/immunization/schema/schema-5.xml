@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.5.xsd">
+
+    <changeSet id="20242606-908" author="emmanuel" failOnError="true">
+        <sql>
+            CREATE SEQUENCE IF NOT EXISTS immunization_id_seq;
+            CREATE TABLE IF NOT EXISTS public.immunization
+            (
+                id bigint NOT NULL DEFAULT nextval('immunization_id_seq'),
+                patient_id bigint,
+                patient_uuid character varying(100),
+                immunization_type character varying,
+                unique_immunization_data character varying,
+                vaccination_date date,
+                archived integer,
+                PRIMARY KEY (id)
+            );
+            ALTER SEQUENCE immunization_id_seq OWNED BY immunization.id;
+        </sql>
+    </changeSet>
+</databaseChangeLog>
+
