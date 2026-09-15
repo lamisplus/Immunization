@@ -184,15 +184,10 @@ const PatientVaccinatedList = (props) => {
           },
         ]}
         data={
-<<<<<<< HEAD
-          !isLoading &&  data && data?.content ?
-          removeDuplicatePatients( data?.content)?.map?.((row) => ({
-=======
           data &&
           removeDuplicatePatients?.(data?.content) &&
           removeDuplicatePatients?.(data?.content)?.length !== 0 &&
           removeDuplicatePatients(data?.content)?.map?.((row) => ({
->>>>>>> 01db469d07a83427ee0c4d3c149c9f742c0140ab
             firstName:
               row?.uniqueImmunizationData?.patientDto?.firstName +
                 " " +
@@ -204,11 +199,7 @@ const PatientVaccinatedList = (props) => {
 
             gender: row?.uniqueImmunizationData?.patientDto?.sex,
             age: calculateAge(
-<<<<<<< HEAD
-              moment(row?.uniqueImmunizationData?.patientDto?.dob || row?.uniqueImmunizationData?.patientDto?.dateOfBirth).format("DD-MM-YYYY")
-=======
               row?.uniqueImmunizationData?.patientDto?.dateOfBirth
->>>>>>> 01db469d07a83427ee0c4d3c149c9f742c0140ab
             ),
             vaccinationStatus: (
               <Label color="blue" size="mini">
@@ -259,11 +250,7 @@ const PatientVaccinatedList = (props) => {
                 </Link>
               </div>
             ),
-<<<<<<< HEAD
-          })): []
-=======
           }))
->>>>>>> 01db469d07a83427ee0c4d3c149c9f742c0140ab
         }
         totalCount={data?.totalElements}
         isLoading={isLoading}

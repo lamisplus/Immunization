@@ -145,13 +145,8 @@ const PatientList = (props) => {
           ),
         }}
         data={
-<<<<<<< HEAD
-          !isLoading && data &&
-          data?.records ?
-=======
           data &&
           data?.records &&
->>>>>>> 01db469d07a83427ee0c4d3c149c9f742c0140ab
           data?.records?.map?.((row) => ({
             name: row?.firstName + " " + row?.surname || row?.otherName || "",
             hospital_number: getHospitalNumber(row),
@@ -203,11 +198,7 @@ const PatientList = (props) => {
                 </Link>
               </div>
             ),
-<<<<<<< HEAD
-          })): []
-=======
           }))
->>>>>>> 01db469d07a83427ee0c4d3c149c9f742c0140ab
         }
         options={{
           headerStyle: {
