@@ -27,7 +27,7 @@ const Home = () => {
           </li>
         </ol>
 
-        <div>
+        {/* <div>
           <Link to={"register-patient"}>
             <Button
               variant="contained"
@@ -39,7 +39,7 @@ const Home = () => {
               <span style={{ textTransform: "capitalize" }}>New Patient</span>
             </Button>
           </Link>
-        </div>
+        </div> */}
       </div>
 
       <Row style={{ marginTop: "20px" }}>

@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Menu } from "semantic-ui-react";
-import { calculateAgeNoText } from "../../utils/calculateAge";
+import { calculateAgeNoText } from "../../utils/calculateAge"; 
 
 function SubMenu(props) {
   const patientProp = props.patientObj ? props.patientObj : {};

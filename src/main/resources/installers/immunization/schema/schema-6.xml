@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.5.xsd">
+
+    <changeSet id="20260915-0001" author="claude">
+        <sql>
+            ALTER TABLE public.immunization
+                ALTER COLUMN unique_immunization_data TYPE jsonb
+                USING NULLIF(unique_immunization_data, '')::jsonb;
+        </sql>
+    </changeSet>
+</databaseChangeLog>

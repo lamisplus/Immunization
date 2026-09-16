@@ -10,6 +10,6 @@ import org.springframework.core.annotation.Order;
         version = 1)
 public class SchemaInstaller5 extends AcrossLiquibaseInstaller {
     public SchemaInstaller5() {
-        super("classpath:installers/covid/schema/schema-5.xml");
+        super("classpath:installers/immunization/schema/schema-5.xml");
     }
 }
