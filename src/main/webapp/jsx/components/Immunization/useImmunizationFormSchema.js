@@ -6,7 +6,7 @@ export const useImmunizationFormValidationSchema = (
   initialValues
 ) => {
   const immunizationFormIntialValues = {
-    vaccineType: "",
+    vaccineType: [],
     vaccineDetail: "",
     missedVaccine: "",
     missedVaccineType: "",
@@ -14,7 +14,11 @@ export const useImmunizationFormValidationSchema = (
   };
 
   const ImmunizationFormInitialSchema = yup.object({
-    vaccineType: yup.string().required("This field is required"),
+    vaccineType: yup
+      .array()
+      .of(yup.string())
+      .min(1, "This field is required")
+      .required("This field is required"),
     vaccinationDate: yup.string().required("This field is required"),
     vaccineDetail: yup.string().required("This field is required"),
     missedVaccine: yup.string().required("This field is required"),

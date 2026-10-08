@@ -1,14 +1,31 @@
 import React, { useState } from "react";
 import { useArchiveImmunization } from "../../customHooks/useArchiveImmunization";
 import { fetchPatientVaccinationHistory } from "../../services/fetchPatientVaccinationHistory";
+import { fetchRoutineImmunizationVaccine } from "../../services/fetchRoutineImmunizationVaccine";
 import { getVaccinatedPatientDataKey } from "../../utils/queryKeys";
+import { calculateAge } from "../../utils/calculateAge";
 import { useQuery } from "react-query";
 import { Dropdown } from "react-bootstrap";
 import PerfectScrollbar from "react-perfect-scrollbar";
 import { Card, Accordion } from "react-bootstrap";
 import { Modal } from "react-bootstrap";
 import Button from "@material-ui/core/Button";
+import moment from "moment";
 import "react-widgets/dist/css/react-widgets.css";
+
+// Age relative to an arbitrary reference date (e.g. the vaccination date),
+// as opposed to utils/calculateAge which is relative to today.
+const calculateAgeAt = (dateOfBirth, referenceDate) => {
+  if (!dateOfBirth || !referenceDate) return "";
+  const ref = moment(referenceDate);
+  const birth = moment(dateOfBirth);
+  const years = ref.diff(birth, "years");
+  if (years > 0) {
+    return `${years} year(s)`;
+  }
+  const months = ref.diff(birth, "months");
+  return `${months} month(s)`;
+};
 
 const RecentActivities = (props) => {
   const [openDeleteModal, setOpenDeleteModal] = React.useState(false);
@@ -34,6 +51,33 @@ const RecentActivities = (props) => {
     [getVaccinatedPatientDataKey, query],
     () => fetchPatientVaccinationHistory(query)
   );
+
+  // Master vaccine catalog, used to resolve saved vaccine codes to their
+  // display names for the Routine Immunization activity line.
+  const { data: vaccineCatalog } = useQuery(
+    ["ROUTINE_IMMUNIZATION_VACCINE_TYPE"],
+    () => fetchRoutineImmunizationVaccine("ROUTINE_IMMUNIZATION_VACCINE_TYPE")
+  );
+
+  const getVaccineNames = (row) => {
+    const rawVaccineType = row?.uniqueImmunizationData?.vaccineType;
+    const codes = Array.isArray(rawVaccineType)
+      ? rawVaccineType
+      : rawVaccineType
+      ? [rawVaccineType]
+      : [];
+
+    return codes
+      .map(
+        (code) =>
+          vaccineCatalog?.find((vacc) => vacc.code === code)?.display || code
+      )
+      .join(", ");
+  };
+
+  const patientDateOfBirth =
+    props?.patientObj?.dateOfBirth || props?.patientObj?.dob;
+  const ageNow = calculateAge(patientDateOfBirth);
 
  const LoadViewPage = (row, action) => {
     if (row.immunizationType === "ROUTINE_IMMUNIZATION") {
@@ -151,6 +195,23 @@ const RecentActivities = (props) => {
                                         <small className="d-block">
                                           {data.vaccinationDate}
                                         </small>
+                                        {data.immunizationType ===
+                                          "ROUTINE_IMMUNIZATION" && (
+                                          <>
+                                            <small className="d-block">
+                                              Vaccine(s):{" "}
+                                              {getVaccineNames(data) || "-"}
+                                            </small>
+                                            <small className="d-block">
+                                              Age now: {ageNow || "-"} | Age
+                                              at vaccination:{" "}
+                                              {calculateAgeAt(
+                                                patientDateOfBirth,
+                                                data.vaccinationDate
+                                              ) || "-"}
+                                            </small>
+                                          </>
+                                        )}
                                       </div>
 
                                       <Dropdown className="dropdown">

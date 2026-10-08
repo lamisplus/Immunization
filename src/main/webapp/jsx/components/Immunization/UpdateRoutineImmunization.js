@@ -9,6 +9,11 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { makeStyles } from "@material-ui/core/styles";
 import { Card, CardContent } from "@material-ui/core";
+import Select from "@material-ui/core/Select";
+import MenuItem from "@material-ui/core/MenuItem";
+import Checkbox from "@material-ui/core/Checkbox";
+import ListItemText from "@material-ui/core/ListItemText";
+import FormControl from "@material-ui/core/FormControl";
 import "react-toastify/dist/ReactToastify.css";
 import "react-widgets/dist/css/react-widgets.css";
 import "react-phone-input-2/lib/style.css";
@@ -27,6 +32,17 @@ import { fetchImmunizationById } from "../../services/fetchImmunizationById";
 import { useUpdateImmunization } from "../../customHooks/useUpdateImmunization";
 
 library.add(faCheckSquare, faCoffee, faEdit, faTrash);
+
+const ITEM_HEIGHT = 48;
+const ITEM_PADDING_TOP = 8;
+const MenuProps = {
+  PaperProps: {
+    style: {
+      maxHeight: ITEM_HEIGHT * 4.5 + ITEM_PADDING_TOP,
+      width: 250,
+    },
+  },
+};
 
 const useStyles = makeStyles((theme) => ({
   card: {
@@ -104,15 +120,25 @@ const UpdateRoutineImmunization = (props) => {
   const clientDateOfBirth =
     props?.patientObj?.dateOfBirth || props?.patientObj?.dob;
 
+  const isMaleClient =
+    (props?.patientObj?.gender?.display || "").toLowerCase() === "male";
+
   const [queryKey] = useState(determineClientImmunization(clientDateOfBirth));
   const [formInitialValue, setFormInitialValue] = useState(null)
   const { data: vaccines, isLoading } = useQuery([queryKey], () =>
     fetchRoutineImmunizationVaccine(queryKey)
   );
 
+  const filteredVaccines = vaccines?.filter((vacc) => {
+    const isHpv =
+      vacc?.code?.toLowerCase()?.includes("hpv") ||
+      vacc?.display?.toLowerCase()?.includes("hpv");
+    return !(isMaleClient && isHpv);
+  });
+
   const { data: missedVaccine, isLoading: isLoadingMissedVaccine } = useQuery(
-    ["ROUTINE_IMMUNIZATION_VACCINE_TYPE"],
-    () => fetchRoutineImmunizationVaccine("ROUTINE_IMMUNIZATION_VACCINE_TYPE")
+    [queryKey, "MISSED_VACCINE"],
+    () => fetchRoutineImmunizationVaccine(queryKey)
   );
 
   const handleSubmit = async () => {
@@ -147,10 +173,20 @@ const UpdateRoutineImmunization = (props) => {
     () => fetchImmunizationById(props?.activeContent?.id),
     {
       onSuccess: (data) => {
+        // Older records saved vaccineType as a single string before the
+        // multi-select change; normalize those into an array so the
+        // select displays them correctly either way.
+        const rawVaccineType = data?.uniqueImmunizationData?.vaccineType;
+        const normalizedVaccineType = Array.isArray(rawVaccineType)
+          ? rawVaccineType
+          : rawVaccineType
+          ? [rawVaccineType]
+          : [];
+
         const initialValues = {
           immunizationType: data?.immunizationType,
           vaccinationDate: data?.vaccinationDate,
-          vaccineType: data?.uniqueImmunizationData?.vaccineType,
+          vaccineType: normalizedVaccineType,
           vaccineDetail: data?.uniqueImmunizationData?.vaccineDetail,
           missedVaccine: data?.uniqueImmunizationData?.missedVaccine,
           missedVaccineType: data?.uniqueImmunizationData?.missedVaccineType,
@@ -224,27 +260,45 @@ const UpdateRoutineImmunization = (props) => {
                       Type of vaccine {isLoading && "Loading vaccine ..."}
                       <span style={{ color: "red" }}> *</span>
                     </Label>
-                    <select
-                      className="form-control"
-                      name="vaccineType"
-                      id="vaccineType"
-                      style={{
-                        border: "1px solid #014D88",
-                        borderRadius: "0.2rem",
-                      }}
-                      disabled={disableInputs}
-                      readOnly={disableInputs}
-                      onChange={formik.handleChange}
-                      onBlur={formik.handleBlur}
-                      value={formik?.values?.vaccineType}
-                    >
-                      <option value="">Select vaccine type</option>
-                      {vaccines?.map((vacc) => (
-                        <option key={vacc?.id} value={vacc?.code}>
-                          {vacc?.display}
-                        </option>
-                      ))}
-                    </select>
+                    <FormControl fullWidth>
+                      <Select
+                        className="form-control"
+                        name="vaccineType"
+                        id="vaccineType"
+                        multiple
+                        displayEmpty
+                        style={{
+                          border: "1px solid #014D88",
+                          borderRadius: "0.2rem",
+                        }}
+                        disabled={disableInputs}
+                        value={formik?.values?.vaccineType || []}
+                        onChange={formik.handleChange}
+                        onBlur={formik.handleBlur}
+                        renderValue={(selected) =>
+                          selected?.length
+                            ? vaccines
+                                ?.filter((vacc) => selected.includes(vacc.code))
+                                .map((vacc) => vacc.display)
+                                .join(", ")
+                            : "Select vaccine type"
+                        }
+                        MenuProps={MenuProps}
+                      >
+                        {filteredVaccines?.map((vacc) => (
+                          <MenuItem key={vacc?.id} value={vacc?.code}>
+                            <Checkbox
+                              checked={
+                                (formik?.values?.vaccineType || []).indexOf(
+                                  vacc?.code
+                                ) > -1
+                              }
+                            />
+                            <ListItemText primary={vacc?.display} />
+                          </MenuItem>
+                        ))}
+                      </Select>
+                    </FormControl>
 
                     {formik?.touched?.vaccineType &&
                       formik?.errors.vaccineType && (
