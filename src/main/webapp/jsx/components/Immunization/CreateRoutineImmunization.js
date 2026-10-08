@@ -9,6 +9,11 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { makeStyles } from "@material-ui/core/styles";
 import { Card, CardContent } from "@material-ui/core";
+import Select from "@material-ui/core/Select";
+import MenuItem from "@material-ui/core/MenuItem";
+import Checkbox from "@material-ui/core/Checkbox";
+import ListItemText from "@material-ui/core/ListItemText";
+import FormControl from "@material-ui/core/FormControl";
 import "react-toastify/dist/ReactToastify.css";
 import "react-widgets/dist/css/react-widgets.css";
 import "react-phone-input-2/lib/style.css";
@@ -26,6 +31,17 @@ import moment from "moment";
 import { useSaveImmunization } from "../../customHooks/useSaveImmunization";
 
 library.add(faCheckSquare, faCoffee, faEdit, faTrash);
+
+const ITEM_HEIGHT = 48;
+const ITEM_PADDING_TOP = 8;
+const MenuProps = {
+  PaperProps: {
+    style: {
+      maxHeight: ITEM_HEIGHT * 4.5 + ITEM_PADDING_TOP,
+      width: 250,
+    },
+  },
+};
 
 const useStyles = makeStyles((theme) => ({
   card: {
@@ -102,15 +118,30 @@ const CreateRoutineImmunization = (props) => {
   const clientDateOfBirth =
     props?.patientObj?.dateOfBirth || props?.patientObj?.dob;
 
+  const isMaleClient =
+    (props?.patientObj?.gender?.display || "").toLowerCase() === "male";
+
   const [queryKey] = useState(determineClientImmunization(clientDateOfBirth));
 
   const { data: vaccines, isLoading } = useQuery([queryKey], () =>
     fetchRoutineImmunizationVaccine(queryKey)
   );
 
+  // HPV is excluded from male clients. Matching on a case-insensitive
+  // substring (rather than a fixed code) so it holds regardless of which
+  // age-bucket codeset HPV happens to be returned under.
+  const filteredVaccines = vaccines?.filter((vacc) => {
+    const isHpv =
+      vacc?.code?.toLowerCase()?.includes("hpv") ||
+      vacc?.display?.toLowerCase()?.includes("hpv");
+    return !(isMaleClient && isHpv);
+  });
+
+  // Missed-vaccine options are now age-filtered the same way the main
+  // vaccine list already is, instead of the full unfiltered catalog.
   const { data: missedVaccine, isLoading: isLoadingMissedVaccine } = useQuery(
-    ["ROUTINE_IMMUNIZATION_VACCINE_TYPE"],
-    () => fetchRoutineImmunizationVaccine("ROUTINE_IMMUNIZATION_VACCINE_TYPE")
+    [queryKey, "MISSED_VACCINE"],
+    () => fetchRoutineImmunizationVaccine(queryKey)
   );
 
   const handleSubmit = async () => {
@@ -198,25 +229,44 @@ const CreateRoutineImmunization = (props) => {
                       Type of vaccine {isLoading && "Loading vaccine ..."}
                       <span style={{ color: "red" }}> *</span>
                     </Label>
-                    <select
-                      className="form-control"
-                      name="vaccineType"
-                      id="vaccineType"
-                      style={{
-                        border: "1px solid #014D88",
-                        borderRadius: "0.2rem",
-                      }}
-                      onChange={formik.handleChange}
-                      onBlur={formik.handleBlur}
-                      value={formik?.values?.vaccineType}
-                    >
-                      <option value="">Select vaccine type</option>
-                      {vaccines?.map((vacc) => (
-                        <option key={vacc?.id} value={vacc?.code}>
-                          {vacc?.display}
-                        </option>
-                      ))}
-                    </select>
+                    <FormControl fullWidth>
+                      <Select
+                        className="form-control"
+                        name="vaccineType"
+                        id="vaccineType"
+                        multiple
+                        displayEmpty
+                        style={{
+                          border: "1px solid #014D88",
+                          borderRadius: "0.2rem",
+                        }}
+                        value={formik?.values?.vaccineType || []}
+                        onChange={formik.handleChange}
+                        onBlur={formik.handleBlur}
+                        renderValue={(selected) =>
+                          selected?.length
+                            ? vaccines
+                                ?.filter((vacc) => selected.includes(vacc.code))
+                                .map((vacc) => vacc.display)
+                                .join(", ")
+                            : "Select vaccine type"
+                        }
+                        MenuProps={MenuProps}
+                      >
+                        {filteredVaccines?.map((vacc) => (
+                          <MenuItem key={vacc?.id} value={vacc?.code}>
+                            <Checkbox
+                              checked={
+                                (formik?.values?.vaccineType || []).indexOf(
+                                  vacc?.code
+                                ) > -1
+                              }
+                            />
+                            <ListItemText primary={vacc?.display} />
+                          </MenuItem>
+                        ))}
+                      </Select>
+                    </FormControl>
 
                     {formik?.touched?.vaccineType &&
                       formik?.errors.vaccineType && (

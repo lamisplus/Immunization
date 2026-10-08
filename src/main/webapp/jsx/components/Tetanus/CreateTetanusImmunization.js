@@ -223,32 +223,6 @@ const CreateTetanusImmunizationTetanus = (props) => {
                     </FormGroup>
                   </div>
                 )}
-
-                {formik?.values?.vaccineType !== "" && (
-                  <div className="form-group mb-3 col-md-6">
-                    <FormGroup>
-                      <Label>
-                        Enter Vaccine Result
-                        <span style={{ color: "red" }}> *</span>
-                      </Label>
-                      <Input
-                        type="text"
-                        name="vaccinationResult"
-                        id="vaccinationResult"
-                        onChange={formik.handleChange}
-                        onBlur={formik.handleBlur}
-                        value={formik.values?.vaccinationResult}
-                      />
-
-                      {formik?.touched?.vaccinationResult &&
-                        formik?.errors.vaccinationResult && (
-                          <span className={classes.error}>
-                            {formik?.errors.vaccinationResult}
-                          </span>
-                        )}
-                    </FormGroup>
-                  </div>
-                )}
               </div>
             </div>
 

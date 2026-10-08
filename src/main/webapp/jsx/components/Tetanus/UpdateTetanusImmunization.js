@@ -145,7 +145,6 @@ const UpdateTetanusImmunizationTetanus = (props) => {
         const initialValues = {
           vaccinationDate: data?.vaccinationDate,
           vaccineType: data?.uniqueImmunizationData?.vaccineType,
-          vaccinationResult: data?.uniqueImmunizationData?.vaccinationResult,
         };
         if (formInitialValue === null) {
           setFormInitialValue(initialValues);
@@ -246,34 +245,6 @@ const UpdateTetanusImmunizationTetanus = (props) => {
                         formik?.errors.vaccinationDate && (
                           <span className={classes.error}>
                             {formik?.errors.vaccinationDate}
-                          </span>
-                        )}
-                    </FormGroup>
-                  </div>
-                )}
-
-                {formik?.values?.vaccineType !== "" && (
-                  <div className="form-group mb-3 col-md-6">
-                    <FormGroup>
-                      <Label>
-                        Enter Vaccine Result
-                        <span style={{ color: "red" }}> *</span>
-                      </Label>
-                      <Input
-                        type="text"
-                        name="vaccinationResult"
-                        id="vaccinationResult"
-                        onChange={formik.handleChange}
-                        onBlur={formik.handleBlur}
-                        value={formik.values?.vaccinationResult}
-                        disabled={disableInputs}
-                        readOnly={disableInputs}
-                      />
-
-                      {formik?.touched?.vaccinationResult &&
-                        formik?.errors.vaccinationResult && (
-                          <span className={classes.error}>
-                            {formik?.errors.vaccinationResult}
                           </span>
                         )}
                     </FormGroup>
