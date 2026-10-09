@@ -11,7 +11,7 @@ import "semantic-ui-css/semantic.min.css";
 import { Col, Row } from "reactstrap";
 import Moment from "moment";
 import momentLocalizer from "react-widgets-moment";
-import moment from "moment";
+import { calculateAge } from "../../utils/calculateAge";
 
 //Dtate Picker package
 Moment.locale("en");
@@ -62,22 +62,6 @@ function PatientCard(props) {
     //CheckBiometric();
   }, [props.patientObj]);
 
-  const calculate_age = (dob) => {
-    var today = new Date();
-    var dateParts = dob.split("-");
-    var dateObject = new Date(+dateParts[2], dateParts[1] - 1, +dateParts[0]); // Correct the order of date parts
-    var birthDate = new Date(dateObject); // Create a Date object directly from the 'dob' argument
-    var age_years = today.getFullYear() - birthDate.getFullYear();
-    var age_months = today.getMonth() - birthDate.getMonth();
-    if (age_months < 0 || (age_months === 0 && today.getDate() < birthDate.getDate())) {
-        age_years--;
-        age_months = 12 + age_months; // Adjust months if negative
-    }
-    if (age_years === 0) {
-        return age_months + " month(s)";
-    }
-    return age_years + " year(s)";
-};
 
  
 
@@ -175,11 +159,7 @@ function PatientCard(props) {
                     {" "}
                     Age :{" "}
                     <b style={{ color: "#0B72AA" }}>
-                      {calculate_age(
-                        moment(
-                          patientObj.dob || patientObj?.dateOfBirth
-                        ).format("DD-MM-YYYY")
-                      )}
+                      {calculateAge(patientObj?.dob || patientObj?.dateOfBirth)}
                     </b>
                   </span>
                 </Col>

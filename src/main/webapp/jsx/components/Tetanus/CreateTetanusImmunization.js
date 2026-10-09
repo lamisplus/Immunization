@@ -19,7 +19,7 @@ import "react-phone-input-2/lib/style.css";
 import "react-widgets/dist/css/react-widgets.css";
 import { useQuery } from "react-query";
 import { useTetanusFormValidationSchema } from "./useTetanusFormValidationSchema";
-import { fetchRoutineImmunizationVaccine } from "../../services/fetchRoutineImmunizationVaccine";
+import { fetchCodesets } from "../../services/fetchCodeset";
 import moment from "moment";
 import { useSaveImmunization } from "../../customHooks/useSaveImmunization";
 
@@ -102,7 +102,7 @@ const CreateTetanusImmunizationTetanus = (props) => {
 
   const { data: tetanusVaccines, isLoading } = useQuery(
     ["TETANUS_VACCINE"],
-    () => fetchRoutineImmunizationVaccine("TETANUS_VACCINE")
+    () => fetchCodesets("TETANUS_VACCINE")
   );
 
   const handleSubmit = async () => {
@@ -128,7 +128,7 @@ const CreateTetanusImmunizationTetanus = (props) => {
   };
 
   const { formik } = useTetanusFormValidationSchema(handleSubmit);
-  const { mutate } = useSaveImmunization(formik, props);
+  const { mutate, isLoading: isSaving } = useSaveImmunization(formik, props);
 
   return (
     <Card className={classes.root}>
@@ -167,9 +167,9 @@ const CreateTetanusImmunizationTetanus = (props) => {
                       onChange={formik.handleChange}
                       onBlur={formik.handleBlur}
                       value={formik.values?.vaccineType}
-                      disable={isLoading}
+                      disabled={isLoading}
                     >
-                      <option>Select</option>
+                      <option value="">Select</option>
                       {!isLoading &&
                         tetanusVaccines?.map((vacc) => (
                           <option value={vacc?.code} key={vacc?.id}>
@@ -234,9 +234,10 @@ const CreateTetanusImmunizationTetanus = (props) => {
               className={classes.button}
               startIcon={<SaveIcon />}
               onClick={handleSubmit}
+              disabled={isSaving}
               style={{ backgroundColor: "#014d88", fontWeight: "bolder" }}
             >
-              {!false ? (
+              {!isSaving ? (
                 <span style={{ textTransform: "capitalize" }}>Save</span>
               ) : (
                 <span style={{ textTransform: "capitalize" }}>Saving...</span>

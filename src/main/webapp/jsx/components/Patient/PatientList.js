@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useMemo, useState } from "react";
 import MaterialTable, { MTableToolbar } from "material-table";
 import { forwardRef } from "react";
 import "semantic-ui-css/semantic.min.css";
@@ -22,7 +22,6 @@ import "react-widgets/dist/css/react-widgets.css";
 import "@reach/menu-button/styles.css";
 import Moment from "moment";
 import momentLocalizer from "react-widgets-moment";
-import { useQuery } from "react-query";
 import { getPatientDataKey } from "../../utils/queryKeys";
 import { fetchAllPatients } from "../../services/fetchAllPatients";
 import { Link } from "react-router-dom";
@@ -30,9 +29,8 @@ import Button from "@material-ui/core/Button";
 import ButtonGroup from "@material-ui/core/ButtonGroup";
 import { MdDashboard } from "react-icons/md";
 import { calculateAge } from "../../utils/calculateAge";
-import { queryClient } from "../../utils/queryClient";
-import { getHospitalNumber } from "../../utils";
-import moment from "moment";
+import { getHospitalNumber, getPatientName, getPatientSex } from "../../utils";
+import { remoteTableLoader } from "../../utils/remoteTable";
 
 //Date Picker package
 Moment.locale("en");
@@ -62,13 +60,59 @@ const tableIcons = {
   ViewColumn: forwardRef((props, ref) => <ViewColumn {...props} ref={ref} />),
 };
 
+const toRow = (row) => ({
+    name: getPatientName(row),
+    hospital_number: getHospitalNumber(row),
+    gender: getPatientSex(row),
+    age: calculateAge(row?.dob || row?.dateOfBirth),
+
+    actions: (
+      <div>
+        <Link
+          to={{
+            pathname: "/patient-vaccination-history",
+            route: "patient-vaccination-history",
+            state: { patientObj: row },
+          }}
+        >
+          <ButtonGroup
+            variant="contained"
+            aria-label="split button"
+            style={{
+              backgroundColor: "rgb(153, 46, 98)",
+              height: "30px",
+              width: "215px",
+            }}
+            size="large"
+          >
+            <Button
+              color="primary"
+              size="small"
+              aria-label="select merge strategy"
+              aria-haspopup="menu"
+              style={{ backgroundColor: "rgb(153, 46, 98)" }}
+            >
+              <MdDashboard />
+            </Button>
+            <Button style={{ backgroundColor: "rgb(153, 46, 98)" }}>
+              <span
+                style={{
+                  fontSize: "10px",
+                  color: "#fff",
+                  fontWeight: "bolder",
+                }}
+              >
+                Patient Dashboard
+              </span>
+            </Button>
+          </ButtonGroup>
+        </Link>
+      </div>
+    ),
+});
+
 const PatientList = (props) => {
   const [showPPI, setShowPPI] = useState(true);
-  const [query, setQueryParams] = useState({
-    page: 0,
-    pageSize: 10,
-    search: "",
-  });
   const handleCheckBox = (e) => {
     if (e.target.checked) {
       setShowPPI(false);
@@ -77,23 +121,20 @@ const PatientList = (props) => {
     }
   };
 
-  const prefetchNextPage = async () => {
-    const nextPage = query.page + 1;
-    // Use the same query key as in the useQuery hook
-    const queryKey = [getPatientDataKey, { ...query, page: nextPage }];
-    await queryClient.prefetchQuery(queryKey, () =>
-      fetchAllPatients({ ...query, page: nextPage })
-    );
-  };
-
-  const { data, isLoading, refetch } = useQuery(
-    [getPatientDataKey, query],
-    () => fetchAllPatients(query),
-    {
-      onSuccess: () => prefetchNextPage(),
-    }
+  // Paged and searched by the patient API (pageNo/pageSize/searchParam).
+  const loadPage = useMemo(
+    () =>
+      remoteTableLoader({
+        queryKey: getPatientDataKey,
+        fetchPage: fetchAllPatients,
+        toPage: (response, params) => ({
+          data: (response?.records || []).map(toRow),
+          page: response?.currentPage ?? params.page,
+          totalCount: response?.totalRecords ?? 0,
+        }),
+      }),
+    []
   );
-
 
   return (
     <div>
@@ -144,62 +185,7 @@ const PatientList = (props) => {
             </div>
           ),
         }}
-        data={
-          data &&
-          data?.records &&
-          data?.records?.map?.((row) => ({
-            name: row?.firstName + " " + row?.surname || row?.otherName || "",
-            hospital_number: getHospitalNumber(row),
-            gender: row?.gender !== null ? row.gender.display : "",
-            age: calculateAge(
-              moment(row?.dob || row?.dateOfBirth).format("DD-MM-YYYY")
-            ),
-
-            actions: (
-              <div>
-                <Link
-                  to={{
-                    pathname: "/patient-vaccination-history",
-                    route: "patient-vaccination-history",
-                    state: { patientObj: row },
-                  }}
-                >
-                  <ButtonGroup
-                    variant="contained"
-                    aria-label="split button"
-                    style={{
-                      backgroundColor: "rgb(153, 46, 98)",
-                      height: "30px",
-                      width: "215px",
-                    }}
-                    size="large"
-                  >
-                    <Button
-                      color="primary"
-                      size="small"
-                      aria-label="select merge strategy"
-                      aria-haspopup="menu"
-                      style={{ backgroundColor: "rgb(153, 46, 98)" }}
-                    >
-                      <MdDashboard />
-                    </Button>
-                    <Button style={{ backgroundColor: "rgb(153, 46, 98)" }}>
-                      <span
-                        style={{
-                          fontSize: "10px",
-                          color: "#fff",
-                          fontWeight: "bolder",
-                        }}
-                      >
-                        Patient Dashboard
-                      </span>
-                    </Button>
-                  </ButtonGroup>
-                </Link>
-              </div>
-            ),
-          }))
-        }
+        data={loadPage}
         options={{
           headerStyle: {
             backgroundColor: "#014d88",
@@ -214,22 +200,8 @@ const PatientList = (props) => {
           exportButton: false,
           searchFieldAlignment: "left",
           pageSizeOptions: [10, 20, 100],
-          pageSize: query?.pageSize || 10,
+          pageSize: 10,
           debounceInterval: 400,
-        }}
-        page={data?.currentPage}
-        totalCount={data?.totalRecords}
-        onChangePage={(newPage) => {
-          setQueryParams((prevFilters) => ({ ...prevFilters, page: newPage }));
-          refetch(query);
-        }}
-        isLoading={isLoading}
-        onChangeRowsPerPage={(newPageSize) => {
-          setQueryParams((prevFilters) => ({
-            ...prevFilters,
-            pageSize: newPageSize,
-          }));
-          refetch(query);
         }}
       />
     </div>

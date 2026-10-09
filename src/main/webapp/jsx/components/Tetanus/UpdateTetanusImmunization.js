@@ -19,7 +19,7 @@ import "react-phone-input-2/lib/style.css";
 import "react-widgets/dist/css/react-widgets.css";
 import { useQuery } from "react-query";
 import { useTetanusFormValidationSchema } from "./useTetanusFormValidationSchema";
-import { fetchRoutineImmunizationVaccine } from "../../services/fetchRoutineImmunizationVaccine";
+import { fetchCodesets } from "../../services/fetchCodeset";
 import { useUpdateImmunization } from "../../customHooks/useUpdateImmunization";
 import { fetchImmunizationById } from "../../services/fetchImmunizationById";
 import moment from "moment";
@@ -106,7 +106,7 @@ const UpdateTetanusImmunizationTetanus = (props) => {
 
   const { data: tetanusVaccines, isLoading } = useQuery(
     ["TETANUS_VACCINE"],
-    () => fetchRoutineImmunizationVaccine("TETANUS_VACCINE")
+    () => fetchCodesets("TETANUS_VACCINE")
   );
 
   const handleSubmit = async () => {
@@ -194,7 +194,7 @@ const UpdateTetanusImmunizationTetanus = (props) => {
                       disabled={disableInputs || isLoading}
                       readOnly={disableInputs}
                     >
-                      <option>Select</option>
+                      <option value="">Select</option>
                       {!isLoading &&
                         tetanusVaccines?.map((vacc) => (
                           <option value={vacc.code} key={vacc?.id}>
@@ -262,6 +262,7 @@ const UpdateTetanusImmunizationTetanus = (props) => {
                 className={classes.button}
                 startIcon={<SaveIcon />}
                 onClick={handleSubmit}
+                disabled={isLoadingMutate}
                 style={{ backgroundColor: "#014d88", fontWeight: "bolder" }}
               >
                 {!isLoadingMutate ? (

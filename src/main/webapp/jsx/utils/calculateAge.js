@@ -1,33 +1,35 @@
-export const calculateAge = (dob) => {
-  var today = new Date();
-  var dateParts = dob.split("-");
-  var dateObject = new Date(+dateParts[2], dateParts[1] - 1, +dateParts[0]); // Correct the order of date parts
-  var birthDate = new Date(dateObject); // Create a Date object directly from the 'dob' argument
-  var age_years = today.getFullYear() - birthDate.getFullYear();
-  var age_months = today.getMonth() - birthDate.getMonth();
-  if (age_months < 0 || (age_months === 0 && today.getDate() < birthDate.getDate())) {
-      age_years--;
-      age_months = 12 + age_months; // Adjust months if negative
-  }
-  if (age_years === 0) {
-      return age_months + " month(s)";
-  }
-  return age_years + " year(s)";
+import moment from "moment";
+
+// The patient API returns ISO dates (YYYY-MM-DD); DD-MM-YYYY is still
+// accepted for callers that pre-format. Parsing is strict so a date in one
+// format is never misread as the other.
+const DATE_FORMATS = ["YYYY-MM-DD", "DD-MM-YYYY", moment.ISO_8601];
+
+export const parseDate = (value) => {
+  if (!value) return null;
+  const parsed =
+    value instanceof Date || moment.isMoment(value)
+      ? moment(value)
+      : moment(value, DATE_FORMATS, true);
+  return parsed.isValid() ? parsed : null;
 };
 
+// Age as "N year(s)", or "N month(s)" under one year, measured at
+// referenceDate (e.g. a vaccination date) or today when omitted.
+export const calculateAge = (dob, referenceDate) => {
+  const birthDate = parseDate(dob);
+  const atDate = referenceDate ? parseDate(referenceDate) : moment();
+  if (!birthDate || !atDate || atDate.isBefore(birthDate, "day")) return "";
 
-  export const calculateAgeNoText = (dob) => {
-    const today = new Date();
-    const birthDate = new Date(dob); // create a date object directlyfrom`dob1`argument
-    let age_now = today.getFullYear() - birthDate.getFullYear();
-    const m = today.getMonth() - birthDate.getMonth();
+  const years = atDate.diff(birthDate, "years");
+  if (years >= 1) {
+    return years + " year(s)";
+  }
+  return atDate.diff(birthDate, "months") + " month(s)";
+};
 
-    if (age_now <= 0 && m < 0 && today.getDate() < birthDate.getDate()) {
-      age_now--;
-    }
-
-    if (age_now === 0) {
-      return m;
-    }
-    return age_now;
-  };
+// Age in whole completed years; 0 when the date is missing or invalid.
+export const calculateAgeNoText = (dob) => {
+  const birthDate = parseDate(dob);
+  return birthDate ? Math.max(moment().diff(birthDate, "years"), 0) : 0;
+};

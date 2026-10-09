@@ -81,3 +81,8 @@ mvnw.cmd
 .mvn
 pharmacy.imla
 
+
+### Stray images in Java sources ###
+src/main/java/**/*.jpeg
+src/main/java/**/*.jpg
+src/main/java/**/*.png
