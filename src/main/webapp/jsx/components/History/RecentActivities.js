@@ -1,31 +1,16 @@
 import React, { useState } from "react";
 import { useArchiveImmunization } from "../../customHooks/useArchiveImmunization";
-import { fetchPatientVaccinationHistory } from "../../services/fetchPatientVaccinationHistory";
-import { fetchRoutineImmunizationVaccine } from "../../services/fetchRoutineImmunizationVaccine";
-import { getVaccinatedPatientDataKey } from "../../utils/queryKeys";
+import { usePatientImmunizationHistory } from "../../customHooks/usePatientImmunizationHistory";
+import { useImmunizationNames } from "../../customHooks/useImmunizationNames";
 import { calculateAge } from "../../utils/calculateAge";
-import { useQuery } from "react-query";
+import { describeImmunization } from "../../utils/immunizationDisplay";
+import { getImmunizationLabel } from "../../utils/mutationFeedback";
 import { Dropdown } from "react-bootstrap";
 import PerfectScrollbar from "react-perfect-scrollbar";
 import { Card, Accordion } from "react-bootstrap";
 import { Modal } from "react-bootstrap";
 import Button from "@material-ui/core/Button";
-import moment from "moment";
 import "react-widgets/dist/css/react-widgets.css";
-
-// Age relative to an arbitrary reference date (e.g. the vaccination date),
-// as opposed to utils/calculateAge which is relative to today.
-const calculateAgeAt = (dateOfBirth, referenceDate) => {
-  if (!dateOfBirth || !referenceDate) return "";
-  const ref = moment(referenceDate);
-  const birth = moment(dateOfBirth);
-  const years = ref.diff(birth, "years");
-  if (years > 0) {
-    return `${years} year(s)`;
-  }
-  const months = ref.diff(birth, "months");
-  return `${months} month(s)`;
-};
 
 const RecentActivities = (props) => {
   const [openDeleteModal, setOpenDeleteModal] = React.useState(false);
@@ -38,42 +23,11 @@ const RecentActivities = (props) => {
   };
 
 
-  const [query] = useState({
-    page: 0,
-    pageSize: 20,
-    search: "",
-    id: props?.patientObj?.id,
-  });
   const [activeAccordionHeaderShadow, setActiveAccordionHeaderShadow] =
     useState(0);
 
-  const { data, isLoading } = useQuery(
-    [getVaccinatedPatientDataKey, query],
-    () => fetchPatientVaccinationHistory(query)
-  );
-
-  // Master vaccine catalog, used to resolve saved vaccine codes to their
-  // display names for the Routine Immunization activity line.
-  const { data: vaccineCatalog } = useQuery(
-    ["ROUTINE_IMMUNIZATION_VACCINE_TYPE"],
-    () => fetchRoutineImmunizationVaccine("ROUTINE_IMMUNIZATION_VACCINE_TYPE")
-  );
-
-  const getVaccineNames = (row) => {
-    const rawVaccineType = row?.uniqueImmunizationData?.vaccineType;
-    const codes = Array.isArray(rawVaccineType)
-      ? rawVaccineType
-      : rawVaccineType
-      ? [rawVaccineType]
-      : [];
-
-    return codes
-      .map(
-        (code) =>
-          vaccineCatalog?.find((vacc) => vacc.code === code)?.display || code
-      )
-      .join(", ");
-  };
+  const { records, isLoading } = usePatientImmunizationHistory(props?.patientObj?.id);
+  const nameLookups = useImmunizationNames();
 
   const patientDateOfBirth =
     props?.patientObj?.dateOfBirth || props?.patientObj?.dob;
@@ -104,14 +58,18 @@ const RecentActivities = (props) => {
     }
   };
 
+  // The dialog stays open (showing Deleting...) until the request settles.
   const LoadDeletePage = () => {
-    toggleDeleteModal();
-    mutate(record?.id);
-    setRecord(null);
+    mutate(record?.id, {
+      onSettled: () => {
+        setOpenDeleteModal(false);
+        setRecord(null);
+      },
+    });
   };
 
 
-  const { mutate } = useArchiveImmunization(props);
+  const { mutate, isLoading: isDeleting } = useArchiveImmunization(props);
 
   const ActivityName = (name) => {
     if (name === "ROUTINE_IMMUNIZATION") {
@@ -148,7 +106,9 @@ const RecentActivities = (props) => {
                   >
                     <>
                       {!isLoading &&
-                        data?.content?.map?.((data, index) => (
+                        records.map((data, index) => {
+                          const summary = describeImmunization(data, nameLookups);
+                          return (
                           <div className="accordion-item" key={index}>
                             <Accordion.Toggle
                               as={Card.Text}
@@ -190,28 +150,29 @@ const RecentActivities = (props) => {
                                       </div>
                                       <div className="media-body">
                                         <h5 className="mb-1">
-                                          {data.immunizationType}
+                                          {summary.typeLabel}
                                         </h5>
                                         <small className="d-block">
                                           {data.vaccinationDate}
                                         </small>
-                                        {data.immunizationType ===
-                                          "ROUTINE_IMMUNIZATION" && (
-                                          <>
-                                            <small className="d-block">
-                                              Vaccine(s):{" "}
-                                              {getVaccineNames(data) || "-"}
-                                            </small>
-                                            <small className="d-block">
-                                              Age now: {ageNow || "-"} | Age
-                                              at vaccination:{" "}
-                                              {calculateAgeAt(
-                                                patientDateOfBirth,
-                                                data.vaccinationDate
-                                              ) || "-"}
-                                            </small>
-                                          </>
+                                        <small className="d-block">
+                                          Vaccine(s): {summary.vaccines || "-"}
+                                          {summary.dosage && ` (${summary.dosage} dose)`}
+                                        </small>
+                                        {summary.missedVaccines && (
+                                          <small className="d-block">
+                                            Missed vaccine(s) given:{" "}
+                                            {summary.missedVaccines}
+                                          </small>
                                         )}
+                                        <small className="d-block">
+                                          Age now: {ageNow || "-"} | Age at
+                                          vaccination:{" "}
+                                          {calculateAge(
+                                            patientDateOfBirth,
+                                            data.vaccinationDate
+                                          ) || "-"}
+                                        </small>
                                       </div>
 
                                       <Dropdown className="dropdown">
@@ -292,7 +253,8 @@ const RecentActivities = (props) => {
                               </div>
                             </Accordion.Collapse>
                           </div>
-                        ))}
+                          );
+                        })}
                     </>
                   </Accordion>
                 </PerfectScrollbar>
@@ -323,21 +285,21 @@ const RecentActivities = (props) => {
         <Modal.Body>
           <h4>
             Are you Sure you want to delete -{" "}
-            <b>{record && record?.immunizationType}</b>
+            <b>{record && getImmunizationLabel(record?.immunizationType)}</b>
           </h4>
         </Modal.Body>
         <Modal.Footer>
           <Button
             onClick={() => LoadDeletePage(record)}
             style={{ backgroundColor: "red", color: "#fff" }}
-            disabled={isLoading}
+            disabled={isDeleting}
           >
-            {isLoading === false ? "Yes" : "Deleting..."}
+            {isDeleting ? "Deleting..." : "Yes"}
           </Button>
           <Button
             onClick={toggleDeleteModal}
             style={{ backgroundColor: "#014d88", color: "#fff" }}
-            disabled={isLoading}
+            disabled={isDeleting}
           >
             No
           </Button>

@@ -8,7 +8,7 @@ import {
   faEdit,
   faTrash,
 } from "@fortawesome/free-solid-svg-icons";
-import * as moment from "moment";
+import moment from "moment";
 import { makeStyles } from "@material-ui/core/styles";
 import { Card, CardContent } from "@material-ui/core";
 import SaveIcon from "@material-ui/icons/Save";
@@ -24,8 +24,6 @@ import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
 import { useCovidVaccinationFormValidationSchema } from "./covidFirstVaccinationValidationSchema";
 import { fetchImmunizationById } from "../../services/fetchImmunizationById";
 import { useUpdateImmunization } from "../../customHooks/useUpdateImmunization";
-import { getVaccinatedPatientDataKey } from "../../utils/queryKeys";
-import { fetchPatientVaccinationHistory } from "../../services/fetchPatientVaccinationHistory";
 
 library.add(faCheckSquare, faCoffee, faEdit, faTrash);
 
@@ -104,12 +102,6 @@ const UpdateCovidVaccination = (props) => {
   const [formInitialValue, setFormInitialValue] = useState(null);
   const disableInputs = props?.disableInputs;
 
-  const [query] = useState({
-    page: 0,
-    pageSize: 20,
-    search: "",
-    id: props?.patientObj?.id,
-  });
 
   const { data: covidAdverseEffects } = useQuery(
     ["GET_CODESETS", "COVID_ADVERSE_EFFECT"],
@@ -176,10 +168,6 @@ const UpdateCovidVaccination = (props) => {
       },
       refetchOnMount: "always",
     }
-  );
-
-  useQuery([getVaccinatedPatientDataKey, query], () =>
-    fetchPatientVaccinationHistory(query)
   );
 
   return (
@@ -572,6 +560,7 @@ const UpdateCovidVaccination = (props) => {
                   className={classes.button}
                   startIcon={<SaveIcon />}
                   onClick={handleSubmit}
+                  disabled={isLoadingMutate}
                   style={{ backgroundColor: "#014d88", fontWeight: "bolder" }}
                 >
                   {!isLoadingMutate ? (

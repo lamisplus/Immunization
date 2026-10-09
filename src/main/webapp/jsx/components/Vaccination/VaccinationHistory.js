@@ -22,12 +22,11 @@ import "react-widgets/dist/css/react-widgets.css";
 import "@reach/menu-button/styles.css";
 import Moment from "moment";
 import momentLocalizer from "react-widgets-moment";
-import { getVaccinatedPatientDataKey } from "../../utils/queryKeys";
-import { useQuery } from "react-query";
 import Button from "@material-ui/core/Button";
-import { queryClient } from "../../utils/queryClient";
-import { fetchPatientVaccinationHistory } from "../../services/fetchPatientVaccinationHistory";
-import "@reach/menu-button/styles.css";
+import { usePatientImmunizationHistory } from "../../customHooks/usePatientImmunizationHistory";
+import { useImmunizationNames } from "../../customHooks/useImmunizationNames";
+import { describeImmunization } from "../../utils/immunizationDisplay";
+import { getImmunizationLabel } from "../../utils/mutationFeedback";
 import { useArchiveImmunization } from "../../customHooks/useArchiveImmunization";
 import { Dropdown, Menu, Icon as IconMenu } from "semantic-ui-react";
 import { Modal } from "react-bootstrap";
@@ -69,32 +68,10 @@ const PatientsVaccinaionHistory = (props) => {
     setRecord(row);
   };
 
-  const [query, setQueryParams] = useState({
-    page: 0,
-    pageSize: 10,
-    search: "",
-    id: props?.patientObj?.id,
-  });
-
-  const prefetchNextPage = async () => {
-    const nextPage = query.page + 1;
-    // Use the same query key as in the useQuery hook
-    const queryKey = [
-      getVaccinatedPatientDataKey,
-      { ...query, page: nextPage },
-    ];
-    await queryClient.prefetchQuery(queryKey, () =>
-      fetchPatientVaccinationHistory({ ...query, page: nextPage })
-    );
-  };
-
-  const { data, isLoading, refetch } = useQuery(
-    [getVaccinatedPatientDataKey, query],
-    () => fetchPatientVaccinationHistory(query),
-    {
-      onSuccess: () => prefetchNextPage(),
-    }
-  );
+  // A patient's whole history is loaded once; the table pages and searches
+  // it locally, over the readable values shown in each column.
+  const { records, isLoading } = usePatientImmunizationHistory(props?.patientObj?.id);
+  const nameLookups = useImmunizationNames();
 
   const LoadViewPage = (row, action) => {
     if (row.immunizationType === "ROUTINE_IMMUNIZATION") {
@@ -121,13 +98,17 @@ const PatientsVaccinaionHistory = (props) => {
     }
   };
 
+  // The dialog stays open (showing Deleting...) until the request settles.
   const LoadDeletePage = () => {
-    toggleDeleteModal();
-    mutate(record?.id);
-    setRecord(null);
+    mutate(record?.id, {
+      onSettled: () => {
+        setOpenDeleteModal(false);
+        setRecord(null);
+      },
+    });
   };
 
-  const { mutate } = useArchiveImmunization(props);
+  const { mutate, isLoading: isDeleting } = useArchiveImmunization(props);
 
   return (
     <div>
@@ -164,14 +145,14 @@ const PatientsVaccinaionHistory = (props) => {
             filtering: false,
           },
         ]}
-        data={
-          data &&
-          data?.content &&
-          data?.content?.length !== 0 &&
-          data?.content?.map?.((row) => ({
-            immunizationType: row?.immunizationType,
-            vaccineType: row?.uniqueImmunizationData?.vaccineType,
-            vaccinationDate: row?.uniqueImmunizationData?.vaccinationDate || "",
+        data={records.map((row) => {
+          const summary = describeImmunization(row, nameLookups);
+          return {
+            immunizationType: summary.typeLabel,
+            vaccineType: [summary.vaccines, summary.missedVaccines && `missed: ${summary.missedVaccines}`]
+              .filter(Boolean)
+              .join("; "),
+            vaccinationDate: row?.vaccinationDate || "",
             actions: (
               <div>
                 <Menu.Menu position="right">
@@ -208,11 +189,9 @@ const PatientsVaccinaionHistory = (props) => {
                 </Menu.Menu>
               </div>
             ),
-          }))
-        }
-        totalCount={data?.totalElements}
+          };
+        })}
         isLoading={isLoading}
-        page={data?.pagable?.pageNumber}
         options={{
           headerStyle: {
             backgroundColor: "#014d88",
@@ -227,19 +206,8 @@ const PatientsVaccinaionHistory = (props) => {
           exportButton: false,
           searchFieldAlignment: "left",
           pageSizeOptions: [10, 20, 100],
-          pageSize: query?.pageSize || 10,
+          pageSize: 10,
           debounceInterval: 400,
-        }}
-        onChangePage={(newPage) => {
-          setQueryParams((prevFilters) => ({ ...prevFilters, page: newPage }));
-          refetch(query);
-        }}
-        onChangeRowsPerPage={(newPageSize) => {
-          setQueryParams((prevFilters) => ({
-            ...prevFilters,
-            pageSize: newPageSize,
-          }));
-          refetch(query);
         }}
       />
 
@@ -260,21 +228,21 @@ const PatientsVaccinaionHistory = (props) => {
         <Modal.Body>
           <h4>
             Are you Sure you want to delete -{" "}
-            <b>{record && record?.immunizationType}</b>
+            <b>{record && getImmunizationLabel(record?.immunizationType)}</b>
           </h4>
         </Modal.Body>
         <Modal.Footer>
           <Button
             onClick={() => LoadDeletePage(record)}
             style={{ backgroundColor: "red", color: "#fff" }}
-            disabled={isLoading}
+            disabled={isDeleting}
           >
-            {isLoading === false ? "Yes" : "Deleting..."}
+            {isDeleting ? "Deleting..." : "Yes"}
           </Button>
           <Button
             onClick={toggleDeleteModal}
             style={{ backgroundColor: "#014d88", color: "#fff" }}
-            disabled={isLoading}
+            disabled={isDeleting}
           >
             No
           </Button>

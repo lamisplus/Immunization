@@ -2,9 +2,6 @@ import React, { useState } from "react";
 import { Row, Col, Card, Tab, Tabs } from "react-bootstrap";
 import PatientList from "./Patient/PatientList";
 import PatientVaccinatedList from "./Patient/PatientVaccinatedList";
-import { Link } from "react-router-dom";
-import Button from "@material-ui/core/Button";
-import { FaUserPlus } from "react-icons/fa";
 
 //import PageTitle from "./../layouts/PageTitle";
 const divStyle = {
@@ -26,20 +23,6 @@ const Home = () => {
             <h4>Immunization</h4>
           </li>
         </ol>
-
-        {/* <div>
-          <Link to={"register-patient"}>
-            <Button
-              variant="contained"
-              color="primary"
-              className=" float-end mb-10"
-              startIcon={<FaUserPlus size="10" />}
-              style={{ backgroundColor: "#014d88" }}
-            >
-              <span style={{ textTransform: "capitalize" }}>New Patient</span>
-            </Button>
-          </Link>
-        </div> */}
       </div>
 
       <Row style={{ marginTop: "20px" }}>

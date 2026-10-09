@@ -1,6 +1,6 @@
 /* eslint-disable no-unused-vars */
 import MatButton from "@material-ui/core/Button";
-import React, { useState } from "react";
+import React, { useEffect } from "react";
 import { FormGroup, Label, Input, Form, Spinner } from "reactstrap";
 import { library } from "@fortawesome/fontawesome-svg-core";
 import {
@@ -9,7 +9,7 @@ import {
   faEdit,
   faTrash,
 } from "@fortawesome/free-solid-svg-icons";
-import * as moment from "moment";
+import moment from "moment";
 import { makeStyles } from "@material-ui/core/styles";
 import { Card, CardContent } from "@material-ui/core";
 import SaveIcon from "@material-ui/icons/Save";
@@ -24,8 +24,7 @@ import { fetchCovidVaccines } from "../../services/fetchCovidVaccines";
 import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
 import { useCovidVaccinationFormValidationSchema } from "./covidFirstVaccinationValidationSchema";
 import { useSaveImmunization } from "../../customHooks/useSaveImmunization";
-import { getVaccinatedPatientDataKey } from "../../utils/queryKeys";
-import { fetchPatientVaccinationHistory } from "../../services/fetchPatientVaccinationHistory";
+import { usePatientImmunizationHistory } from "../../customHooks/usePatientImmunizationHistory";
 
 library.add(faCheckSquare, faCoffee, faEdit, faTrash);
 
@@ -137,18 +136,16 @@ const CreateCovidVaccination = (props) => {
 
   const history = useHistory();
   const { formik } = useCovidVaccinationFormValidationSchema(handleSubmit);
-  const { mutate } = useSaveImmunization(formik, props);
+  const { mutate, isLoading: isSaving } = useSaveImmunization(formik, props);
 
-  const actionType = props?.activeContent?.actionType || "create";
+  const { records: patientHistory, isLoading: isLoadingHistory } =
+    usePatientImmunizationHistory(props?.patientObj?.id);
 
-  const [query] = useState({
-    page: 0,
-    pageSize: 20,
-    search: "",
-    id: props?.patientObj?.id,
-  });
-
-  const setPatientVaccinationDosage = (content) => {
+  // Next dose follows the patient's COVID records (all of them, not one page).
+  const setPatientVaccinationDosage = (allRecords) => {
+    const content = allRecords?.filter(
+      (data) => data.immunizationType === "COVID_IMMUNIZATION"
+    );
     const firstDose =
       content?.filter(
         (data) => data.uniqueImmunizationData?.vaccinationDosage === "FIRST"
@@ -173,13 +170,10 @@ const CreateCovidVaccination = (props) => {
     }
   };
 
-  useQuery(
-    [getVaccinatedPatientDataKey, query],
-    () => fetchPatientVaccinationHistory(query),
-    {
-      onSuccess: (data) => setPatientVaccinationDosage(data?.content),
-    }
-  );
+  useEffect(() => {
+    if (!isLoadingHistory) setPatientVaccinationDosage(patientHistory);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isLoadingHistory, patientHistory]);
 
   return (
     <div>
@@ -411,7 +405,7 @@ const CreateCovidVaccination = (props) => {
                           value={formik.values?.vaccineType}
                         >
                           <option value="">Select</option>
-                          {vaccines || []?.map((vaccine) => (
+                          {(vaccines || []).map((vaccine) => (
                             <option value={vaccine?.code} key={vaccine?.id}>
                               {vaccine?.name}
                             </option>
@@ -539,7 +533,7 @@ const CreateCovidVaccination = (props) => {
                 </div>
               </div>
 
-              {false ? <Spinner /> : ""}
+              {isSaving ? <Spinner /> : ""}
 
               <br />
               <MatButton
@@ -549,9 +543,10 @@ const CreateCovidVaccination = (props) => {
                 className={classes.button}
                 startIcon={<SaveIcon />}
                 onClick={handleSubmit}
+                disabled={isSaving}
                 style={{ backgroundColor: "#014d88", fontWeight: "bolder" }}
               >
-                {!false ? (
+                {!isSaving ? (
                   <span style={{ textTransform: "capitalize" }}>Save</span>
                 ) : (
                   <span style={{ textTransform: "capitalize" }}>Saving...</span>
