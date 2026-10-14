@@ -68,16 +68,16 @@ function PatientCard(props) {
 
   const getPhoneNumber = (identifier) => {
     const identifiers = identifier;
-    const phoneNumber = identifiers.contactPoint.find(
-      (obj) => obj.type === "phone"
+    const phoneNumber = identifiers?.contactPoint?.find(
+      (obj) => obj?.type === "phone"
     );
-    return phoneNumber ? phoneNumber.value : "";
+    return phoneNumber?.value || "";
   };
   const getAddress = (identifier) => {
     const identifiers = identifier;
-    const address = identifiers.address.find((obj) => obj.city);
+    const address = identifiers?.address?.find((obj) => obj?.city);
     const houseAddress =
-      address && address.line[0] !== null ? address.line[0] : "";
+      address && address.line?.[0] != null ? address.line[0] : "";
     const landMark =
       address && address.city && address.city !== null ? address.city : "";
     return address ? houseAddress + " " + landMark : "";
@@ -103,7 +103,7 @@ function PatientCard(props) {
       const identifiers = obj?.identifier?.identifier?.filter((obj) => obj?.type === "HospitalNumber") || []
       const currentIdentifier = identifiers?.pop?.() || null;
       
-    return  (currentIdentifier?.value !== null ? currentIdentifier.value : "")
+    return currentIdentifier?.value || ""
     }
   
   }
@@ -168,9 +168,7 @@ function PatientCard(props) {
                     {" "}
                     Gender :{" "}
                     <b style={{ color: "#0B72AA" }}>
-                      {patientObj.gender !== null
-                        ? patientObj.gender.display
-                        : ""}
+                      {patientObj?.gender?.display || patientObj?.sex || ""}
                     </b>
                   </span>
                 </Col>
@@ -179,7 +177,7 @@ function PatientCard(props) {
                     {" "}
                     Phone Number :{" "}
                     <b style={{ color: "#0B72AA" }}>
-                      {getPhoneNumber(patientObj.contactPoint)}
+                      {getPhoneNumber(patientObj?.contactPoint)}
                     </b>
                   </span>
                 </Col>
@@ -188,7 +186,7 @@ function PatientCard(props) {
                     {" "}
                     Address :{" "}
                     <b style={{ color: "#0B72AA" }}>
-                      {getAddress(patientObj.address)}{" "}
+                      {getAddress(patientObj?.address)}{" "}
                     </b>
                   </span>
                 </Col>
